@@ -1,0 +1,46 @@
+<html>
+<body>
+<link rel="stylesheet" type="text/css" href="Style_Page.css">
+<style>
+
+
+</style>
+<script src="http://maps.googleapis.com/maps/api/js?AIzaSyCsIrpOH1R74PPfmCCeIbHZmfSIOzXbTgk"></script>
+
+<script>
+function initialize() {
+  var mapProp = {
+    center:new google.maps.LatLng(44.4758,-73.2119),
+    zoom:11,
+    mapTypeId:google.maps.MapTypeId.ROADMAP
+  };
+  var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+  
+  var marker = new google.maps.Marker({
+    position: myLatLng,
+    map: map,
+    title: 'Hello World!'
+  });
+}
+google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+<header>
+<h1>Map</h1>
+<ul>
+  <li><a href="index.html">Home</a></li>
+  <li><a href="breweries.html">Finding Beer</a></li>
+  <li><a href="events.html">Calender</a></li>
+  <li><a href="map.html">Map</a></li>
+  <li><a href="profile.html">Profile</a></li>
+</ul>
+</header>
+
+<p>AIzaSyCsIrpOH1R74PPfmCCeIbHZmfSIOzXbTgk</p>
+
+<div id="googleMap" style="width:500px;height:380px;"></div>
+
+
+
+
+</body>
+</html>
