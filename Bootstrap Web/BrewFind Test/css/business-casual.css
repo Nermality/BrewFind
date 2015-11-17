@@ -4,6 +4,24 @@
  * For details, see http://www.apache.org/licenses/LICENSE-2.0.
  */
 
+ .twitterborder {
+    
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 300px;
+    margin-right:5%;
+    float:right;
+    text-align: center;
+}
+.table{
+    display:table;
+
+}
+.table-cell{
+    display:table-cell;
+    vertical-align: middle;
+}
 body {
     font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
     background: url('../img/bg.jpg') no-repeat center center fixed;
@@ -100,6 +118,17 @@ hr {
 .img-left {
     float: none;
     margin: 0 auto 0;
+}
+.img-block{
+  margin:0;
+  padding:0;
+  height: 75px;
+  width: 150px;
+  display: block;
+  float: left;
+  vertical-align: middle;
+
+
 }
 
 footer {

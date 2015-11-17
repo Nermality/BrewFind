@@ -8,22 +8,25 @@
 <script src="http://maps.googleapis.com/maps/api/js?AIzaSyCsIrpOH1R74PPfmCCeIbHZmfSIOzXbTgk"></script>
 
 <script>
-function initialize() {
-  var mapProp = {
-    center:new google.maps.LatLng(44.4758,-73.2119),
-    zoom:11,
-    mapTypeId:google.maps.MapTypeId.ROADMAP
-  };
-  var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
-  
+
+function initMap() {
+  var myLatLng = {lat: 44.4758, lng: -73.2119};
+
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 4,
+    center: myLatLng
+  });
+
   var marker = new google.maps.Marker({
-    position: myLatLng,
+    position: {lat: 44.4700, lng: -73.21}
     map: map,
     title: 'Hello World!'
   });
 }
-google.maps.event.addDomListener(window, 'load', initialize);
-</script>
+
+    </script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&signed_in=true&callback=initMap"></script>
 <header>
 <h1>Map</h1>
 <ul>
