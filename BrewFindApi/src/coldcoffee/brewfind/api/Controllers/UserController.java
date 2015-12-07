@@ -1,0 +1,43 @@
+package coldcoffee.brewfind.api.Controllers;
+
+import javax.validation.constraints.NotNull;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Component;
+
+import coldcoffee.brewfind.api.Database.SpringMongoConfig;
+import coldcoffee.brewfind.api.Objects.User;
+import coldcoffee.brewfind.api.Repositories.UserRepository;
+
+@Component
+@Path("/user")
+public class UserController {
+
+	private ApplicationContext ctx;
+	private UserRepository userRepo;
+	
+	public UserController() {
+		ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
+		userRepo = ctx.getBean(UserRepository.class);
+	}
+	
+	@Path("/new")
+	@PUT
+	public String addUser(
+			@NotNull @HeaderParam("uname") String uname,
+			@NotNull @HeaderParam("pass")  String pass) {
+		
+		if(!userRepo.searchByUname(uname).isEmpty()) {
+			return "User already exists in database";
+		}
+		
+		User toIns = new User(uname, pass);
+		userRepo.save(toIns);
+		
+		return "OK";
+	}
+}

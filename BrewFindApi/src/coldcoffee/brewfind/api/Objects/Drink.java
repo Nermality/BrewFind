@@ -1,6 +1,6 @@
 package coldcoffee.brewfind.api.Objects;
 
-public class DrinkObject {
+public class Drink {
 	
 	public static String d_name;
 	public static String d_description;

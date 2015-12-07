@@ -4,7 +4,7 @@ import java.util.Set;
 
 import org.springframework.data.annotation.Id;
 
-public class BreweryObject {
+public class Brewery {
 
 		@Id
 		public static int id;
@@ -27,9 +27,9 @@ public class BreweryObject {
 		public static String b_logoImage;
 		public static Double b_rating;
 		
-		public static Set<DrinkObject> b_tapList;
-		public static Set<DrinkObject> b_drinkList;
+		public static Set<Drink> b_tapList;
+		public static Set<Drink> b_drinkList;
 		
-		public static Set<EventObject> b_eventList;	
+		public static Set<Event> b_eventList;	
 		//facebook
 }

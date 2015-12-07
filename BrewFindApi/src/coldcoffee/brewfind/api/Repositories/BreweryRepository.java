@@ -1,8 +1,8 @@
 package coldcoffee.brewfind.api.Repositories;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
-import coldcoffee.brewfind.api.Objects.BreweryObject;
+import coldcoffee.brewfind.api.Objects.Brewery;
 
-public interface BreweryRepository extends MongoRepository<BreweryObject, String> {
+public interface BreweryRepository extends MongoRepository<Brewery, String> {
 
 }
