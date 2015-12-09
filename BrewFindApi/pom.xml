@@ -4,6 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>coldcoffee.brewfind</groupId>
+    <artifactId>brew-find-vt</artifactId>
     <version>0.1.0</version>
 
     <parent>
@@ -47,5 +48,4 @@
         </plugins>
     </build>
 
-    <artifactId>brewfind-api</artifactId>
 </project>
