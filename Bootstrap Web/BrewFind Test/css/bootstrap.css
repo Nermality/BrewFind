@@ -36,6 +36,12 @@ video {
   display: inline-block;
   vertical-align: baseline;
 }
+
+
+
+
+
+
 audio:not([controls]) {
   display: none;
   height: 0;
@@ -120,6 +126,8 @@ textarea {
   color: inherit;
 }
 button {
+     width: 150%;
+     height: 150%;
   overflow: visible;
 }
 button,
