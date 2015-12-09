@@ -4,6 +4,7 @@ import javax.validation.constraints.NotNull;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -26,18 +27,19 @@ public class UserController {
 	}
 	
 	@Path("/new")
+	@Produces("application/json")
 	@PUT
-	public String addUser(
+	public User addUser(
 			@NotNull @HeaderParam("uname") String uname,
 			@NotNull @HeaderParam("pass")  String pass) {
 		
 		if(!userRepo.searchByUname(uname).isEmpty()) {
-			return "User already exists in database";
+			return null;
 		}
 		
 		User toIns = new User(uname, pass);
 		userRepo.save(toIns);
 		
-		return "OK";
+		return toIns;
 	}
 }
