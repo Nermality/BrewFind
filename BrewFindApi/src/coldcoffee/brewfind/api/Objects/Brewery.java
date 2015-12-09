@@ -9,9 +9,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Brewery {
 
 		@Id
-		public static int id;
+		public int id;
 		
-		public static String b_description;
+		public String b_description;
 	
 		public String b_name;
 		public String b_street;
@@ -23,8 +23,8 @@ public class Brewery {
 		public String b_email;
 		public String b_url;
 		
-		public String hasTours;
-		public String hasFood;
+		public Boolean hasTours;
+		public Boolean hasFood;
 		
 		public String b_logoImage;
 		public Double b_rating;
@@ -101,19 +101,19 @@ public class Brewery {
 			this.b_url = b_url;
 		}
 		
-		public String getHasTours() {
+		public Boolean getHasTours() {
 			return hasTours;
 		}
 
-		public void setHasTours(String hasTours) {
+		public void setHasTours(Boolean hasTours) {
 			this.hasTours = hasTours;
 		}
 		
-		public String getHasFood() {
+		public Boolean getHasFood() {
 			return hasFood;
 		}
 
-		public void setHasFood(String hasFood) {
+		public void setHasFood(Boolean hasFood) {
 			this.hasFood = hasFood;
 		}
 		
@@ -160,7 +160,7 @@ public class Brewery {
 		// On creation of a brewery the brewery can provide the following. 
 		//Other information will be entered at another point.
 		@PersistenceConstructor
-		public Brewery(String b_name/**,
+		public Brewery(String b_name,
 					   String b_street,
 					   String b_city,
 					   String b_state,
@@ -168,11 +168,11 @@ public class Brewery {
 					   String b_phone,
 					   String b_email,
 					   String b_url,
-					   String hasTours,
-					   String hasFood**/) {
+					   Boolean hasTours,
+					   Boolean hasFood) {
 			super();
 			this.b_name   = b_name;
-			/**this.b_street = b_street;
+			this.b_street = b_street;
 			this.b_city   = b_city;
 			this.b_state  = b_state;
 			this.b_zip    = b_zip;
@@ -180,7 +180,7 @@ public class Brewery {
 			this.b_email  = b_email;
 			this.b_url    = b_url;
 			this.hasTours = hasTours;
-			this.hasFood  = hasFood;**/
+			this.hasFood  = hasFood;
 		}
 		
 		@Override
