@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>BrewFind VT Portal</title>
+<!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/business-casual.css" rel="stylesheet">
+
+    <!-- Fonts -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Josefin+Slab:100,300,400,600,700,100italic,300italic,400italic,600italic,700italic" rel="stylesheet" type="text/css">
+
+
+</head>
+<body>
+<div class="brand">BrewFind Portal</div>
+<div class="container">
+<div id="col-md-6"></div>
+<div id="col-md-7">
+	<div class="box">
+		<div id="login" align="middle">
+		<form name="login">
+		Username<input type="text" name="userid"/>
+		<br>
+		Password<input type="password" name="pswrd"/>
+		<br>
+		<input type="button" onclick="check(this.form)" value="Login"/>
+		<input type="reset" value="Cancel"/>
+		</form>
+		<script language="javascript">
+		function check(form)/*function to check userid & password*/
+		{
+		 /*the following code checkes whether the entered userid and password are matching*/
+		 if(form.userid.value == "myuserid" && form.pswrd.value == "mypswrd")
+		  {
+			window.open('brewcenter.html')/*opens the target page while Id & password matches*/
+		  }
+		 else
+		 {
+		   alert("Error Password or Username")/*displays error message*/
+		  }
+		}
+		</script>
+		</div>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
