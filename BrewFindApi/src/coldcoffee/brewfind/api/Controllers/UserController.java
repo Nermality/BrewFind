@@ -10,7 +10,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
 
-import coldcoffee.brewfind.api.Database.SpringMongoConfig;
+import coldcoffee.brewfind.api.Configuration.SpringMongoConfig;
 import coldcoffee.brewfind.api.Objects.User;
 import coldcoffee.brewfind.api.Repositories.UserRepository;
 
