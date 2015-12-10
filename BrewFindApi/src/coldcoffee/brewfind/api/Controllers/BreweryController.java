@@ -32,7 +32,7 @@ public class BreweryController {
 	@Path("/new")
 	@PUT
 	public String addBrewery(
-			@NotNull @HeaderParam("bname") 	  String bname/**,
+			@NotNull @HeaderParam("bname") 	  String bname,
 			@NotNull @HeaderParam("bstreet")  String bstreet,
 			@NotNull @HeaderParam("bcity")    String bcity,
 			@NotNull @HeaderParam("bstate")   String bstate,
@@ -40,8 +40,8 @@ public class BreweryController {
 			@NotNull @HeaderParam("bphone")   String bphone,
 			@NotNull @HeaderParam("bemail")   String bemail,
 			@NotNull @HeaderParam("burl")     String burl,
-			@NotNull @HeaderParam("tours")    String  tours,
-			@NotNull @HeaderParam("food")	  String food**/){
+			@NotNull @HeaderParam("tours")    Boolean tours,
+			@NotNull @HeaderParam("food")	  Boolean food){
 		
 		//QUESTION
 		//Limit by name or name and location
@@ -51,7 +51,7 @@ public class BreweryController {
 			return "Brewery already exists in database";
 		}
 		
-		Brewery toIns = new Brewery(bname/**,
+		Brewery toIns = new Brewery(bname,
 									bstreet,
 									bcity,
 									bstate,
@@ -60,7 +60,7 @@ public class BreweryController {
 									bemail,
 									burl,
 									tours,
-									food**/);
+									food);
 		System.out.println("hi" +toIns.b_name);
 		breweryRepo.save(toIns);
 		
@@ -70,7 +70,7 @@ public class BreweryController {
 	@Path("/update")
 	@PUT
 	public String updateBrewery(
-			@NotNull @HeaderParam("bname") 	  String bname/**,
+			@NotNull @HeaderParam("bname") 	  String bname,
 			@NotNull @HeaderParam("bstreet")  String bstreet,
 			@NotNull @HeaderParam("bcity")    String bcity,
 			@NotNull @HeaderParam("bstate")   String bstate,
@@ -78,14 +78,14 @@ public class BreweryController {
 			@NotNull @HeaderParam("bphone")   String bphone,
 			@NotNull @HeaderParam("bemail")   String bemail,
 			@NotNull @HeaderParam("burl")     String burl,
-			@NotNull @HeaderParam("tours")    String tours,
-			@NotNull @HeaderParam("food")	  String food**/){
+			@NotNull @HeaderParam("tours")    Boolean tours,
+			@NotNull @HeaderParam("food")	  Boolean food){
 		 
 		if(breweryRepo.searchByBname(bname).isEmpty()) {
 			return "Brewery not found";
 		}
 		
-		Brewery toIns = new Brewery(bname/**,
+		Brewery toIns = new Brewery(bname,
 									bstreet,
 									bcity,
 									bstate,
@@ -94,7 +94,7 @@ public class BreweryController {
 									bemail,
 									burl,
 									tours,
-									food**/);
+									food);
 		breweryRepo.save(toIns);
 		
 		return "OK";
