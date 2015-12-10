@@ -11,7 +11,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
 
-import coldcoffee.brewfind.api.Configuration.SpringMongoConfig;
+import coldcoffee.brewfind.api.Database.SpringMongoConfig;
 import coldcoffee.brewfind.api.Objects.Brewery;
 import coldcoffee.brewfind.api.Objects.Drink;
 import coldcoffee.brewfind.api.Objects.User;
@@ -41,7 +41,8 @@ public class BreweryController {
 			@NotNull @HeaderParam("bemail")   String bemail,
 			@NotNull @HeaderParam("burl")     String burl,
 			@NotNull @HeaderParam("tours")    Boolean tours,
-			@NotNull @HeaderParam("food")	  Boolean food){
+			@NotNull @HeaderParam("food")	  Boolean food,
+			@NotNull @HeaderParam("bkey")	  String bkey){
 		
 		//QUESTION
 		//Limit by name or name and location
@@ -50,7 +51,10 @@ public class BreweryController {
 		if(!breweryRepo.searchByBname(bname).isEmpty()) {
 			return "Brewery already exists in database";
 		}
-		
+		else if(breweryRepo.findOne(bkey).getB_active()==true) {
+			return "Brewery registry key used. Contact an administrator";
+		}
+		else {
 		Brewery toIns = new Brewery(bname,
 									bstreet,
 									bcity,
@@ -61,10 +65,10 @@ public class BreweryController {
 									burl,
 									tours,
 									food);
-		System.out.println("hi" +toIns.b_name);
 		breweryRepo.save(toIns);
-		
+		breweryRepo.findOne(bkey).setB_active(true);
 		return "OK";
+		}
 	}
 	
 	@Path("/update")

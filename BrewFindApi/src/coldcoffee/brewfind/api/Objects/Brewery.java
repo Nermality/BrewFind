@@ -33,6 +33,8 @@ public class Brewery {
 		public Set<Drink> b_drinkList;
 		
 		public Set<Event> b_eventList;	
+		
+		public Boolean b_active=false;
 		//facebook
 		
 		public Brewery() 
@@ -157,6 +159,13 @@ public class Brewery {
 			this.b_eventList = b_eventList;
 		}
 		
+		public Boolean getB_active() {
+			return b_active;
+		}
+		
+		public void setB_active(Boolean b_active) {
+			this.b_active=b_active;
+		}
 		// On creation of a brewery the brewery can provide the following. 
 		//Other information will be entered at another point.
 		@PersistenceConstructor
