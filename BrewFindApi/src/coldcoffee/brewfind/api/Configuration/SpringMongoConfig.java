@@ -17,7 +17,7 @@ public class SpringMongoConfig extends AbstractMongoConfiguration{
 
 	@Override
 	protected String getDatabaseName() {
-		return "brewFind";
+		return "brewfind";
 	}
 
 	@Override

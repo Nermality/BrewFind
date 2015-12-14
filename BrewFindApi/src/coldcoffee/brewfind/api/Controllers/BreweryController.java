@@ -4,6 +4,7 @@ import java.util.Set;
 
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 
@@ -27,6 +28,14 @@ public class BreweryController {
 	public BreweryController() {
 		ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
 		breweryRepo = ctx.getBean(BreweryRepository.class);
+	}
+	
+	@Path("test")
+	@POST
+	public String testShit(String update) {
+		
+		return update;
+		
 	}
 	
 	@Path("/new")

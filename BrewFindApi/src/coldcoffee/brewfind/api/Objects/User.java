@@ -1,20 +1,26 @@
 package coldcoffee.brewfind.api.Objects;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import coldcoffee.brewfind.api.Objects.BrewFindToken.UserType;
 
 @Document(collection="users")
 public class User {
 	
 	@Id
-	public int u_id;
+	public long u_id;
 	
 	public String u_name;
 	public String u_pass;
 	
 	public String u_firstName;
 	public String u_lastName;
+	
+	public UserType u_access;
+	public BrewFindToken u_curToken;
 	
 	public User() 
 	{}
@@ -51,11 +57,29 @@ public class User {
 		this.u_lastName = u_lastName;
 	}
 
+	public void setU_curToken(BrewFindToken u_curToken) {
+		this.u_curToken = u_curToken;
+	}
+	
+	public BrewFindToken getU_curToken() {
+		return u_curToken;
+	}
+	
+	public void setU_access(UserType type) {
+		this.u_access = type;
+	}
+	
+	public UserType getU_access() {
+		return u_access;
+	}
+	
 	@PersistenceConstructor
-	public User(String u_name, String u_pass) {
+	public User(long id, String u_name, String u_pass, String u_access) {
 		super();
+		this.u_id = id;
 		this.u_name = u_name;
 		this.u_pass = u_pass;
+		this.u_access = UserType.valueOf(u_access);
 	}
 	
 	@Override
