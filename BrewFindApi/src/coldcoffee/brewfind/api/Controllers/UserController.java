@@ -132,6 +132,8 @@ public class UserController {
 	@POST
 	public BrewFindResponse updateUser(String body) {
 		
+		// TODO: Create logic that verifies a brewery user as legitimate or not!!
+		
 		// Convert to query
 		UserQuery query = gson.fromJson(body, UserQuery.class);
 		
@@ -190,7 +192,7 @@ public class UserController {
 		// Else, remove information from user db
 		userService.deleteUser(u);
 		
-		// Shouldn't be any other ties to the user
+		// TODO: Implement un-setting a brewery's user if the user is associated with a brewery
 		return new BrewFindResponse(0, "OK");
 	}
 	
@@ -329,7 +331,7 @@ public class UserController {
 		byte[] salt = fromHex(params[1]);
 		byte[] hash = fromHex(params[2]);
 		
-		byte[] testHash = secretStuff(attempt, salt, iters, hash.length);
+		byte[] testHash = secretStuff(attempt, salt, iters, HASH_SIZE);
 		
 		return slowEquals(hash, testHash);
 	}

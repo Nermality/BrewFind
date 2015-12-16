@@ -8,8 +8,15 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document
 public class BrewFindToken {
 	
+	// 1 = User
+	// 2 = Brewery
+	// 3+ = Admin
 	public int access;
+	
+	// Username of token owner encoded in Base64
 	public String token;
+	
+	// Timestamp
 	public long stamp;
 	
 	public int getAccess() {
@@ -36,12 +43,14 @@ public class BrewFindToken {
 		this.stamp = stamp;
 	}
 
+	// Fresh, java-side constructor (creating a timestamp)
 	public BrewFindToken(int access, String token) {
 		this.access = access;
 		this.token = token;
 		this.stamp = new Date().getTime();
 	}
 	
+	// Constructor for POJO creation from MongoDB
 	@PersistenceConstructor
 	public BrewFindToken(int access, String token, long stamp) {
 		this.access = access;
