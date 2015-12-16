@@ -8,6 +8,7 @@ public class BrewFindResponse {
 	// Status 3 = Incorrect pw
 	// Status 4 = No token found
 	// Status 5 = Token mismatch
+	// Status 6 = Password functionality failure
 	// Describe more statuses here...
 	
 	public int status;

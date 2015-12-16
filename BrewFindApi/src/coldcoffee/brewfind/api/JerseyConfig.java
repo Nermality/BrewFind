@@ -7,6 +7,9 @@ import coldcoffee.brewfind.api.Controllers.BreweryController;
 import coldcoffee.brewfind.api.Controllers.EventController;
 import coldcoffee.brewfind.api.Controllers.UserController;
 
+// This is the class to register all of the controllers in
+// Jersey requires this when working with Spring
+
 @Component
 public class JerseyConfig extends ResourceConfig {
 

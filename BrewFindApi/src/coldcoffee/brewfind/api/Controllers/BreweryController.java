@@ -18,6 +18,7 @@ import coldcoffee.brewfind.api.Objects.Drink;
 import coldcoffee.brewfind.api.Objects.User;
 import coldcoffee.brewfind.api.Repositories.BreweryRepository;
 
+
 @Component
 @Path("brewery")
 public class BreweryController {

@@ -11,6 +11,10 @@ import com.mongodb.MongoClient;
 
 import coldcoffee.brewfind.api.Repositories.RepositoryPackage;
 
+// Configuration for our MongoDB instance
+// The 'EnableMongoRepositories' annotation is to find where the @Repository objects are
+// RepositoryPackage is just a placeholder
+
 @Configuration
 @EnableMongoRepositories(basePackageClasses=RepositoryPackage.class)
 public class SpringMongoConfig extends AbstractMongoConfiguration{
@@ -26,6 +30,7 @@ public class SpringMongoConfig extends AbstractMongoConfiguration{
 		return new MongoClient("localhost", 27017);
 	}
 	
+	// Defined so it knows where to find the @Document objects
 	@Override
     protected String getMappingBasePackage() {
 	    return "coldcoffee.brewfind.api.Objects";

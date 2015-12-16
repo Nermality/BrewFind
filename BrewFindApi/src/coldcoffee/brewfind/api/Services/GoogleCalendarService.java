@@ -40,7 +40,7 @@ public class GoogleCalendarService {
 
     /** Global instance of the scopes required by this quickstart. */
     private static List<String> SCOPES = Arrays.asList(CalendarScopes.CALENDAR);
-
+/**
     static {
         try {
             HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
@@ -50,7 +50,7 @@ public class GoogleCalendarService {
             System.exit(1);
         }
     }
-
+**/
     /**
      * Creates an authorized Credential object.
      * @return an authorized Credential object.

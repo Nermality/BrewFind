@@ -9,16 +9,16 @@ import com.google.api.services.calendar.Calendar;
 @Service
 public class EventService {
 	
-	private Calendar CALENDAR;
+	// private Calendar CALENDAR;
 	
-	public EventService() {
-		try {
-			CALENDAR = GoogleCalendarService.getCalendarService();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+	//public EventService() {
+	//	try {
+	//		CALENDAR = GoogleCalendarService.getCalendarService();
+	//	} catch (IOException e) {
+	//		// TODO Auto-generated catch block
+	//		e.printStackTrace();
+	//	}
+	//}
 	
 	
 }
