@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Brewery {
 
 		@Id
-		public int id;
+		public String id;
 		
 		public String b_description;
 	
@@ -34,7 +34,7 @@ public class Brewery {
 		
 		public Set<Event> b_eventList;	
 		
-		public Boolean b_active=false;
+		public int b_version;
 		//facebook
 		
 		public Brewery() 
@@ -159,12 +159,12 @@ public class Brewery {
 			this.b_eventList = b_eventList;
 		}
 		
-		public Boolean getB_active() {
-			return b_active;
+		public int getB_version(){
+			return this.b_version;
 		}
 		
-		public void setB_active(Boolean b_active) {
-			this.b_active=b_active;
+		public void setB_version(int b_version){
+			this.b_version=b_version;
 		}
 		// On creation of a brewery the brewery can provide the following. 
 		//Other information will be entered at another point.

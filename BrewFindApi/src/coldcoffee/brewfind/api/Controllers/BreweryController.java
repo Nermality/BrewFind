@@ -1,157 +1,211 @@
 package coldcoffee.brewfind.api.Controllers;
 
-import java.util.Set;
 
-import javax.validation.constraints.NotNull;
-import javax.ws.rs.HeaderParam;
+import java.util.List;
+
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Component;
 
-import coldcoffee.brewfind.api.Configuration.SpringMongoConfig;
+import com.google.gson.Gson;
+
+import coldcoffee.brewfind.api.Objects.BrewFindResponse;
 import coldcoffee.brewfind.api.Objects.Brewery;
-import coldcoffee.brewfind.api.Objects.Drink;
-import coldcoffee.brewfind.api.Objects.User;
-import coldcoffee.brewfind.api.Repositories.BreweryRepository;
+import coldcoffee.brewfind.api.Objects.BreweryQuery;
+import coldcoffee.brewfind.api.Services.BreweryService;
 
-
+//Controller to control and edit brewery objects inside the database.
+//add santization to breweries 
 @Component
 @Path("brewery")
 public class BreweryController {
-	
-	private ApplicationContext ctx;
-	private BreweryRepository breweryRepo;
-	
-	public BreweryController() {
-		ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
-		breweryRepo = ctx.getBean(BreweryRepository.class);
-	}
-	
-	@Path("test")
-	@POST
-	public String testShit(String update) {
-		
-		return update;
-		
-	}
-	
-	@Path("/new")
-	@PUT
-	public String addBrewery(
-			@NotNull @HeaderParam("bname") 	  String bname,
-			@NotNull @HeaderParam("bstreet")  String bstreet,
-			@NotNull @HeaderParam("bcity")    String bcity,
-			@NotNull @HeaderParam("bstate")   String bstate,
-			@NotNull @HeaderParam("bzip")     String bzip,
-			@NotNull @HeaderParam("bphone")   String bphone,
-			@NotNull @HeaderParam("bemail")   String bemail,
-			@NotNull @HeaderParam("burl")     String burl,
-			@NotNull @HeaderParam("tours")    Boolean tours,
-			@NotNull @HeaderParam("food")	  Boolean food,
-			@NotNull @HeaderParam("bkey")	  String bkey){
-		
-		//QUESTION
-		//Limit by name or name and location
-		// PROS: brewery with more than one branch easily implemented
-		// CONS: Small typos may create multiple instances of breweries, management relocates 
-		if(!breweryRepo.searchByBname(bname).isEmpty()) {
-			return "Brewery already exists in database";
-		}
-		else if(breweryRepo.findOne(bkey).getB_active()==true) {
-			return "Brewery registry key used. Contact an administrator";
-		}
-		else {
-		Brewery toIns = new Brewery(bname,
-									bstreet,
-									bcity,
-									bstate,
-									bzip,
-									bphone,
-									bemail,
-									burl,
-									tours,
-									food);
-		breweryRepo.save(toIns);
-		breweryRepo.findOne(bkey).setB_active(true);
-		return "OK";
-		}
-	}
-	
-	@Path("/update")
-	@PUT
-	public String updateBrewery(
-			@NotNull @HeaderParam("bname") 	  String bname,
-			@NotNull @HeaderParam("bstreet")  String bstreet,
-			@NotNull @HeaderParam("bcity")    String bcity,
-			@NotNull @HeaderParam("bstate")   String bstate,
-			@NotNull @HeaderParam("bzip")     String bzip,
-			@NotNull @HeaderParam("bphone")   String bphone,
-			@NotNull @HeaderParam("bemail")   String bemail,
-			@NotNull @HeaderParam("burl")     String burl,
-			@NotNull @HeaderParam("tours")    Boolean tours,
-			@NotNull @HeaderParam("food")	  Boolean food){
-		 
-		if(breweryRepo.searchByBname(bname).isEmpty()) {
-			return "Brewery not found";
-		}
-		
-		Brewery toIns = new Brewery(bname,
-									bstreet,
-									bcity,
-									bstate,
-									bzip,
-									bphone,
-									bemail,
-									burl,
-									tours,
-									food);
-		breweryRepo.save(toIns);
-		
-		return "OK";
-	}
+	Gson gson=new Gson();
 
+	@Autowired
+	private BreweryService breweryService;
+	
 	/**
-	@Path("/updateTap")
-	@PUT
-	public String updateTap(
-			@NotNull @HeaderParam("bname") 	  String bname,
-			@NotNull @HeaderParam("tapList")  Set<Drink> btapList) {
-		
-		if(breweryRepo.searchByBname(bname).isEmpty()) {
-			return "Brewery not found";
+	 * Full List endpoint
+	 * @return- returns full list of breweries inside the database
+	 */
+	@GET
+	public BrewFindResponse getList(){
+		//Retrieve all breweries in the database
+		List<Brewery> bList=breweryService.getList();
+		//check if item was created
+		if(bList ==null){
+			return new BrewFindResponse(10, "brewery list failed to be created");
 		}
-		
-		Brewery toIns = new Brewery();
-		toIns=breweryRepo.findOne(bname);
-		toIns.setB_tapList(btapList);
-		breweryRepo.save(toIns);
-		
-		return "Ok";
+		//return list if successful
+		return new BrewFindResponse(0, "OK", bList);
+
 		
 	}
 	
-	
-	@Path("/updateDrink")
+	/**
+	 * Endpoint used to add a new brewery into the database
+	 * Requires a BreweryQuery object that contains a token with admin rights and a brewery object
+	 * if brewery already exist or not a admin addBrewery fails
+	 * @param json JSON string that contains a BreweryQuery which contains the brewery to be inserted and token
+	 * @return on success: Brewery added into database.
+	 */
 	@PUT
-	public String updateDrink(
-			@NotNull @HeaderParam("bname") 	  String bname,
-			@NotNull @HeaderParam("tapList")  Set<Drink> bDrinkList) {
+	public BrewFindResponse addBrewery(String json){
+		//Convert into BreweryQuery
+		BreweryQuery query=gson.fromJson(json, BreweryQuery.class);
+		if(query == null){
+			return new BrewFindResponse(9, "Query failed, query returned null");
+		}
+		//Retrieve Brewery out of Brewery Query
+		Brewery newBrew=query.getBrewery(); 
+		if(newBrew == null){
+				return new BrewFindResponse(10, "brewery failed to be created");
+			}
+		//Check if token was sent
 		
-		if(breweryRepo.searchByBname(bname).isEmpty()) {
-			return "Brewery not found";
+		if(query.getToken() == null) {
+			return new BrewFindResponse(4, "No token found, authorization failed");
 		}
 		
-		Brewery toIns = new Brewery();
-		toIns=breweryRepo.findOne(bname);
-		toIns.setB_drinkList(bDrinkList);
-		breweryRepo.save(toIns);
+		//Check if token has proper privileges
+		else if(query.getToken().access != 3){
+			return new BrewFindResponse(5, "User found in token does not have required privileges");
+		}
 		
-		return "Ok";
+		//Check if brewery is in database
+		if(breweryService.findBrewery(newBrew.b_name) != null) {
+			return new BrewFindResponse(7, "Brewery found in system, insert failed");
+		}
+		
+		
+		else {
+			
+			newBrew.setB_version(0);
+			//add brewery to database
+			breweryService.saveBrewery(newBrew);
+			//return success message
+			return new BrewFindResponse(0, "Ok", newBrew);
+		}
+	}
+	/**
+	 * updating brewery information endpoint
+	 * Requires a BreweryQuery object that contains a token with admin rights or brewery rights and a brewery object
+	 * if brewery does not exist or not an admin/brewery updateBrewery fails
+	 * @param json JSON string that contains a BreweryQuery which contains the brewery to be updated and token
+	 * @return on success: Brewery is updated 
+	 */
+	@POST
+	@Produces("application/json")
+	public BrewFindResponse updateBrewery(String json){
+		
+		BreweryQuery query=gson.fromJson(json, BreweryQuery.class);
+		if(query == null){
+			return new BrewFindResponse(9, "Query failed, query returned null");
+		}
+		//Retrieve Brewery out of Brewery Query
+		Brewery newBrew=query.getBrewery(); 
+		if(newBrew == null){
+				return new BrewFindResponse(10, "brewery failed to be created");
+			}
+		
+		//Check if token was sent
+		if(query.getToken() == null) {
+			return new BrewFindResponse(4, "No token found, authorization failed");
+		}
+		
+		//Check if token has proper privileges
+		if(query.getToken().access != 3 || query.getToken().access != 2){
+			return new BrewFindResponse(5, "User found in token does not have required privileges");
+		}
+		 Brewery oldb=breweryService.findBrewery(newBrew.b_name);
+		//Check if brewery is in database
+		if(oldb == null) {
+			return new BrewFindResponse(8, "not found in system, insert failed");
+		}
+		else{
+			newBrew.setB_version(oldb.getB_version()+1);
+			//update brewery in database
+			breweryService.saveBrewery(newBrew);
+			//return success message
+			return new BrewFindResponse(0, "Ok", newBrew);
+		}
+	}
+	
+	
+	/**
+	 * Removes a user from our system. 
+	 * @param body - BrewFindToken object
+	 * @return - success is just an {status:0, message:"OK"}
+	 */
+	@Produces("application/json")
+	@DELETE
+	public BrewFindResponse deleteBrewery(String json) {
+		
+		BreweryQuery query=gson.fromJson(json, BreweryQuery.class);
+		
+		if(query == null){
+			return new BrewFindResponse(9, "Query failed, query returned null");
+		}
+		//Retrieve Brewery out of Brewery Query
+		Brewery remBrew=query.getBrewery(); 
+		if(remBrew == null){
+				return new BrewFindResponse(10, "No brewery object found");
+			}
+		
+		//Check if token was sent
+		if(query.getToken() == null) {
+			return new BrewFindResponse(4, "No token found, authorization failed");
+		}
+		
+		//Check if token has proper privileges
+		if(query.getToken().access != 3 ){
+			return new BrewFindResponse(5, "User found in token does not have required privileges");
+		}
+		Brewery del=breweryService.findBrewery(remBrew.getB_name());
+
+		//Check if brewery is in database
+		if(del == null) {
+			return new BrewFindResponse(7, "Brewery not found in system, delete failed");
+		}
+		// remove information from brewery db
+		breweryService.(del);
+				
+		return new BrewFindResponse(0, "OK");
+	}
+	/**
+	 * Copies information from an 'update' brewery object to their original object
+	 * This allows breweries to be updated with all or little information 
+	 * @param oldB - the brewerie's original brewery object
+	 * @param newB - brewery object containing updates
+	 * @return - fully updated, comprehensive brewery object
+	 */
+	public Brewery safeUpdate(Brewery oldB, Brewery newB) {
+		return null;
 		
 	}
-	**/
+	
+	/**
+	 * An attempt at sanitizing data for MongoDB...
+	 * @param s - query string to sanitize
+	 * @return - string with all malice removed
+	 */
+	public String sanitize(String s) {
+		
+		s = s.trim();
+		if(s.startsWith("$")) {
+			s = s.substring(1);
+		}
+		
+		return s;
+	}
+	
+	
+
 }

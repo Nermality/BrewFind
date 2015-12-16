@@ -9,6 +9,10 @@ public class BrewFindResponse {
 	// Status 4 = No token found
 	// Status 5 = Token mismatch
 	// Status 6 = Password functionality failure
+	// Status 7 = Brewery exists in db
+	// Status 8 = Brewery not found in db
+	// Status 9 = query is null
+	// Status 10 = objectis null
 	// Describe more statuses here...
 	
 	public int status;
