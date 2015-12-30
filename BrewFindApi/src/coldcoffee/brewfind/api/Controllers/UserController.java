@@ -24,10 +24,10 @@ import org.springframework.stereotype.Component;
 
 import com.google.gson.Gson;
 
+import coldcoffee.brewfind.api.Objects.BrewFindQuery;
 import coldcoffee.brewfind.api.Objects.BrewFindResponse;
 import coldcoffee.brewfind.api.Objects.BrewFindToken;
 import coldcoffee.brewfind.api.Objects.User;
-import coldcoffee.brewfind.api.Objects.UserQuery;
 import coldcoffee.brewfind.api.Services.UserService;
 
 // Controller to handle user...stuff
@@ -135,7 +135,7 @@ public class UserController {
 		// TODO: Create logic that verifies a brewery user as legitimate or not!!
 		
 		// Convert to query
-		UserQuery query = gson.fromJson(body, UserQuery.class);
+		BrewFindQuery query = gson.fromJson(body, BrewFindQuery.class);
 		
 		// No token - fail
 		if(query.getToken() == null) {
@@ -151,7 +151,7 @@ public class UserController {
 		String uname = Base64.decodeAsString(query.getToken().token);
 		
 		// Check for updates
-		User newU = query.getUser();
+		User newU = (User) query.getQList().get(0);
 		User oldU = userService.findUser(uname);
 		User toIns = safeUpdate(oldU, newU);
 		

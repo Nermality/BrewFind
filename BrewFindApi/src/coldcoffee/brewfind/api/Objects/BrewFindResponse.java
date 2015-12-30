@@ -34,7 +34,7 @@ public class BrewFindResponse {
 		rObj = r;
 	}
 	
-	public BrewFindResponse(int s, String d, Brewery b) {
+	public BrewFindResponse(int s, String d, BrewFindObject b) {
 		status = s;
 		description = d;
 		rObj = new ArrayList<BrewFindObject>();

@@ -6,7 +6,7 @@ import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection="users")
-public class User implements BrewFindObject {
+public class User extends BrewFindObject {
 	
 	@Id
 	public String u_id;
