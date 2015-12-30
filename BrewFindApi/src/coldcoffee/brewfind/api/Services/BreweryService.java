@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import coldcoffee.brewfind.api.Objects.BrewFindObject;
 import coldcoffee.brewfind.api.Objects.Brewery;
 import coldcoffee.brewfind.api.Repositories.BreweryRepository;
 
@@ -14,13 +15,11 @@ public class BreweryService {
 	@Autowired
 	public BreweryRepository breweryRepository;
 	
-	
-	
 	public Brewery findBrewery(String bname) {
 		return breweryRepository.searchByBname(bname);
 	}
 	
-	public List<Brewery> getList(){
+	public List<? extends BrewFindObject> getList(){
 		return breweryRepository.findAll();
 	}
 	/**

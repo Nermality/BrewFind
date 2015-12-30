@@ -1,5 +1,8 @@
 package coldcoffee.brewfind.api.Objects;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BrewFindResponse {
 
 	// Status 0 = All good
@@ -17,17 +20,24 @@ public class BrewFindResponse {
 	
 	public int status;
 	public String description;
-	public Object rObj = null;
+	public List<BrewFindObject> rObj;
 	
 	public BrewFindResponse(int s, String d) {
 		status = s;
 		description = d;
 	}
 	
-	public BrewFindResponse(int s, String d, Object o) {
+	public BrewFindResponse(int s, String d, List<BrewFindObject> r) {
 		status = s;
 		description = d;
-		rObj = o;
+		rObj = r;
+	}
+	
+	public BrewFindResponse(int s, String d, BrewFindObject o) {
+		status = s;
+		description = d;
+		rObj = new ArrayList<BrewFindObject>();
+		rObj.add(o);
 	}
 	
 	public int getStatus() {
@@ -42,10 +52,10 @@ public class BrewFindResponse {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Object getrObj() {
+	public List<BrewFindObject> getRet() {
 		return rObj;
 	}
-	public void setrObj(Object rObj) {
-		this.rObj = rObj;
+	public void setrObj(List<BrewFindObject> ret) {
+		this.rObj = ret;
 	}
 }

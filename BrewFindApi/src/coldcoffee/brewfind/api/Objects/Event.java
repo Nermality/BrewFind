@@ -1,6 +1,6 @@
 package coldcoffee.brewfind.api.Objects;
 
-public class Event {
+public class Event implements BrewFindObject {
 
 	public static int e_id;
 	

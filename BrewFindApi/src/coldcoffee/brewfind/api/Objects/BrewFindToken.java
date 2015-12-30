@@ -6,7 +6,7 @@ import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
-public class BrewFindToken {
+public class BrewFindToken implements BrewFindObject {
 	
 	// 1 = User
 	// 2 = Brewery
