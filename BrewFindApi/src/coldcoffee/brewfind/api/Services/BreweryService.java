@@ -19,18 +19,21 @@ public class BreweryService {
 		return breweryRepository.searchByBname(bname);
 	}
 	
-	public List<? extends BrewFindObject> getList(){
+	public List<Brewery> getList(){
 		return breweryRepository.findAll();
 	}
-	/**
-	public User saveNewToken(User user, BrewFindToken tok) {
-		
-		
-		user.setU_curToken(tok);
-		return userRepository.save(user);
 	
+	public Brewery saveBrewery(Brewery b) {
+		breweryRepository.save(b);
+		return findBrewery(b.b_name);
 	}
 	
+	public void deleteBrewery(Brewery b) {
+		breweryRepository.delete(b);
+		
+	}
+
+	/**
 	public boolean checkToken(BrewFindToken tok) {
 		
 		String uname = Base64.decodeAsString(tok.token);
@@ -51,17 +54,5 @@ public class BreweryService {
 		return false;
 	}
 	**/
-	
-	public Brewery saveBrewery(Brewery b) {
-		breweryRepository.save(b);
-		return findBrewery(b.b_name);
-	}
-	
-	public void deleteBrewery(Brewery b) {
-		breweryRepository.delete(b);
-		
-	}
 
-	
-	
 }

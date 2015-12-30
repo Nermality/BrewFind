@@ -1,6 +1,7 @@
 package coldcoffee.brewfind.api.Objects;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class BrewFindResponse {
@@ -33,11 +34,12 @@ public class BrewFindResponse {
 		rObj = r;
 	}
 	
-	public BrewFindResponse(int s, String d, BrewFindObject o) {
+	public BrewFindResponse(int s, String d, Brewery b) {
 		status = s;
 		description = d;
 		rObj = new ArrayList<BrewFindObject>();
-		rObj.add(o);
+		rObj.add(b);
+		
 	}
 	
 	public int getStatus() {

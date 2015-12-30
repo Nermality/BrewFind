@@ -20,7 +20,6 @@ import coldcoffee.brewfind.api.Objects.BrewFindObject;
 import coldcoffee.brewfind.api.Objects.BrewFindQuery;
 import coldcoffee.brewfind.api.Objects.BrewFindResponse;
 import coldcoffee.brewfind.api.Objects.Brewery;
-import coldcoffee.brewfind.api.Objects.BreweryQuery;
 import coldcoffee.brewfind.api.Services.BreweryService;
 
 //Controller to control and edit brewery objects inside the database.
@@ -28,10 +27,11 @@ import coldcoffee.brewfind.api.Services.BreweryService;
 @Component
 @Path("brewery")
 public class BreweryController {
-	Gson gson=new Gson();
 
 	@Autowired
 	private BreweryService breweryService;
+	
+	Gson gson=new Gson();
 	
 	/**
 	 * Full List endpoint
@@ -43,7 +43,7 @@ public class BreweryController {
 	public BrewFindResponse getList(){
 		
 		//Retrieve all breweries in the database
-		List<BrewFindObject> bList = (List<BrewFindObject>) breweryService.getList();
+		List<? extends BrewFindObject> bList = breweryService.getList();
 		
 		//check if item was created
 		if(bList == null){
@@ -51,7 +51,7 @@ public class BreweryController {
 		}
 		
 		//return list if successful
-		return new BrewFindResponse(0, "OK", bList);
+		return new BrewFindResponse(0, "OK", (List<BrewFindObject>) bList);
 
 		
 	}
@@ -66,12 +66,14 @@ public class BreweryController {
 	@PUT
 	public BrewFindResponse addBrewery(String json){
 		//Convert into BreweryQuery
-		BreweryQuery query=gson.fromJson(json, BreweryQuery.class);
+		BrewFindQuery query = gson.fromJson(json, BrewFindQuery.class);
+		
 		if(query == null){
 			return new BrewFindResponse(9, "Query failed, query returned null");
 		}
 		//Retrieve Brewery out of Brewery Query
-		Brewery newBrew=query.getBrewery(); 
+		Brewery newBrew = (Brewery) query.getQList().get(0); 
+		
 		if(newBrew == null){
 				return new BrewFindResponse(10, "brewery failed to be created");
 			}
@@ -91,12 +93,12 @@ public class BreweryController {
 			return new BrewFindResponse(7, "Brewery found in system, insert failed");
 		}
 		
-		
 		else {
-			
 			newBrew.setB_version(0);
+			
 			//add brewery to database
-			breweryService.saveBrewery(newBrew);
+			newBrew = breweryService.saveBrewery(newBrew);
+			
 			//return success message
 			return new BrewFindResponse(0, "Ok", newBrew);
 		}
@@ -112,17 +114,25 @@ public class BreweryController {
 	@Produces("application/json")
 	public BrewFindResponse updateBrewery(String json){
 		
-		BrewFindQuery query=gson.fromJson(json, BrewFindQuery.class);
+		BrewFindQuery query = gson.fromJson(json, BrewFindQuery.class);
+		
 		if(query == null){
 			return new BrewFindResponse(9, "Query failed, query returned null");
 		}
+		
 		//Retrieve Brewery out of Brewery Query
 		@SuppressWarnings("unchecked")
-		List<Brewery> newBrew = (List<Brewery>)query.getQList(); 
+		List<Brewery> breweries = (List<Brewery>)query.getQList(); 
 		
-		if(newBrew == null){
-				return new BrewFindResponse(10, "brewery failed to be created");
-			}
+		if(breweries == null){
+			return new BrewFindResponse(10, "brewery failed to be created");
+		}
+		
+		Brewery newBrew = breweries.get(0);
+		
+		if(newBrew == null) {
+			return new BrewFindResponse(10, "brewery failed to be created");
+		}
 		
 		//Check if token was sent
 		if(query.getToken() == null) {
@@ -133,15 +143,19 @@ public class BreweryController {
 		if(query.getToken().access != 3 || query.getToken().access != 2){
 			return new BrewFindResponse(5, "User found in token does not have required privileges");
 		}
-		 Brewery oldb = breweryService.findBrewery(newBrew.get(0).getB_name());
+		
+		 Brewery oldb = breweryService.findBrewery(newBrew.getB_name());
+		 
 		//Check if brewery is in database
 		if(oldb == null) {
 			return new BrewFindResponse(8, "not found in system, insert failed");
 		}
 		else{
 			newBrew.setB_version(oldb.getB_version()+1);
+			
 			//update brewery in database
 			breweryService.saveBrewery(newBrew);
+			
 			//return success message
 			return new BrewFindResponse(0, "Ok", newBrew);
 		}

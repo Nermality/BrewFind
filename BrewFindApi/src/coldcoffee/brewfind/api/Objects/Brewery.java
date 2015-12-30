@@ -6,7 +6,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection="breweries")
-public class Brewery implements BrewFindObject {
+public class Brewery extends BrewFindObject {
 
 		@Id
 		public String b_id;
