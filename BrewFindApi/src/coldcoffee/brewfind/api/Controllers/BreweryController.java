@@ -94,7 +94,7 @@ public class BreweryController {
 		}
 		
 		else {
-			newBrew.setB_version(0);
+		//	newBrew.setB_version(0);
 			
 			//add brewery to database
 			newBrew = breweryService.saveBrewery(newBrew);
@@ -151,7 +151,7 @@ public class BreweryController {
 			return new BrewFindResponse(8, "not found in system, insert failed");
 		}
 		else{
-			newBrew.setB_version(oldb.getB_version()+1);
+	//		newBrew.setB_version(oldb.getB_version()+1);
 			
 			//update brewery in database
 			breweryService.saveBrewery(newBrew);

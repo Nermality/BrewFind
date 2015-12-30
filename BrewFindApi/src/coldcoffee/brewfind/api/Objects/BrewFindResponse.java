@@ -54,10 +54,10 @@ public class BrewFindResponse {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public List<BrewFindObject> getRet() {
+	public List<BrewFindObject> getrObj() {
 		return rObj;
 	}
-	public void setrObj(List<BrewFindObject> ret) {
-		this.rObj = ret;
+	public void setrObj(List<BrewFindObject> rObj) {
+		this.rObj = rObj;
 	}
 }

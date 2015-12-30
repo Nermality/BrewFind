@@ -10,51 +10,37 @@ public class Brewery extends BrewFindObject {
 
 		@Id
 		public String b_id;
-		public int b_brewNum;
-		public int b_version;
-
-		public String b_description;
+		
 		public String b_name;
 		
-		/*
-		public String b_street;
-		public String b_city;
-		public String b_state;
-		public String b_zip;
-		*/
-		public String location;
+		public String addr1;		
+		public String addr2;
+		public String city;
+		public String state;
+		public String zip;
+	
 		
-		public String b_phone;
-		public String b_email;
-		public String b_url;
+		public String phone;
+		public String email;
+		public String url;
 		
-		public Boolean hasTours;
-		public Boolean hasFood;
+		//public String b_description;
 		
-		public String b_logoImage;
-		public Double b_rating;
+		//public Boolean hasTours;
+		//public Boolean hasFood;
 		
-		public Set<Drink> b_drinkList;
+		//public int b_brewNum;
+		//public int b_version;
+		
+		//public String b_logoImage;
+		//public Double b_rating;
+		
+		//public Set<Drink> b_drinkList;
 	
 		//facebook
-		
-		public Brewery() 
-		{}
-		
-		public int getB_version() {
-			return b_version;
-		}
-
-		public void setB_version(int b_version) {
-			this.b_version = b_version;
-		}
-
-		public String getB_description() {
-			return b_description;
-		}
-
-		public void setB_description(String b_description) {
-			this.b_description = b_description;
+	
+		public String getB_id() {
+			return b_id;
 		}
 
 		public String getB_name() {
@@ -65,77 +51,74 @@ public class Brewery extends BrewFindObject {
 			this.b_name = b_name;
 		}
 
-		public String getLocation() {
-			return location;
+		public String getAddr1() {
+			return addr1;
 		}
 
-		public void setLocation(String location) {
-			this.location = location;
+		public void setAddr1(String addr1) {
+			this.addr1 = addr1;
 		}
 
-		public String getB_phone() {
-			return b_phone;
+		public String getAddr2() {
+			return addr2;
 		}
 
-		public void setB_phone(String b_phone) {
-			this.b_phone = b_phone;
+		public void setAddr2(String addr2) {
+			this.addr2 = addr2;
 		}
 
-		public String getB_email() {
-			return b_email;
+		public String getCity() {
+			return city;
 		}
 
-		public void setB_email(String b_email) {
-			this.b_email = b_email;
+		public void setCity(String city) {
+			this.city = city;
 		}
 
-		public String getB_url() {
-			return b_url;
+		public String getState() {
+			return state;
 		}
 
-		public void setB_url(String b_url) {
-			this.b_url = b_url;
+		public void setState(String state) {
+			this.state = state;
 		}
 
-		public Boolean getHasTours() {
-			return hasTours;
+		public String getZip() {
+			return zip;
 		}
 
-		public void setHasTours(Boolean hasTours) {
-			this.hasTours = hasTours;
+		public void setZip(String zip) {
+			this.zip = zip;
 		}
 
-		public Boolean getHasFood() {
-			return hasFood;
+		public String getPhone() {
+			return phone;
 		}
 
-		public void setHasFood(Boolean hasFood) {
-			this.hasFood = hasFood;
+		public void setPhone(String phone) {
+			this.phone = phone;
 		}
 
-		public String getB_logoImage() {
-			return b_logoImage;
+		public String getEmail() {
+			return email;
 		}
 
-		public void setB_logoImage(String b_logoImage) {
-			this.b_logoImage = b_logoImage;
+		public void setEmail(String email) {
+			this.email = email;
 		}
 
-		public Double getB_rating() {
-			return b_rating;
+		public String getUrl() {
+			return url;
 		}
 
-		public void setB_rating(Double b_rating) {
-			this.b_rating = b_rating;
+		public void setUrl(String url) {
+			this.url = url;
 		}
+		
+		public Brewery() 
+		{}
+		
 
-		public Set<Drink> getB_drinkList() {
-			return b_drinkList;
-		}
-
-		public void setB_drinkList(Set<Drink> b_drinkList) {
-			this.b_drinkList = b_drinkList;
-		}
 
 		// On creation of a brewery the brewery can provide the following. 
 		//Other information will be entered at another point.
@@ -146,13 +129,10 @@ public class Brewery extends BrewFindObject {
 		
 		@Override
 		public String toString() {
-			return "Brewery: [ bname = " + b_name 
-							 + ", Location = " + location
-							 + ", Phone = " + b_phone 
-							 + ", Email = " + b_email
-							 + ", Website = " + b_url
-							 + ", Tours = " + hasTours 
-							 + ", Food = " + hasFood + "]";
+			return "Brewery: [ name = " + b_name 
+							 + ", Phone = " + phone 
+							 + ", Email = " + email
+							 + ", Website = " + url + "]";
 		}
 		
 }
