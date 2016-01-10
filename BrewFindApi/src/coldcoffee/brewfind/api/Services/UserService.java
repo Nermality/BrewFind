@@ -4,6 +4,7 @@ import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
+import java.util.Date;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -12,10 +13,7 @@ import org.glassfish.jersey.internal.util.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-<<<<<<< 36a84c6f7bfd4768f2492694571c60a5460683c5
-=======
 import coldcoffee.brewfind.api.Objects.BrewFindQuery;
->>>>>>> 6e03dfba72568b674217e36dfce4102e2703ceda
 import coldcoffee.brewfind.api.Objects.BrewFindResponse;
 import coldcoffee.brewfind.api.Objects.BrewFindToken;
 import coldcoffee.brewfind.api.Objects.User;
@@ -88,6 +86,16 @@ public class UserService {
 		// If not, error
 		if(u == null) {
 			return new BrewFindResponse(2, "User " + uname + " was not found in database");
+		}
+		
+		if(!checkToken(token, u)) {
+			return new BrewFindResponse(5, "Invalid token");
+		}
+		if(!checkTokenTimestamp(token)) {
+			return new BrewFindResponse(13, "Expired token, please reauthorize");
+		}
+		if(!updateToken(u, token)) {
+			return new BrewFindResponse(12, "Token update failure");
 		}
 				
 		// Else, return user information
@@ -238,14 +246,50 @@ public class UserService {
 			return false;
 		}
 		
+		return checkToken(tok, u);
+		
+	}
+	
+	public Boolean checkToken(BrewFindToken tok, User u) {
+		
 		// Make sure the user has a token associated with it
 		BrewFindToken uTok = u.getU_curToken();	
 		if(uTok == null) {
 			return false;
 		}
-		
+				
 		// Check that the token matches
 		if((tok.access == uTok.access) && (tok.stamp == uTok.stamp) && (tok.token.equals(uTok.token))) {
+			return true;
+		}
+				
+		return false;
+	}
+	
+	public Boolean checkTokenTimestamp(BrewFindToken tok) 
+ 	{ 
+ 		Long curDate= new Date().getTime(); 
+ 		if(curDate-tok.getStamp() > 3600) 
+ 		{ 
+ 			return false;
+ 		} 
+ 		else 
+	 		return true;
+ 	} 
+	
+	/**
+	 * Updates token timestamp and saves to use provided
+	 * @param u - user who owns token
+	 * @param tok - currently validated token
+	 * @return success status 
+	 */
+	public Boolean updateToken(User u, BrewFindToken tok)
+	{
+		Long curDate = new Date().getTime();
+		tok.setStamp(curDate);
+		u.setU_curToken(tok);
+		
+		if(userRepository.save(u) != null) {
 			return true;
 		}
 		
@@ -318,28 +362,7 @@ public class UserService {
 
 		return PW_ITERS + ":" + toHex(salt) + ":" + toHex(hash);
 	}
-<<<<<<< 36a84c6f7bfd4768f2492694571c60a5460683c5
-	/**
-	 * Updates user token with new timestamp
-	 * @param tok token with new timestamp
-	 * @return 
-	 */
-	public BrewFindResponse updateToken(BrewFindToken tok)
-	{
-		// The 'token' field on BrewFindToken contains the username base64 encoded
-		String uname = Base64.decodeAsString(tok.token);
-				
-		// Make sure the user exists
-		User u = findUser(uname);
-		if(u == null) {
-		return new BrewFindResponse(2,"User not found, token update failed");
-		}
-		u.setU_curToken(tok);
-		userRepository.save(u);
-		return new BrewFindResponse(0, "ok");
-	}
-=======
-	
+
 	/**
 	 * Verifies password attempt with correct hash
 	 * @param attString - password attempt
@@ -421,8 +444,5 @@ public class UserService {
 	         return String.format("%0" + paddingLength + "d", 0) + hex;
 	     else
 	         return hex;
-	 }
-	
->>>>>>> 6e03dfba72568b674217e36dfce4102e2703ceda
-	
+	 }	
 }

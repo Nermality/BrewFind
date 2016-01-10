@@ -19,6 +19,7 @@ public class BrewFindResponse {
 	// Status 10 = objectis null
 	// Status 11 = Not enough permissions
 	// Status 12 = Rando db failure
+	// Status 13 = Token timeout
 	// Describe more statuses here...
 	
 	public int status;
