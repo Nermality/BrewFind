@@ -17,6 +17,8 @@ public class BrewFindResponse {
 	// Status 8 = Brewery not found in db
 	// Status 9 = query is null
 	// Status 10 = objectis null
+	// Status 11 = Not enough permissions
+	// Status 12 = Rando db failure
 	// Describe more statuses here...
 	
 	public int status;

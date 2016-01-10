@@ -87,8 +87,7 @@ public class UserController {
 		
 		// Save token
 		if(userService.saveNewToken(u, token) == null) {
-			// some issue happened
-			System.out.println("Didn't like saving that token...");
+			return new BrewFindResponse(12, "Refreshing token failed");
 		}
 		
 		// Return token
@@ -105,6 +104,11 @@ public class UserController {
 	public BrewFindResponse getUser(String body) {
 		
 		BrewFindToken token = gson.fromJson(body, BrewFindToken.class);
+		
+		// Null check
+		if(token == null) {
+			return new BrewFindResponse(4, "No token found");
+		}
 		
 		// Check to see if user in in db
 		String uname = Base64.decodeAsString(token.token);
@@ -124,7 +128,7 @@ public class UserController {
 	/**
 	 * Updates the user's information
 	 * The only fields required (other than those to change) are username and access
-	 * Username, id, and token cannot be changed
+	 * Username, id, and access cannot be changed
 	 * @param body - the user object containing updated information
 	 * @return user-safe information on the new user created.
 	 */
@@ -136,6 +140,10 @@ public class UserController {
 		
 		// Convert to query
 		BrewFindQuery query = gson.fromJson(body, BrewFindQuery.class);
+		
+		if(query == null) {
+			return new BrewFindResponse(9, "No query found");
+		}
 		
 		// No token - fail
 		if(query.getToken() == null) {
@@ -149,6 +157,10 @@ public class UserController {
 		}
 		
 		String uname = Base64.decodeAsString(query.getToken().token);
+		
+		if(query.getQList().isEmpty()) {
+			return new BrewFindResponse(9, "No content found");
+		}
 		
 		// Check for updates
 		User newU = (User) query.getQList().get(0);
@@ -181,6 +193,18 @@ public class UserController {
 	public BrewFindResponse deleteUser(String body) {
 		
 		BrewFindToken tok = gson.fromJson(body, BrewFindToken.class);
+		
+		// No token - fail
+		if(tok == null) {
+			return new BrewFindResponse(4, "No token found, authorization failed");
+		}
+		
+		// Check token
+		// If token check passes, user exists. 
+		if(!userService.checkToken(tok)) {
+			return new BrewFindResponse(5, "Invalid token, authorization failed");
+		}
+		
 		String uname = Base64.decodeAsString(tok.token);
 		
 		// Check if user is in db
@@ -206,7 +230,35 @@ public class UserController {
 	@PUT
 	public BrewFindResponse addUser(String body) {
 
-		User user = gson.fromJson(body, User.class);
+		BrewFindQuery query = gson.fromJson(body, BrewFindQuery.class);
+		
+		if(query == null) {
+			return new BrewFindResponse(9, "No query found");
+		}
+		
+		if(query.getQList().isEmpty()) {
+			return new BrewFindResponse(9, "No user found");
+		}
+		
+		User user = (User) query.getQList().get(0);
+		
+		if(user.u_access == null) {
+			user.setU_access(1);
+		} /*
+			else if(user.u_access > 1) {
+			if(query.token == null) {
+				return new BrewFindResponse(4, "No token found, authorization failed");
+			}
+			if(!userService.checkToken(query.token)) {
+				return new BrewFindResponse(5, "Invalid token, authorization failed");
+			}
+			if(user.getU_access() == 2) {
+				// TODO: Brewer validation
+			} else if(user.getU_access() > 2) {
+				// TODO: Admin validation
+			}
+		}
+		*/
 		
 		// Make sure the user isn't in the database
 		if(userService.findUser(user.u_name) != null) {
@@ -221,10 +273,6 @@ public class UserController {
 		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
 			System.out.println(e.getMessage());
 			return new BrewFindResponse(6, "Server-side authentication issue");
-		}
-	
-		if(user.u_access == null) {
-			user.setU_access(1);
 		}
 		
 		// Insert in db
