@@ -4,6 +4,7 @@ import org.glassfish.jersey.internal.util.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import coldcoffee.brewfind.api.Objects.BrewFindResponse;
 import coldcoffee.brewfind.api.Objects.BrewFindToken;
 import coldcoffee.brewfind.api.Objects.User;
 import coldcoffee.brewfind.api.Repositories.UserRepository;
@@ -84,6 +85,24 @@ public class UserService {
 	public void deleteUser(User u) {
 		userRepository.delete(u);
 	}
-	
+	/**
+	 * Updates user token with new timestamp
+	 * @param tok token with new timestamp
+	 * @return 
+	 */
+	public BrewFindResponse updateToken(BrewFindToken tok)
+	{
+		// The 'token' field on BrewFindToken contains the username base64 encoded
+		String uname = Base64.decodeAsString(tok.token);
+				
+		// Make sure the user exists
+		User u = findUser(uname);
+		if(u == null) {
+		return new BrewFindResponse(2,"User not found, token update failed");
+		}
+		u.setU_curToken(tok);
+		userRepository.save(u);
+		return new BrewFindResponse(0, "ok");
+	}
 	
 }

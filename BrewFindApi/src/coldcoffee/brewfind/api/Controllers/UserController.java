@@ -4,6 +4,7 @@ import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
+import java.util.Date;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -445,6 +446,31 @@ public class UserController {
 	         return hex;
 	 }
 	 
+	 /**
+		 * Check tokens timestamp if still valid update token with new timestamp, otherwise require user to re-authorize.
+		 * @param tok user token to be validated
+		 * @return saves new token and passes response back
+		 */
+	public BrewFindResponse updateToken(BrewFindToken tok)
+	{
+		if (tok == null)
+		{
+			return new BrewFindResponse(4, "Token given is null");
+		}
+		Long curDate= new Date().getTime();
+		if(curDate-tok.getStamp() > 3600)
+		{
+			//TO DO redirect re-auth
+			return new BrewFindResponse(0, "Redirecting user to login screen");
+		}
+		else
+		{
+			tok.setStamp(curDate);
+			userService.updateToken(tok);
+			return new BrewFindResponse(0, "ok", tok);
+		}
+		
+	}
 	
 	
 }
