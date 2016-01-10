@@ -43,12 +43,6 @@ public class UserController {
 	private UserService userService;
 	
 	private Gson gson = new Gson();
-	
-	// Defs for salt/hash functionality
-	private final static int PW_ITERS = 500;
-	private final static int SALT_SIZE = 24;
-	private final static int HASH_SIZE = 24;
-	private final static String ALGORITHM = "PBKDF2WithHmacSHA1";
 
 	/**
 	 * Authentication endpoint
@@ -72,27 +66,7 @@ public class UserController {
 			return new BrewFindResponse(2, "User " + newu + " not found in DB");
 		}
 		
-		// Else, authenticate
-		try {
-			if(!validatePass(pass, u.getU_pass())) {
-				return new BrewFindResponse(3, "Invalid login information");
-			}
-		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-			return new BrewFindResponse(6, "Sever-side authentication failure");
-		}
-		
-		// Check the existing token...?
-		
-		// Create token
-		BrewFindToken token = new BrewFindToken(u.getU_access(), Base64.encodeAsString(newu.getBytes()));
-		
-		// Save token
-		if(userService.saveNewToken(u, token) == null) {
-			return new BrewFindResponse(12, "Refreshing token failed");
-		}
-		
-		// Return token
-		return new BrewFindResponse(0, "OK", token);
+		return userService.authUser(newu, pass, u);
 	}
 	
 	/**
@@ -111,19 +85,7 @@ public class UserController {
 			return new BrewFindResponse(4, "No token found");
 		}
 		
-		// Check to see if user in in db
-		String uname = Base64.decodeAsString(token.token);
-		User u = userService.findUser(uname);
-		
-		// If not, error
-		if(u == null) {
-			return new BrewFindResponse(2, "User " + uname + " was not found in database");
-		}
-		
-		// Else, return user information
-		User toRet = sanitizeUser(u);
-		
-		return new BrewFindResponse(0, "OK", toRet);
+		return userService.getUserFromToken(token);
 	}
 	
 	/**
@@ -151,37 +113,7 @@ public class UserController {
 			return new BrewFindResponse(4, "No token found, authorization failed");
 		}
 		
-		// Check token
-		// If token check passes, user exists. 
-		if(!userService.checkToken(query.getToken())) {
-			return new BrewFindResponse(5, "Invalid token, authorization failed");
-		}
-		
-		String uname = Base64.decodeAsString(query.getToken().token);
-		
-		if(query.getQList().isEmpty()) {
-			return new BrewFindResponse(9, "No content found");
-		}
-		
-		// Check for updates
-		User newU = (User) query.getQList().get(0);
-		User oldU = userService.findUser(uname);
-		User toIns = safeUpdate(oldU, newU);
-		
-		// Null out for GC
-		newU = null;
-		oldU = null;
-		
-		// Sanitize data before insertion...?
-		
-		// Update information in database
-		User dbU = userService.saveUser(toIns);
-		
-		// User safe. No passwords, no tokens, no ids. 
-		dbU = sanitizeUser(dbU);
-		
-		// Return new user object
-		return new BrewFindResponse(0, "OK", dbU);
+		return userService.updateUserFromQuery(query);
 	}
 	
 	/**
@@ -200,25 +132,7 @@ public class UserController {
 			return new BrewFindResponse(4, "No token found, authorization failed");
 		}
 		
-		// Check token
-		// If token check passes, user exists. 
-		if(!userService.checkToken(tok)) {
-			return new BrewFindResponse(5, "Invalid token, authorization failed");
-		}
-		
-		String uname = Base64.decodeAsString(tok.token);
-		
-		// Check if user is in db
-		User u = userService.findUser(uname);
-		if(u == null) {
-			return new BrewFindResponse(2, "User " + uname + " doesn't exist in our system");
-		}
-		
-		// Else, remove information from user db
-		userService.deleteUser(u);
-		
-		// TODO: Implement un-setting a brewery's user if the user is associated with a brewery
-		return new BrewFindResponse(0, "OK");
+		return userService.deleteUserFromToken(tok);
 	}
 	
 	/**
@@ -243,72 +157,7 @@ public class UserController {
 		
 		User user = (User) query.getQList().get(0);
 		
-		if(user.u_access == null) {
-			user.setU_access(1);
-		} /*
-			else if(user.u_access > 1) {
-			if(query.token == null) {
-				return new BrewFindResponse(4, "No token found, authorization failed");
-			}
-			if(!userService.checkToken(query.token)) {
-				return new BrewFindResponse(5, "Invalid token, authorization failed");
-			}
-			if(user.getU_access() == 2) {
-				// TODO: Brewer validation
-			} else if(user.getU_access() > 2) {
-				// TODO: Admin validation
-			}
-		}
-		*/
-		
-		// Make sure the user isn't in the database
-		if(userService.findUser(user.u_name) != null) {
-			return new BrewFindResponse(1, "That username already exists in our system");
-		}
-				
-		// Sanitize data
-		// Mash up password	
-		try {
-			String newPass = createHash(user.u_pass);
-			user.setU_pass(newPass);
-		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-			System.out.println(e.getMessage());
-			return new BrewFindResponse(6, "Server-side authentication issue");
-		}
-		
-		// Insert in db
-		User newU = sanitizeUser(userService.saveUser(user));
-		  
-		// Return created object
-		return new BrewFindResponse(0, "OK", newU);
-	}
-	
-	/**
-	 * Copies information from an 'update' user object to their original object
-	 * This is to maintain ids, tokens, salt/hash, etc. 
-	 * @param oldU - the user's original user object
-	 * @param newU - user object containing updates
-	 * @return - fully updated, comprehensive user object
-	 */
-	public User safeUpdate(User oldU, User newU) {
-		
-		if(newU.getU_firstName() != null) {
-			oldU.setU_firstName(newU.getU_firstName());
-		}
-		if(newU.getU_lastName() != null) {
-			oldU.setU_lastName(newU.getU_lastName());
-		}
-		if(newU.getU_pass() != null) {
-			try {
-				String newPass = createHash(newU.getU_pass());
-				oldU.setU_pass(newPass);
-			} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	
-		return oldU;
+		return userService.createUser(user);
 	}
 	
 	/**
@@ -325,41 +174,8 @@ public class UserController {
 		
 		return s;
 	}
-	
-	/**
-	 * Removes all sensitive data from a user object
-	 * Used when user objects are being returned to the user
-	 * @param u - user object to sanitize
-	 * @return - sanitized object
-	 */
-	public User sanitizeUser(User u) {
-		
-		u.setU_pass(null);
-		if(u.u_id != null) {
-			u.u_id = null;
-		}
-		u.setU_curToken(null);
-		
-		return u;
-	}
-	
-	/**
-	 * Function to create a 'u_pass' field for the db
-	 * @param pass - user's original password
-	 * @return - hashed pw with salt and #iterations in string
-	 * @throws NoSuchAlgorithmException
-	 * @throws InvalidKeySpecException
-	 */
-	public static String createHash(String pass) throws NoSuchAlgorithmException, InvalidKeySpecException {
-		
-		char[] pwArr = pass.toCharArray();
-		
-		SecureRandom rando = new SecureRandom();
-		byte[] salt = new byte[SALT_SIZE];
-		rando.nextBytes(salt);
-		
-		byte[] hash = secretStuff(pwArr, salt, PW_ITERS, HASH_SIZE);
 
+<<<<<<< 36a84c6f7bfd4768f2492694571c60a5460683c5
 		return PW_ITERS + ":" + toHex(salt) + ":" + toHex(hash);
 	}
 	
@@ -473,4 +289,6 @@ public class UserController {
 	}
 	
 	
+=======
+>>>>>>> 6e03dfba72568b674217e36dfce4102e2703ceda
 }
