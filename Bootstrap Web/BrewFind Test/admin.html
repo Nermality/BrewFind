@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Quick Ajax for brewery</title>
+</head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script>
+function callAjax()
+{
+ 
+    $.ajax({
+		type: "GET",
+        url: "http://localhost:8080/brewery",
+ 		dataType: "jsonp",
+		
+        success: function(data) 
+        {
+          console.log("YO")  
+        },
+        error: function(err)
+        {
+            // throw error
+        }
+    });
+	
+}
+
+
+     callAjax();
+
+</script>
+
+</html>

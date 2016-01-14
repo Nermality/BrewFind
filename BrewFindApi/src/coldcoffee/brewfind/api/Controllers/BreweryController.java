@@ -8,6 +8,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,10 @@ import com.google.gson.Gson;
 import coldcoffee.brewfind.api.Objects.BrewFindObject;
 import coldcoffee.brewfind.api.Objects.BrewFindQuery;
 import coldcoffee.brewfind.api.Objects.BrewFindResponse;
+import coldcoffee.brewfind.api.Objects.BrewFindToken;
 import coldcoffee.brewfind.api.Objects.Brewery;
 import coldcoffee.brewfind.api.Services.BreweryService;
+import coldcoffee.brewfind.api.Services.UserService;
 
 //Controller to control and edit brewery objects inside the database.
 //add santization to breweries 
@@ -30,6 +33,9 @@ public class BreweryController {
 
 	@Autowired
 	private BreweryService breweryService;
+	
+	@Autowired
+	private UserService userService;
 	
 	Gson gson=new Gson();
 	
@@ -52,8 +58,6 @@ public class BreweryController {
 		
 		//return list if successful
 		return new BrewFindResponse(0, "OK", (List<BrewFindObject>) bList);
-
-		
 	}
 	
 	/**
@@ -65,43 +69,29 @@ public class BreweryController {
 	 */
 	@PUT
 	public BrewFindResponse addBrewery(String json){
+		
 		//Convert into BreweryQuery
 		BrewFindQuery query = gson.fromJson(json, BrewFindQuery.class);
 		
+		// Null check
 		if(query == null){
 			return new BrewFindResponse(9, "Query failed, query returned null");
 		}
-		//Retrieve Brewery out of Brewery Query
-		Brewery newBrew = (Brewery) query.getQList().get(0); 
 		
-		if(newBrew == null){
-				return new BrewFindResponse(10, "brewery failed to be created");
-			}
 		//Check if token was sent
-		
 		if(query.getToken() == null) {
-			return new BrewFindResponse(4, "No token found, authorization failed");
+			return new BrewFindResponse(4, "No token found");
 		}
 		
-		//Check if token has proper privileges
-		else if(query.getToken().access != 3){
-			return new BrewFindResponse(5, "User found in token does not have required privileges");
+		// Validate token
+		BrewFindToken tok = query.getToken();
+		if(!userService.checkToken(tok)) {
+			return new BrewFindResponse(5, "Invalid token credentials");
 		}
 		
-		//Check if brewery is in database
-		if(breweryService.findBrewery(newBrew.b_name) != null) {
-			return new BrewFindResponse(7, "Brewery found in system, insert failed");
-		}
-		
-		else {
-		//	newBrew.setB_version(0);
-			
-			//add brewery to database
-			newBrew = breweryService.saveBrewery(newBrew);
-			
-			//return success message
-			return new BrewFindResponse(0, "Ok", newBrew);
-		}
+		//SEND OFF TO SERVICE
+		return breweryService.addBreweryFromQuery(query);
+
 	}
 	/**
 	 * updating brewery information endpoint
@@ -116,49 +106,26 @@ public class BreweryController {
 		
 		BrewFindQuery query = gson.fromJson(json, BrewFindQuery.class);
 		
+		// Null check
 		if(query == null){
 			return new BrewFindResponse(9, "Query failed, query returned null");
 		}
-		
-		//Retrieve Brewery out of Brewery Query
-		@SuppressWarnings("unchecked")
-		List<Brewery> breweries = (List<Brewery>)query.getQList(); 
-		
-		if(breweries == null){
-			return new BrewFindResponse(10, "brewery failed to be created");
-		}
-		
-		Brewery newBrew = breweries.get(0);
-		
-		if(newBrew == null) {
-			return new BrewFindResponse(10, "brewery failed to be created");
-		}
-		
+	
 		//Check if token was sent
 		if(query.getToken() == null) {
-			return new BrewFindResponse(4, "No token found, authorization failed");
+			return new BrewFindResponse(4, "No token found");
+		}
+				
+		// Validate token
+		BrewFindToken tok = query.getToken();
+		if(!userService.checkToken(tok)) {
+			return new BrewFindResponse(5, "Invalid token credentials");
 		}
 		
-		//Check if token has proper privileges
-		if(query.getToken().access != 3 || query.getToken().access != 2){
-			return new BrewFindResponse(5, "User found in token does not have required privileges");
-		}
+		// TODO: Check to see if the token owner and brewery getting updated match
 		
-		 Brewery oldb = breweryService.findBrewery(newBrew.getB_name());
-		 
-		//Check if brewery is in database
-		if(oldb == null) {
-			return new BrewFindResponse(8, "not found in system, insert failed");
-		}
-		else{
-	//		newBrew.setB_version(oldb.getB_version()+1);
-			
-			//update brewery in database
-			breweryService.saveBrewery(newBrew);
-			
-			//return success message
-			return new BrewFindResponse(0, "Ok", newBrew);
-		}
+		// SEND OFF TO SERVICE
+		return breweryService.updateBreweryFromQuery(query);
 	}
 	
 	
@@ -168,42 +135,28 @@ public class BreweryController {
 	 * @return - success is just an {status:0, message:"OK"}
 	 */
 	@Produces("application/json")
+	@Path("/{id}")
 	@DELETE
-	public BrewFindResponse deleteBrewery(String json) {
+	public BrewFindResponse deleteBrewery(@PathParam("id") int brewNum, String json) {
 		
-		BrewFindQuery query=gson.fromJson(json, BrewFindQuery.class);
-		
-		if(query == null){
-			return new BrewFindResponse(9, "Query failed, query returned null");
-		}
-		//Retrieve Brewery out of Brewery Query
-		@SuppressWarnings("unchecked")
-		List<Brewery> remBrew = (List<Brewery>) query.getQList(); 
-		if(remBrew == null){
-				return new BrewFindResponse(10, "No brewery object found");
-			}
+		BrewFindToken token=gson.fromJson(json, BrewFindToken.class);
 		
 		//Check if token was sent
-		if(query.getToken() == null) {
+		if(token == null) {
 			return new BrewFindResponse(4, "No token found, authorization failed");
 		}
 		
+		// TODO: CHECK THE GODDAMN TOKEN
+		
 		//Check if token has proper privileges
-		if(query.getToken().access != 3 ){
+		if(token.getAccess() != 3 ){
 			return new BrewFindResponse(5, "User found in token does not have required privileges");
 		}
 		
-		Brewery del = breweryService.findBrewery(remBrew.get(0).getB_name());
-
-		//Check if brewery is in database
-		if(del == null) {
-			return new BrewFindResponse(7, "Brewery not found in system, delete failed");
-		}
-		// remove information from brewery db
-		breweryService.deleteBrewery(del);
-				
-		return new BrewFindResponse(0, "OK");
+		// SEND OFF TO SERVICE
+		return breweryService.deleteBreweryFromToken(token, brewNum);
 	}
+	
 	/**
 	 * Copies information from an 'update' brewery object to their original object
 	 * This allows breweries to be updated with all or little information 
