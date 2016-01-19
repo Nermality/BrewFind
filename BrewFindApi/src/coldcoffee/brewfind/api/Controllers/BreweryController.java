@@ -22,6 +22,7 @@ import coldcoffee.brewfind.api.Objects.BrewFindQuery;
 import coldcoffee.brewfind.api.Objects.BrewFindResponse;
 import coldcoffee.brewfind.api.Objects.BrewFindToken;
 import coldcoffee.brewfind.api.Objects.Brewery;
+import coldcoffee.brewfind.api.Objects.Version;
 import coldcoffee.brewfind.api.Services.BreweryService;
 import coldcoffee.brewfind.api.Services.UserService;
 
@@ -172,6 +173,29 @@ public class BreweryController {
 		return s;
 	}
 	
+	/**
+	 * Compare the clients breweries/brewery and the server cache versions 
+	 * @param json
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public BrewFindResponse versionCheck(String json){
+		
+		BrewFindQuery query = gson.fromJson(json, BrewFindQuery.class);
+		
+		// Null check
+		if(query == null){
+			return new BrewFindResponse(9, "Query failed, query returned null");
+		}
+	
+		//Check if token was sent
+		if(query.getToken() == null) {
+			return new BrewFindResponse(4, "No token found");
+		}
+		//Send off to breweryUpdateService
+		return breweryService.UpdateClientBreweryinfo((List<Version>) query.getQList());
+		
+	}
 	
 
 }

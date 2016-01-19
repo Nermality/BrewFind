@@ -1,5 +1,6 @@
 package coldcoffee.brewfind.api.Services;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import coldcoffee.brewfind.api.Objects.BrewFindQuery;
 import coldcoffee.brewfind.api.Objects.BrewFindResponse;
 import coldcoffee.brewfind.api.Objects.BrewFindToken;
 import coldcoffee.brewfind.api.Objects.Brewery;
+import coldcoffee.brewfind.api.Objects.Version;
 import coldcoffee.brewfind.api.Repositories.BreweryRepository;
 
 @Service
@@ -123,6 +125,48 @@ public class BreweryService {
 					
 		return new BrewFindResponse(0, "OK");
 	}
+	
+	
+	//TODO change to instead compare to server cache
+	/**
+	 * Take the version list passed to it by the client and compare it to the server cache
+	 * @param version list of version of breweries being used by client
+	 * @return returns list of breweries to be updated with the new information
+	 */
+	public BrewFindResponse UpdateClientBreweryinfo(List<Version> version){
+		List<BrewFindObject> breweries = new ArrayList<BrewFindObject>();
+		int maxBrew=0;
+		for(Version v : version){
+			//Check if brewery is in database if not found then will set it to be removed client side
+			if(maxBrew<v.getV_brewNum()){
+			maxBrew=v.getV_brewNum();
+			}
+			
+			if(findBrewery(v.getV_brewNum()) == null) {
+				Brewery b=new Brewery();
+				//if not found it will create a new brewery with the b_num equaling the missing b_num 
+				//and set it to v_num to -1
+				b.setVersion(-1);
+				b.setB_breweryNum(v.getV_brewNum());
+				breweries.add(b);
+			}
+			
+			//compare versions if not the same number update it
+			else if(v.getV_verNum() != findBrewery(v.getV_brewNum()).getVersion()){
+				breweries.add(findBrewery(v.getV_brewNum()));
+			}
+			
+			// else the brewery is current version no need to update
+			//compare max brewNum in client version list to max version in server cache
+			else{
+				List<Brewery> addBrews = breweryRepository.searchByBrewNumMax(maxBrew);
+				breweries.addAll(addBrews);
+			}
+		}
+		//return list of breweries to update
+		return new BrewFindResponse(13,"Updated list", breweries);
+	}
+	
 	
 	public List<Brewery> getList(){
 		List<Brewery> toRet = breweryRepository.findAll();

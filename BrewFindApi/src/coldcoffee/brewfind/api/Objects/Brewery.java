@@ -10,8 +10,6 @@ public class Brewery extends BrewFindObject {
 
 		@Id
 		public String b_id;
-		public int b_breweryNum;
-		public int b_version;
 		
 		public String b_name;
 		
@@ -30,7 +28,8 @@ public class Brewery extends BrewFindObject {
 		public Boolean b_hasTours;
 		public Boolean b_hasFood;
 		
-		//public xxxx b_hours??
+		public int b_breweryNum;
+		public int b_version;
 		//public String b_admin
 		
 		public String b_logoImage;
@@ -127,51 +126,13 @@ public class Brewery extends BrewFindObject {
 		public void setB_url(String b_url) {
 			this.b_url = b_url;
 		}
-
-		public String getB_description() {
-			return b_description;
+		public int getVersion(){
+			return b_version;
 		}
-
-		public void setB_description(String b_description) {
-			this.b_description = b_description;
+		public void setVersion(int version){
+			this.b_version=version;
 		}
-
-		public Boolean getB_hasTours() {
-			return b_hasTours;
-		}
-
-		public void setB_hasTours(Boolean b_hasTours) {
-			this.b_hasTours = b_hasTours;
-		}
-
-		public Boolean getB_hasFood() {
-			return b_hasFood;
-		}
-
-		public void setB_hasFood(Boolean b_hasFood) {
-			this.b_hasFood = b_hasFood;
-		}
-
-		public String getB_logoImage() {
-			return b_logoImage;
-		}
-
-		public void setB_logoImage(String b_logoImage) {
-			this.b_logoImage = b_logoImage;
-		}
-
-		public Double getB_rating() {
-			return b_rating;
-		}
-
-		public void setB_rating(Double b_rating) {
-			this.b_rating = b_rating;
-		}
-
-		public String getB_id() {
-			return b_id;
-		}
-
+		
 		public Brewery() 
 		{}
 		
