@@ -8,10 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import coldcoffee.brewfind.api.Objects.BrewFindObject;
-import coldcoffee.brewfind.api.Objects.BrewFindQuery;
 import coldcoffee.brewfind.api.Objects.BrewFindResponse;
 import coldcoffee.brewfind.api.Objects.BrewFindToken;
 import coldcoffee.brewfind.api.Objects.Brewery;
+import coldcoffee.brewfind.api.Objects.BreweryQuery;
 import coldcoffee.brewfind.api.Objects.Version;
 import coldcoffee.brewfind.api.Repositories.BreweryRepository;
 
@@ -31,7 +31,7 @@ public class BreweryService {
 		return breweryRepository.searchByBrewNum(breweryNum);
 	}
 	
-	public BrewFindResponse addBreweryFromQuery(BrewFindQuery query){
+	public BrewFindResponse addBreweryFromQuery(BreweryQuery query){
 		
 		BrewFindToken tok = query.getToken();
 		
@@ -41,7 +41,7 @@ public class BreweryService {
 		}
 		
 		//Retrieve Brewery out of Brewery Query
-		Brewery newBrew = (Brewery) query.getQList().get(0); 
+		Brewery newBrew = query.getList().get(0); 
 		
 		// Null check
 		if(newBrew == null){
@@ -75,7 +75,7 @@ public class BreweryService {
 		}
 	}
 	
-	public BrewFindResponse updateBreweryFromQuery(BrewFindQuery query) {
+	public BrewFindResponse updateBreweryFromQuery(BreweryQuery query) {
 		
 		BrewFindToken tok = query.getToken();
 		
@@ -85,8 +85,7 @@ public class BreweryService {
 		}
 		
 		//Retrieve Brewery out of Brewery Query
-		@SuppressWarnings("unchecked")
-		Brewery brewery = (Brewery)query.getQList().get(0); 
+		Brewery brewery = query.getList().get(0); 
 		
 		if(brewery == null){
 			return new BrewFindResponse(10, "brewery failed to be created");
@@ -137,9 +136,10 @@ public class BreweryService {
 		List<BrewFindObject> breweries = new ArrayList<BrewFindObject>();
 		int maxBrew=0;
 		for(Version v : version){
+			
 			//Check if brewery is in database if not found then will set it to be removed client side
-			if(maxBrew<v.getV_brewNum()){
-			maxBrew=v.getV_brewNum();
+			if(maxBrew < v.getV_brewNum()){
+			maxBrew = v.getV_brewNum();
 			}
 			
 			if(findBrewery(v.getV_brewNum()) == null) {
@@ -155,16 +155,15 @@ public class BreweryService {
 			else if(v.getV_verNum() != findBrewery(v.getV_brewNum()).getVersion()){
 				breweries.add(findBrewery(v.getV_brewNum()));
 			}
-			
-			// else the brewery is current version no need to update
-			//compare max brewNum in client version list to max version in server cache
-			else{
-				List<Brewery> addBrews = breweryRepository.searchByBrewNumMax(maxBrew);
-				breweries.addAll(addBrews);
-			}
 		}
+		
+		if(!breweryRepository.searchByBrewNumMax(maxBrew).isEmpty()) {
+			List<Brewery> addBrews = breweryRepository.searchByBrewNumMax(maxBrew);
+			breweries.addAll(addBrews);
+		}
+		
 		//return list of breweries to update
-		return new BrewFindResponse(13,"Updated list", breweries);
+		return new BrewFindResponse(14,"Updated list", breweries);
 	}
 	
 	
@@ -212,10 +211,46 @@ public class BreweryService {
 	 */
 	public Brewery safeUpdate(Brewery oldB, Brewery newB) {
 		
+		// TODO: Add in description/others
+		
+		Boolean modified = false;
 		// only things update-able:
 		//	addr1, addr2, city, zip, phone, email, url
+		if(newB.getB_addr1() != null && !newB.getB_addr1().equals(oldB.getB_addr1())) {
+			modified = true;
+			oldB.setB_addr1(newB.getB_addr1());
+		}
+		if(newB.getB_addr2() != null && !newB.getB_addr2().equals(oldB.getB_addr2())) {
+			modified = true;
+			oldB.setB_addr2(newB.getB_addr2());
+		}
+		if(newB.getB_city() != null && !newB.getB_city().equals(oldB.getB_city())) {
+			modified = true;
+			oldB.setB_city(newB.getB_city());
+		}
+		if(newB.getB_zip() != null && !newB.getB_zip().equals(oldB.getB_zip())) {
+			modified = true;
+			oldB.setB_zip(newB.getB_zip());
+		}
+		if(newB.getB_email() != null && !newB.getB_email().equals(oldB.getB_email())) {
+			modified = true;
+			oldB.setB_email(newB.getB_email());
+		}
+		if(newB.getB_phone() != null && !newB.getB_phone().equals(oldB.getB_phone())) {
+			modified = true;
+			oldB.setB_phone(newB.getB_phone());
+		}
+		if(newB.getB_url() != null && !newB.getB_url().equals(oldB.getB_url())) {
+			modified = true;
+			oldB.setB_url(newB.getB_url());
+		}
+
+		if(!modified) {
+			return null;
+		}
 		
-		return null;
+		oldB.b_version++;
+		return oldB;
 	}
 
 	/**

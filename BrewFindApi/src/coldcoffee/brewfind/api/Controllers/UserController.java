@@ -5,6 +5,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Date;
+import java.util.List;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -25,10 +26,11 @@ import org.springframework.stereotype.Component;
 
 import com.google.gson.Gson;
 
-import coldcoffee.brewfind.api.Objects.BrewFindQuery;
+import coldcoffee.brewfind.api.Objects.BrewFindObject;
 import coldcoffee.brewfind.api.Objects.BrewFindResponse;
 import coldcoffee.brewfind.api.Objects.BrewFindToken;
 import coldcoffee.brewfind.api.Objects.User;
+import coldcoffee.brewfind.api.Objects.UserQuery;
 import coldcoffee.brewfind.api.Services.UserService;
 
 // Controller to handle user...stuff
@@ -102,7 +104,7 @@ public class UserController {
 		// TODO: Create logic that verifies a brewery user as legitimate or not!!
 		
 		// Convert to query
-		BrewFindQuery query = gson.fromJson(body, BrewFindQuery.class);
+		UserQuery query = gson.fromJson(body, UserQuery.class);
 		
 		if(query == null) {
 			return new BrewFindResponse(9, "No query found");
@@ -145,19 +147,20 @@ public class UserController {
 	@PUT
 	public BrewFindResponse addUser(String body) {
 
-		BrewFindQuery query = gson.fromJson(body, BrewFindQuery.class);
+		UserQuery query = gson.fromJson(body, UserQuery.class);
 		
 		if(query == null) {
 			return new BrewFindResponse(9, "No query found");
 		}
 		
-		if(query.getQList().isEmpty()) {
+		if(query.getList().isEmpty()) {
 			return new BrewFindResponse(9, "No user found");
 		}
 		
-		User user = (User) query.getQList().get(0);
+		List<? extends BrewFindObject> user = query.getList();
+		User u = (User) user.get(0);
 		
-		return userService.createUser(user);
+		return userService.createUser(u);
 	}
 	
 	/**

@@ -18,11 +18,12 @@ import org.springframework.stereotype.Component;
 import com.google.gson.Gson;
 
 import coldcoffee.brewfind.api.Objects.BrewFindObject;
-import coldcoffee.brewfind.api.Objects.BrewFindQuery;
 import coldcoffee.brewfind.api.Objects.BrewFindResponse;
 import coldcoffee.brewfind.api.Objects.BrewFindToken;
 import coldcoffee.brewfind.api.Objects.Brewery;
+import coldcoffee.brewfind.api.Objects.BreweryQuery;
 import coldcoffee.brewfind.api.Objects.Version;
+import coldcoffee.brewfind.api.Objects.VersionQuery;
 import coldcoffee.brewfind.api.Services.BreweryService;
 import coldcoffee.brewfind.api.Services.UserService;
 
@@ -72,7 +73,7 @@ public class BreweryController {
 	public BrewFindResponse addBrewery(String json){
 		
 		//Convert into BreweryQuery
-		BrewFindQuery query = gson.fromJson(json, BrewFindQuery.class);
+		BreweryQuery query = gson.fromJson(json, BreweryQuery.class);
 		
 		// Null check
 		if(query == null){
@@ -105,7 +106,7 @@ public class BreweryController {
 	@Produces("application/json")
 	public BrewFindResponse updateBrewery(String json){
 		
-		BrewFindQuery query = gson.fromJson(json, BrewFindQuery.class);
+		BreweryQuery query = gson.fromJson(json, BreweryQuery.class);
 		
 		// Null check
 		if(query == null){
@@ -179,9 +180,12 @@ public class BreweryController {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
+	@Produces("application/json")
+	@Path("/update")
+	@POST
 	public BrewFindResponse versionCheck(String json){
 		
-		BrewFindQuery query = gson.fromJson(json, BrewFindQuery.class);
+		VersionQuery query = gson.fromJson(json, VersionQuery.class);
 		
 		// Null check
 		if(query == null){
@@ -192,8 +196,9 @@ public class BreweryController {
 		if(query.getToken() == null) {
 			return new BrewFindResponse(4, "No token found");
 		}
+		
 		//Send off to breweryUpdateService
-		return breweryService.UpdateClientBreweryinfo((List<Version>) query.getQList());
+		return breweryService.UpdateClientBreweryinfo(query.getList());
 		
 	}
 	

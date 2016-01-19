@@ -13,10 +13,10 @@ import org.glassfish.jersey.internal.util.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import coldcoffee.brewfind.api.Objects.BrewFindQuery;
 import coldcoffee.brewfind.api.Objects.BrewFindResponse;
 import coldcoffee.brewfind.api.Objects.BrewFindToken;
 import coldcoffee.brewfind.api.Objects.User;
+import coldcoffee.brewfind.api.Objects.UserQuery;
 import coldcoffee.brewfind.api.Repositories.UserRepository;
 
 @Service
@@ -104,7 +104,7 @@ public class UserService {
 		return new BrewFindResponse(0, "OK", toRet);
 	}
 	
-	public BrewFindResponse updateUserFromQuery(BrewFindQuery query) {
+	public BrewFindResponse updateUserFromQuery(UserQuery query) {
 		
 		// Check token
 		// If token check passes, user exists. 
@@ -114,12 +114,12 @@ public class UserService {
 				
 		String uname = Base64.decodeAsString(query.getToken().token);
 				
-		if(query.getQList().isEmpty()) {
+		if(query.getList().isEmpty()) {
 			return new BrewFindResponse(9, "No content found");
 		}
 				
 		// Check for updates
-		User newU = (User) query.getQList().get(0);
+		User newU = (User) query.getList().get(0);
 		User oldU = findUser(uname);
 		User toIns = safeUpdate(oldU, newU);
 				
