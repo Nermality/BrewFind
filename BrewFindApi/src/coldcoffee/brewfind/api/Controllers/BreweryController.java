@@ -158,18 +158,6 @@ public class BreweryController {
 	}
 	
 	/**
-	 * Copies information from an 'update' brewery object to their original object
-	 * This allows breweries to be updated with all or little information 
-	 * @param oldB - the brewerie's original brewery object
-	 * @param newB - brewery object containing updates
-	 * @return - fully updated, comprehensive brewery object
-	 */
-	public Brewery safeUpdate(Brewery oldB, Brewery newB) {
-		return null;
-		
-	}
-	
-	/**
 	 * An attempt at sanitizing data for MongoDB...
 	 * @param s - query string to sanitize
 	 * @return - string with all malice removed

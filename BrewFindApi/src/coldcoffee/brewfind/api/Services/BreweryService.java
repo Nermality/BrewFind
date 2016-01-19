@@ -158,6 +158,21 @@ public class BreweryService {
 		}
 		return curBrewMax;
 	}
+	
+	/**
+	 * Copies information from an 'update' brewery object to their original object
+	 * This allows breweries to be updated with all or little information 
+	 * @param oldB - the brewerie's original brewery object
+	 * @param newB - brewery object containing updates
+	 * @return - fully updated, comprehensive brewery object
+	 */
+	public Brewery safeUpdate(Brewery oldB, Brewery newB) {
+		
+		// only things update-able:
+		//	addr1, addr2, city, zip, phone, email, url
+		
+		return null;
+	}
 
 	/**
 	public boolean checkToken(BrewFindToken tok) {
