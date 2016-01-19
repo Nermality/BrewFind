@@ -25,8 +25,8 @@ public class BreweryService {
 		return breweryRepository.searchByBname(bname);
 	}
 
-	public Brewery findBrewery(int brewNum) {
-		return breweryRepository.searchByBrewNum(brewNum);
+	public Brewery findBrewery(int breweryNum) {
+		return breweryRepository.searchByBrewNum(breweryNum);
 	}
 	
 	public BrewFindResponse addBreweryFromQuery(BrewFindQuery query){
@@ -63,7 +63,7 @@ public class BreweryService {
 			if(findBrewery(curMax) != null) {
 				// TODO: Put this in the service and shit
 			}
-			newBrew.setB_brewNum(curMax);
+			newBrew.setB_breweryNum(curMax);
 			
 			// add brewery to database
 			newBrew = saveBrewery(newBrew);
@@ -90,7 +90,7 @@ public class BreweryService {
 			return new BrewFindResponse(10, "brewery failed to be created");
 		}
 	
-		 Brewery oldb = findBrewery(brewery.getB_brewNum());
+		 Brewery oldb = findBrewery(brewery.getB_breweryNum());
 		 
 		//Check if brewery is in database
 		if(oldb == null) {
@@ -134,10 +134,10 @@ public class BreweryService {
 			.max(new Comparator<Brewery>() {
 				@Override
 				public int compare(Brewery one, Brewery two) {
-					return one.getB_brewNum() - two.getB_brewNum(); 
+					return one.getB_breweryNum() - two.getB_breweryNum(); 
 				}
 			})
-			.get().getB_brewNum();
+			.get().getB_breweryNum();
 		
 		return toRet;
 	}

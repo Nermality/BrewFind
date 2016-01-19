@@ -29,7 +29,7 @@ public class Brewery extends BrewFindObject {
 		//public Boolean hasTours;
 		//public Boolean hasFood;
 		
-		public int b_brewNum;
+		public int b_breweryNum;
 		//public int b_version;
 		//public String b_admin
 		
@@ -40,12 +40,12 @@ public class Brewery extends BrewFindObject {
 	
 		//facebook
 	
-		public int getB_brewNum() {
-			return b_brewNum;
+		public int getB_breweryNum() {
+			return b_breweryNum;
 		}
 
-		public void setB_brewNum(int b_brewNum) {
-			this.b_brewNum = b_brewNum;
+		public void setB_breweryNum(int b_breweryNum) {
+			this.b_breweryNum = b_breweryNum;
 		}
 
 		public String getB_id() {
@@ -129,11 +129,11 @@ public class Brewery extends BrewFindObject {
 		
 		// On creation of a brewery the brewery can provide the following. 
 		//Other information will be entered at another point.
-		@PersistenceConstructor
-		public Brewery(int b_brewNum){
-			this.b_brewNum = b_brewNum;
+		public Brewery(int b_breweryNum){
+			this.b_breweryNum = b_breweryNum;
 		}
 		
+		@PersistenceConstructor
 		public Brewery(String b_name){
 			this.b_name = b_name;
 		}

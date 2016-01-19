@@ -13,6 +13,6 @@ public interface BreweryRepository extends MongoRepository<Brewery, String> {
 	@Query("{'b_name' : ?0}")
 	public Brewery searchByBname(String b_name);	
 	
-	@Query("{'b_brewNum' : ?0}")
-	public Brewery searchByBrewNum(int b_brewNum);
+	@Query("{'b_breweryNum' : ?0}")
+	public Brewery searchByBrewNum(int b_breweryNum);
 }

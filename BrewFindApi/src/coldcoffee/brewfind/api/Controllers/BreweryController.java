@@ -137,7 +137,7 @@ public class BreweryController {
 	@Produces("application/json")
 	@Path("/{id}")
 	@DELETE
-	public BrewFindResponse deleteBrewery(@PathParam("id") int brewNum, String json) {
+	public BrewFindResponse deleteBrewery(@PathParam("id") int breweryNum, String json) {
 		
 		BrewFindToken token=gson.fromJson(json, BrewFindToken.class);
 		
@@ -154,7 +154,7 @@ public class BreweryController {
 		}
 		
 		// SEND OFF TO SERVICE
-		return breweryService.deleteBreweryFromToken(token, brewNum);
+		return breweryService.deleteBreweryFromToken(token, breweryNum);
 	}
 	
 	/**
