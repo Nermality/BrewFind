@@ -13,21 +13,30 @@ function callAjax()
         url: "http://localhost:8080/brewery",
  		dataType: "jsonp",
 		
-        success: function(data) 
-        {
-          console.log("YO")  
+	
+		success: function(data){
+			newWin.document.write(data);
+			newWin.document.close();
+			newWin.focus();
+			newWin.print();
+			newWin.close();
+		
+		
+		
+        
         },
         error: function(err)
         {
             // throw error
         }
     });
-	
+
 }
 
 
      callAjax();
 
 </script>
+
 
 </html>

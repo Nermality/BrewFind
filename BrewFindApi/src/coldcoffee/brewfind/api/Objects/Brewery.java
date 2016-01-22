@@ -129,8 +129,14 @@ public class Brewery extends BrewFindObject {
 		
 		// On creation of a brewery the brewery can provide the following. 
 		//Other information will be entered at another point.
+<<<<<<< Updated upstream
 		public Brewery(int b_breweryNum){
 			this.b_breweryNum = b_breweryNum;
+=======
+		
+		public Brewery(int b_brewNum){
+			this.b_brewNum = b_brewNum;
+>>>>>>> Stashed changes
 		}
 		
 		@PersistenceConstructor
