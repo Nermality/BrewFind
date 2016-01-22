@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import coldcoffee.brewfind.api.Objects.BrewFindObject;
 import coldcoffee.brewfind.api.Objects.BrewFindResponse;
@@ -72,8 +73,14 @@ public class BreweryController {
 	@PUT
 	public BrewFindResponse addBrewery(String json){
 		
+		BreweryQuery query = null;
+		
 		//Convert into BreweryQuery
-		BreweryQuery query = gson.fromJson(json, BreweryQuery.class);
+		try {
+			query = gson.fromJson(json, BreweryQuery.class);
+		} catch (JsonSyntaxException e) {
+			return new BrewFindResponse(15, "Invalid object sent");
+		}
 		
 		// Null check
 		if(query == null){
@@ -106,7 +113,13 @@ public class BreweryController {
 	@Produces("application/json")
 	public BrewFindResponse updateBrewery(String json){
 		
-		BreweryQuery query = gson.fromJson(json, BreweryQuery.class);
+		BreweryQuery query = null;
+		
+		try {
+			query = gson.fromJson(json, BreweryQuery.class);
+		} catch (JsonSyntaxException e) {
+			return new BrewFindResponse(15, "Invalid object sent");
+		}
 		
 		// Null check
 		if(query == null){
@@ -141,8 +154,14 @@ public class BreweryController {
 	@DELETE
 	public BrewFindResponse deleteBrewery(@PathParam("id") int breweryNum, String json) {
 		
-		BrewFindToken token=gson.fromJson(json, BrewFindToken.class);
+		BrewFindToken token = null;
 		
+		try {
+			token=gson.fromJson(json, BrewFindToken.class);
+		} catch (JsonSyntaxException e) {
+			return new BrewFindResponse(15, "Invalid object sent");
+		}
+			
 		//Check if token was sent
 		if(token == null) {
 			return new BrewFindResponse(4, "No token found, authorization failed");
@@ -185,7 +204,13 @@ public class BreweryController {
 	@POST
 	public BrewFindResponse versionCheck(String json){
 		
-		VersionQuery query = gson.fromJson(json, VersionQuery.class);
+		VersionQuery query = null;
+		
+		try {	
+			query = gson.fromJson(json, VersionQuery.class);
+		} catch (JsonSyntaxException e) {
+			return new BrewFindResponse(15, "Invalid object sent");
+		}
 		
 		// Null check
 		if(query == null){

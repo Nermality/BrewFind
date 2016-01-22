@@ -25,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import coldcoffee.brewfind.api.Objects.BrewFindObject;
 import coldcoffee.brewfind.api.Objects.BrewFindResponse;
@@ -80,7 +81,13 @@ public class UserController {
 	@GET
 	public BrewFindResponse getUser(String body) {
 		
-		BrewFindToken token = gson.fromJson(body, BrewFindToken.class);
+		BrewFindToken token = null;
+		
+		try {
+			token = gson.fromJson(body, BrewFindToken.class);
+		} catch( JsonSyntaxException e ) {
+			return new BrewFindResponse(15, "Invalid object sent");
+		}
 		
 		// Null check
 		if(token == null) {
@@ -102,9 +109,13 @@ public class UserController {
 	public BrewFindResponse updateUser(String body) {
 		
 		// TODO: Create logic that verifies a brewery user as legitimate or not!!
-		
+		UserQuery query = null;
 		// Convert to query
-		UserQuery query = gson.fromJson(body, UserQuery.class);
+		try {
+			query = gson.fromJson(body, UserQuery.class);
+		} catch (JsonSyntaxException e) {
+			return new BrewFindResponse(15, "Invalid object sent");
+		}
 		
 		if(query == null) {
 			return new BrewFindResponse(9, "No query found");
@@ -127,7 +138,13 @@ public class UserController {
 	@DELETE
 	public BrewFindResponse deleteUser(String body) {
 		
-		BrewFindToken tok = gson.fromJson(body, BrewFindToken.class);
+		BrewFindToken tok = null;
+		
+		try {
+			tok = gson.fromJson(body, BrewFindToken.class);
+		} catch (JsonSyntaxException e) {
+			return new BrewFindResponse(15, "Invalid object sent");
+		}
 		
 		// No token - fail
 		if(tok == null) {
@@ -147,7 +164,13 @@ public class UserController {
 	@PUT
 	public BrewFindResponse addUser(String body) {
 
-		UserQuery query = gson.fromJson(body, UserQuery.class);
+		UserQuery query = null;
+		
+		try {
+			query = gson.fromJson(body, UserQuery.class);
+		} catch (JsonSyntaxException e) {
+			return new BrewFindResponse(15, "Invalid object sent");
+		}
 		
 		if(query == null) {
 			return new BrewFindResponse(9, "No query found");
