@@ -19,6 +19,8 @@ public class BrewFindApplication extends SpringBootServletInitializer {
 	 	new BrewFindApplication() 
 	 		.configure(new SpringApplicationBuilder(BrewFindApplication.class)) 
 			.run(args); 
+	 	
+	 	
 	} 
 
 }

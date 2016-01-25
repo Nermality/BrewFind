@@ -134,12 +134,12 @@ public class BreweryService {
 	 */
 	public BrewFindResponse UpdateClientBreweryinfo(List<Version> version){
 		List<BrewFindObject> breweries = new ArrayList<BrewFindObject>();
-		int maxBrew=0;
+		int maxBrew = 0;
 		for(Version v : version){
 			
 			//Check if brewery is in database if not found then will set it to be removed client side
 			if(maxBrew < v.getV_brewNum()){
-			maxBrew = v.getV_brewNum();
+				maxBrew = v.getV_brewNum();
 			}
 			
 			if(findBrewery(v.getV_brewNum()) == null) {
