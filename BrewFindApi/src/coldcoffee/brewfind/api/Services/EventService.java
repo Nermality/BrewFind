@@ -16,12 +16,14 @@ public class EventService {
 	private Calendar CALENDAR;
 		
 	public EventService() {
+	/*
 		try {
 			CALENDAR = GoogleCalendarService.getCalendarService();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	*/
 	}
 	
 	public Events getTests(){
