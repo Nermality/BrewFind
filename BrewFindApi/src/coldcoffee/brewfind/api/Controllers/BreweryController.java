@@ -16,12 +16,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import coldcoffee.brewfind.api.Objects.BrewFindObject;
-import coldcoffee.brewfind.api.Objects.BrewFindQuery;
 import coldcoffee.brewfind.api.Objects.BrewFindResponse;
 import coldcoffee.brewfind.api.Objects.BrewFindToken;
 import coldcoffee.brewfind.api.Objects.Brewery;
+import coldcoffee.brewfind.api.Objects.BreweryQuery;
+import coldcoffee.brewfind.api.Objects.Version;
+import coldcoffee.brewfind.api.Objects.VersionQuery;
 import coldcoffee.brewfind.api.Services.BreweryService;
 import coldcoffee.brewfind.api.Services.UserService;
 
@@ -70,8 +73,14 @@ public class BreweryController {
 	@PUT
 	public BrewFindResponse addBrewery(String json){
 		
+		BreweryQuery query = null;
+		
 		//Convert into BreweryQuery
-		BrewFindQuery query = gson.fromJson(json, BrewFindQuery.class);
+		try {
+			query = gson.fromJson(json, BreweryQuery.class);
+		} catch (JsonSyntaxException e) {
+			return new BrewFindResponse(15, "Invalid object sent");
+		}
 		
 		// Null check
 		if(query == null){
@@ -104,7 +113,13 @@ public class BreweryController {
 	@Produces("application/json")
 	public BrewFindResponse updateBrewery(String json){
 		
-		BrewFindQuery query = gson.fromJson(json, BrewFindQuery.class);
+		BreweryQuery query = null;
+		
+		try {
+			query = gson.fromJson(json, BreweryQuery.class);
+		} catch (JsonSyntaxException e) {
+			return new BrewFindResponse(15, "Invalid object sent");
+		}
 		
 		// Null check
 		if(query == null){
@@ -139,8 +154,14 @@ public class BreweryController {
 	@DELETE
 	public BrewFindResponse deleteBrewery(@PathParam("id") int breweryNum, String json) {
 		
-		BrewFindToken token=gson.fromJson(json, BrewFindToken.class);
+		BrewFindToken token = null;
 		
+		try {
+			token=gson.fromJson(json, BrewFindToken.class);
+		} catch (JsonSyntaxException e) {
+			return new BrewFindResponse(15, "Invalid object sent");
+		}
+			
 		//Check if token was sent
 		if(token == null) {
 			return new BrewFindResponse(4, "No token found, authorization failed");
@@ -158,18 +179,6 @@ public class BreweryController {
 	}
 	
 	/**
-	 * Copies information from an 'update' brewery object to their original object
-	 * This allows breweries to be updated with all or little information 
-	 * @param oldB - the brewerie's original brewery object
-	 * @param newB - brewery object containing updates
-	 * @return - fully updated, comprehensive brewery object
-	 */
-	public Brewery safeUpdate(Brewery oldB, Brewery newB) {
-		return null;
-		
-	}
-	
-	/**
 	 * An attempt at sanitizing data for MongoDB...
 	 * @param s - query string to sanitize
 	 * @return - string with all malice removed
@@ -184,6 +193,39 @@ public class BreweryController {
 		return s;
 	}
 	
+	/**
+	 * Compare the clients breweries/brewery and the server cache versions 
+	 * @param json
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	@Produces("application/json")
+	@Path("/update")
+	@POST
+	public BrewFindResponse versionCheck(String json){
+		
+		VersionQuery query = null;
+		
+		try {	
+			query = gson.fromJson(json, VersionQuery.class);
+		} catch (JsonSyntaxException e) {
+			return new BrewFindResponse(15, "Invalid object sent");
+		}
+		
+		// Null check
+		if(query == null){
+			return new BrewFindResponse(9, "Query failed, query returned null");
+		}
+	
+		//Check if token was sent
+		if(query.getToken() == null) {
+			return new BrewFindResponse(4, "No token found");
+		}
+		
+		//Send off to breweryUpdateService
+		return breweryService.UpdateClientBreweryinfo(query.getList());
+		
+	}
 	
 
 }

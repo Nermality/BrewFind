@@ -13,33 +13,32 @@ public class Brewery extends BrewFindObject {
 		
 		public String b_name;
 		
-		public String addr1;		
-		public String addr2;
-		public String city;
-		public String state;
-		public String zip;
+		public String b_addr1;		
+		public String b_addr2;
+		public String b_city;
+		public String b_state;
+		public String b_zip;
 	
+		public String b_phone;
+		public String b_email;
+		public String b_url;
 		
-		public String phone;
-		public String email;
-		public String url;
+		public String b_description;
 		
-		//public String b_description;
-		
-		//public Boolean hasTours;
-		//public Boolean hasFood;
+		public Boolean b_hasTours;
+		public Boolean b_hasFood;
 		
 		public int b_breweryNum;
-		//public int b_version;
+		public int b_version;
 		//public String b_admin
 		
-		//public String b_logoImage;
-		//public Double b_rating;
+		public String b_logoImage;
+		public Double b_rating;
 		
 		//public Set<Drink> b_drinkList;
 	
 		//facebook
-	
+		
 		public int getB_breweryNum() {
 			return b_breweryNum;
 		}
@@ -48,8 +47,12 @@ public class Brewery extends BrewFindObject {
 			this.b_breweryNum = b_breweryNum;
 		}
 
-		public String getB_id() {
-			return b_id;
+		public int getB_version() {
+			return b_version;
+		}
+
+		public void setB_version(int b_version) {
+			this.b_version = b_version;
 		}
 
 		public String getB_name() {
@@ -60,68 +63,74 @@ public class Brewery extends BrewFindObject {
 			this.b_name = b_name;
 		}
 
-		public String getAddr1() {
-			return addr1;
+		public String getB_addr1() {
+			return b_addr1;
 		}
 
-		public void setAddr1(String addr1) {
-			this.addr1 = addr1;
+		public void setB_addr1(String b_addr1) {
+			this.b_addr1 = b_addr1;
 		}
 
-		public String getAddr2() {
-			return addr2;
+		public String getB_addr2() {
+			return b_addr2;
 		}
 
-		public void setAddr2(String addr2) {
-			this.addr2 = addr2;
+		public void setB_addr2(String b_addr2) {
+			this.b_addr2 = b_addr2;
 		}
 
-		public String getCity() {
-			return city;
+		public String getB_city() {
+			return b_city;
 		}
 
-		public void setCity(String city) {
-			this.city = city;
+		public void setB_city(String b_city) {
+			this.b_city = b_city;
 		}
 
-		public String getState() {
-			return state;
+		public String getB_state() {
+			return b_state;
 		}
 
-		public void setState(String state) {
-			this.state = state;
+		public void setB_state(String b_state) {
+			this.b_state = b_state;
 		}
 
-		public String getZip() {
-			return zip;
+		public String getB_zip() {
+			return b_zip;
 		}
 
-		public void setZip(String zip) {
-			this.zip = zip;
+		public void setB_zip(String b_zip) {
+			this.b_zip = b_zip;
 		}
 
-		public String getPhone() {
-			return phone;
+		public String getB_phone() {
+			return b_phone;
 		}
 
-		public void setPhone(String phone) {
-			this.phone = phone;
+		public void setB_phone(String b_phone) {
+			this.b_phone = b_phone;
 		}
 
-		public String getEmail() {
-			return email;
+		public String getB_email() {
+			return b_email;
 		}
 
-		public void setEmail(String email) {
-			this.email = email;
+		public void setB_email(String b_email) {
+			this.b_email = b_email;
 		}
 
-		public String getUrl() {
-			return url;
+		public String getB_url() {
+			return b_url;
 		}
 
-		public void setUrl(String url) {
-			this.url = url;
+		public void setB_url(String b_url) {
+			this.b_url = b_url;
+		}
+		public int getVersion(){
+			return b_version;
+		}
+		public void setVersion(int version){
+			this.b_version=version;
 		}
 		
 		public Brewery() 
@@ -142,9 +151,9 @@ public class Brewery extends BrewFindObject {
 		@Override
 		public String toString() {
 			return "Brewery: [ name = " + b_name 
-							 + ", Phone = " + phone 
-							 + ", Email = " + email
-							 + ", Website = " + url + "]";
+							 + ", Phone = " + b_phone 
+							 + ", Email = " + b_email
+							 + ", Website = " + b_url + "]";
 		}
 		
 }

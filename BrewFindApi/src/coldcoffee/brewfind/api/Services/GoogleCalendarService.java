@@ -26,7 +26,7 @@ public class GoogleCalendarService {
         "BrewFind Google Calendar Integration";
 
     /** Directory to store user credentials for this application. */
-    private static final java.io.File DATA_STORE_DIR = new java.io.File("C:\\Users\\user\\Documents\\BrewFind");
+    private static final java.io.File DATA_STORE_DIR = new java.io.File("C:\\Users\\user\\BrewFind");
 
     /** Global instance of the {@link FileDataStoreFactory}. */
     private static FileDataStoreFactory DATA_STORE_FACTORY;
@@ -40,7 +40,8 @@ public class GoogleCalendarService {
 
     /** Global instance of the scopes required by this quickstart. */
     private static List<String> SCOPES = Arrays.asList(CalendarScopes.CALENDAR);
-/**
+
+    /*
     static {
         try {
             HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
@@ -50,7 +51,8 @@ public class GoogleCalendarService {
             System.exit(1);
         }
     }
-**/
+    */
+
     /**
      * Creates an authorized Credential object.
      * @return an authorized Credential object.
@@ -72,7 +74,7 @@ public class GoogleCalendarService {
                 .build();
         
         Credential credential = new AuthorizationCodeInstalledApp(
-            flow, new LocalServerReceiver.Builder().setPort(8080).build()).authorize("user");
+            flow, new LocalServerReceiver.Builder().setPort(8081).build()).authorize("user");
         System.out.println(
                 "Credentials saved to " + DATA_STORE_DIR.getAbsolutePath());
         return credential;
