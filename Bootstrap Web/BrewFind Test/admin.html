@@ -37,6 +37,34 @@ function callAjax()
      callAjax();
 
 </script>
+<body>
+<?php
+$B = urlencode('Brewery');
+$E = urlencode('Event');
+$U = urlencode('User');
+$T = urlencode('Tap');
+
+$endpoint = 'http://localhost:8080/brewery' . '&q=' . $B . $E . $U . $T;
+
+$session = curl_init($endpoint);
+
+curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
+
+$data = curl_exec($session);
+
+curl_close($session);
+
+$search_results = json_decode($data);
+	if ($search_results === NULL) die('Error parsing json');
+	
+	$breweries = $search_results->movies;
+	echo '<ul>';
+	foreach ($breweries as $brewery) {
+	  echo '<li><a href="' . $brewery->links->alternate . '">' . $brewery->title . " (" . $brewery->year . ")</a></li>";
+	}
+	echo '</ul>';
 
 
+?>
+</body>
 </html>
