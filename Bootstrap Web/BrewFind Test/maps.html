@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-3.3.0.js"></script>
 <script src="http://maps.googleapis.com/maps/api/js?AIzaSyCsIrpOH1R74PPfmCCeIbHZmfSIOzXbTgk"></script>
 
 <script>
@@ -61,27 +62,20 @@ google.maps.event.addDomListener(window, 'load', initialize);
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
+				
+                
                 <!-- navbar-brand is hidden on larger screens, but visible when the menu is collapsed -->
                 <a class="navbar-brand" href="index.html">Business Casual</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
-              <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-			<div>
-			<ul>
-				<li>
-				<img class="img-block" border="0" src="img/apple_badge.png" alt="">
-			</li>
-			<li> 
-				<img class="img-block" border="0" src="img/download_android.png" alt="">
-				</li>
-			</div>
-                <ul class="nav navbar-nav">
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav">
+	
+		
+			
+			
+               
+               
                     <li>
                         <a href="index.html">Home</a>
                     </li>
@@ -92,55 +86,56 @@ google.maps.event.addDomListener(window, 'load', initialize);
                         <a href="events.html">Calender</a>
                     </li>
 					<li>
-                        <a href="profile.html">Profile</a>
-                    </li>
-					<li>
                         <a href="maps.html">Map</a>
                     </li>
+					<li>
+                        <a href="aboutUs.html">About Us</a>
+                    </li>
 				</ul>
+				
             </div>
-			</ul>
             <!-- /.navbar-collapse -->
         </div>
-		</nav>
+        <!-- /.container -->
+    </nav>
 		</div>
        <div class="container">
 	   <div class="box">
-	    <div class="col-md-8">
-		 <strong>Magic Hat Brewery</strong>
+	    <div class="col-md-3">
+		 <strong>Search for Brewery by name:</strong>
+		 <p><br></p>
                 <div class="col-md-3">
-					<form>Search for Brewery by name:<br>
-						<input type="text" name="firstname">
-						
-					</form>
-                       <strong>Magic Hat Brewery <br>
-							Alchemist <br>
-							Red Bridge <br>			
-						</strong>
+					
+					<div class ="breweries" style="height:450px;width:200px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;" data-bind="foreach: breweries">
+						<a data-bind="text: name" ></a>
+						<br>
+				 	</div>
+					 
+                      
                 </div>
-				
-                <div class="col-md-6" id="googleMap" style="width:600px;height:600px;"></div>
-        </div>
+				</div>
+                <div class="col-md-6" id="googleMap" style="width:500px;height:500px;"></div>
+        
                 <div class="col-md-3" >
-						                   
-                    <p><strong>Magic Hat Brewery:</strong><br>
-					    Address: <br>
-						Phone #: <br>
-						Email: <br>
-						Open to public <br>
-						Growlers? <br> 
-						Open hours: <br>
-						List of all their beers: <br>
-						Seasonal Beers: <br>
-						Current Tap list: <br>
-                    </p>
+					<strong>Magic Hat Brewery:</strong>
+					<div class ="breweries" style="height:400px;width:250px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;" >
+					 <p>Address: </p>
+					 <p>Phone#:</p>
+					 <p>Email: </p>
+					 <p>Open to public</p>
+					 <p>Open hours: </p>
+					 
+					 
+				 	</div>
+	                   
+                    
                    
                 </div>
 	</div>	
 	</div>
 	</div>				
 
-    <footer>
+        <footer>
 	<nav class="navbar navbar-default" role="navigation">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -158,14 +153,88 @@ google.maps.event.addDomListener(window, 'load', initialize);
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
+					
 					<li>
-                        <a href="contact.html">Contact</a>
-                    </li>
-					<li>
-					<a href="registerBrewery.html">RegisterBrewery</a>
+					<p><font size="1">Copyright &copy; BrewFind 2015</font></p>
 					</li>
+					<li><p>&nbsp</p></li>
+					<li><p>&nbsp</p></li>
+					<li><p>&nbsp</p></li>
+					<li><p>&nbsp</p></li>
+					<li><p>&nbsp</p></li>
+					<li><p>&nbsp</p></li>
+					<li><p>&nbsp</p></li>
+					
+					
 					<li>
-					<a>Copyright &copy; BrewFind 2015</a>
+					<li>  
+   <form name="login">
+   <table>
+   <tr><br></tr>
+   <tr>
+		<td><font size="1">Username</font><input type="text" style="font-size: 8pt" name="userid" width="6" height="2" /></td>
+		<td><input type="button" style="font-size: 8pt" onclick="check(this.form)"  height="3" value="Login"/></td></tr>
+		<tr><td><font size="1">Password</font><input type="password" style="font-size: 8pt" name="pswrd" width="6" height="2"/></td>
+		<td><input type="reset" style="font-size: 8pt" value="Cancel" height="3" /></td></tr></table>
+		</form></li>
+	<script>	
+		function makeBrewery(name, email, phone) {
+		var self = this;
+		self.name = name;
+		self.email = email;
+		self.phone = phone;
+		
+	}
+	
+	var apiUrl = "http://localhost:8080/brewery";
+
+	var breweries = ko.observableArray();
+	
+	$.ajax({
+		type: "GET",
+		url: apiUrl,
+		dataType: "json",
+		
+		success: function(data) 
+		{
+			console.log("Got data!");
+			console.log(data);
+			rawBrews = data.rObj;
+			rawBrews.forEach(function(entry) {
+				console.log("Pushing " + entry.b_name);
+				breweries.push(new makeBrewery(entry.b_name, entry.b_email, entry.b_phone));
+			})
+		},
+		error: function(err)
+		{
+			console.log("Didn't get data...");
+			console.log(err);
+		}
+	});
+	
+	ko.applyBindings(breweries);
+
+	
+</script>
+
+		<script language="javascript">
+		function check(form)/*function to check userid & password*/
+		{
+		 /*the following code checkes whether the entered userid and password are matching*/
+		 if(form.userid.value == "myuserid" && form.pswrd.value == "mypswrd")
+		  {
+			window.open('brewcenter.html')/*opens the target page while Id & password matches*/
+		  }
+		 else
+		 {
+		   alert("Error Password or Username")/*displays error message*/
+		  }
+		}
+		</script>
+		
+					
+					
+					
 					</li>
 				</ul>
             </div>

@@ -6590,4 +6590,7 @@ button.close {
     display: none !important;
   }
 }
+.brewery {
+page-break-after: always;
+}
 /*# sourceMappingURL=bootstrap.css.map */
