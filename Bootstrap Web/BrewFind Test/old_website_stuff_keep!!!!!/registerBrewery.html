@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<script src="http://maps.googleapis.com/maps/api/js?AIzaSyCsIrpOH1R74PPfmCCeIbHZmfSIOzXbTgk"></script>
+
+<script>
+function initialize() {
+  var mapProp = {
+    center:new google.maps.LatLng(44.4758,-73.2119),
+    zoom:11,
+    mapTypeId:google.maps.MapTypeId.ROADMAP
+  };
+  var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+  
+  var marker = new google.maps.Marker({
+    position: myLatLng,
+    map: map,
+    title: 'Hello World!'
+  });
+}
+google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Contact - Business Casual - Start Bootstrap Theme</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/business-casual.css" rel="stylesheet">
+
+    <!-- Fonts -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Josefin+Slab:100,300,400,600,700,100italic,300italic,400italic,600italic,700italic" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <div class="brand">BrewFind</div>
+    
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <!-- navbar-brand is hidden on larger screens, but visible when the menu is collapsed -->
+                <a class="navbar-brand" href="index.html">Business Casual</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+              <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<div>
+			<ul>
+				<li>
+				<img class="img-block" border="0" src="img/apple_badge.png" alt="">
+			</li>
+			<li> 
+				<img class="img-block" border="0" src="img/download_android.png" alt="">
+				</li>
+			</div>
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="index.html">Home</a>
+                    </li>
+                    <li>
+                        <a href="breweries.html">Breweries</a>
+                    </li>
+                    <li>
+                        <a href="events.html">Calender</a>
+                    </li>
+					<li>
+                        <a href="profile.html">Profile</a>
+                    </li>
+					<li>
+                        <a href="maps.html">Map</a>
+                    </li>
+				</ul>
+            </div>
+			</ul>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <div class="container">
+<!DOCTYPE html>  
+<html lang="en"><head>  
+<meta charset="utf-8">  
+<title>JavaScript Form Validation using a sample registration form</title>  
+<meta name="keywords" content="example, JavaScript Form Validation, Sample registration form" />  
+<meta name="description" content="This document is an example of JavaScript Form Validation using a sample registration form. " />  
+<link rel='stylesheet' href='js-form-validation.css' type='text/css' />  
+<script src="sample-registration-form-validation.js"></script>  
+</head>  
+<body onload="document.registration.userid.focus();">  
+<h1 style="color:white">Brewery Registration Form</h1>  
+<form name='registration' onSubmit="return formValidation();">  
+<ul style="list-style-type:none">  
+<li style="color:white"><label for="code#">Code#:</label></li>  
+<li><input type="text" name="userid" size="12" /></li>  
+<li style="color:white"><label color="white" for="passid">Password:</label></li>  
+<li><input type="password" name="passid" size="12" /></li>  
+<li style="color:white"><label color="white" for="username">Name:</label></li>  
+<li><input type="text" name="username" size="50" /></li>  
+<li style="color:white"><label color="white" for="address">Address:</label></li>  
+<li><input type="text" name="address" size="50" /></li>  
+<li style="color:white"><label color="white" for="zip">ZIP Code:</label></li>  
+<li><input type="text" name="zip" /></li>
+<li style="color:white"><label for="phone#">Phone Number 555-555-5555</label></li>  
+<li><input type="text" name="number" size="10" /></li>    
+<li style="color:white"><label color="white" for="email">Email:</label></li>  
+<li><input type="text" name="email" size="50" /></li>  
+ 
+<li style="color:black"><input type="submit" name="submit" value="Submit" onclick="myFunction()"/></li>  
+   <script language="javascript">
+function myFunction() {
+    alert("You have just registered.");
+}
+</script>
+
+</ul>  
+</form>  
+
+</body>  
+</html>
+     
+
+    </div>
+    <!-- /.container -->
+
+    <footer>
+	<nav class="navbar navbar-default" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+				
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <!-- navbar-brand is hidden on larger screens, but visible when the menu is collapsed -->
+                <a class="navbar-brand" href="index.html">Business Casual</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+					<li>
+                        <a href="contact.html">Contact</a>
+                    </li>
+					<li>
+					<a href="registerBrewery.html">RegisterBrewery</a>
+					</li>
+					<li>
+					<a>Copyright &copy; BrewFind 2015</a>
+					</li>
+				</ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+        
+    </footer>
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
