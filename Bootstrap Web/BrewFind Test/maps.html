@@ -1,29 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-3.3.0.js"></script>
 <script src="http://maps.googleapis.com/maps/api/js?AIzaSyCsIrpOH1R74PPfmCCeIbHZmfSIOzXbTgk"></script>
-
 <script>
-function initialize() {
-  var mapProp = {
-    center:new google.maps.LatLng(44.4758,-73.2119),
-    zoom:11,
-    mapTypeId:google.maps.MapTypeId.ROADMAP
-  };
-  var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
-  
-  var marker = new google.maps.Marker({
-    position: myLatLng,
-    map: map,
-    title: 'Hello World!'
-  });
-}
-google.maps.event.addDomListener(window, 'load', initialize);
+	function initialize() 
+	{
+		var mapProp = 
+		{
+			center:new google.maps.LatLng(44.4758,-73.2119),
+			zoom:11,
+			mapTypeId:google.maps.MapTypeId.ROADMAP
+		};
+		var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+		var marker = new google.maps.Marker(
+		{
+			position: myLatLng,
+				map: map,
+		title: 'Hello World!'
+		});
+	}
+	google.maps.event.addDomListener(window, 'load', initialize);
 </script>
 
 <head>
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+</script>
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -54,28 +57,19 @@ google.maps.event.addDomListener(window, 'load', initialize);
 
 <body>
 	<div class="container">
-    <div class="brand">BrewFind</div>
-   <!-- <div class="address-bar">3481 Melrose Place | Beverly Hills, CA 90210 | 123.456.7890</div> -->
-
-    <!-- Navigation -->
-    <nav class="navbar navbar-default" role="navigation">
-        <div class="container">
+		<div class="brand">BrewFind</div>
+		<!-- <div class="address-bar">3481 Melrose Place | Beverly Hills, CA 90210 | 123.456.7890</div> -->
+		<!-- Navigation -->
+		<nav class="navbar navbar-default" role="navigation">
+		<div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
-				
-                
                 <!-- navbar-brand is hidden on larger screens, but visible when the menu is collapsed -->
                 <a class="navbar-brand" href="index.html">Business Casual</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-			<ul class="nav navbar-nav">
-	
-		
-			
-			
-               
-               
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
                     <li>
                         <a href="index.html">Home</a>
                     </li>
@@ -92,31 +86,27 @@ google.maps.event.addDomListener(window, 'load', initialize);
                         <a href="aboutUs.html">About Us</a>
                     </li>
 				</ul>
-				
             </div>
             <!-- /.navbar-collapse -->
         </div>
         <!-- /.container -->
-    </nav>
-		</div>
-       <div class="container">
-	   <div class="box">
-	    <div class="col-md-3">
-		 <strong>Search for Brewery by name:</strong>
-		 <p><br></p>
-                <div class="col-md-3">
-					
-					<div class ="breweries" style="height:450px;width:200px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;" data-bind="foreach: breweries">
-						<a data-bind="text: name" ></a>
+		</nav>
+	</div>
+		<div class="container">
+			<div class="box">
+				<div class="col-md-3">
+				<strong>Search for Brewery by name:</strong>
+				<p><br></p>
+					<div class="col-md-3">
+						<div class ="breweries" style="height:450px;width:200px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;" data-bind="foreach: breweries">
+						<a data-bind="text: name"></a>
 						<br>
-				 	</div>
-					 
-                      
-                </div>
+						</div>
+					</div>
 				</div>
                 <div class="col-md-6" id="googleMap" style="width:500px;height:500px;"></div>
         
-                <div class="col-md-3" >
+				<div class="col-md-3" >
 					<strong>Magic Hat Brewery:</strong>
 					<div class ="breweries" style="height:400px;width:250px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;" >
 					 <p>Address: </p>
@@ -124,140 +114,115 @@ google.maps.event.addDomListener(window, 'load', initialize);
 					 <p>Email: </p>
 					 <p>Open to public</p>
 					 <p>Open hours: </p>
-					 
-					 
-				 	</div>
-	                   
-                    
-                   
+					</div>
                 </div>
-	</div>	
-	</div>
+			</div>	
+		</div>
 	</div>				
 
-        <footer>
-	<nav class="navbar navbar-default" role="navigation">
-        <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-				
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <!-- navbar-brand is hidden on larger screens, but visible when the menu is collapsed -->
-                <a class="navbar-brand" href="index.html">Business Casual</a>
-            </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-					
-					<li>
-					<p><font size="1">Copyright &copy; BrewFind 2015</font></p>
-					</li>
-					<li><p>&nbsp</p></li>
-					<li><p>&nbsp</p></li>
-					<li><p>&nbsp</p></li>
-					<li><p>&nbsp</p></li>
-					<li><p>&nbsp</p></li>
-					<li><p>&nbsp</p></li>
-					<li><p>&nbsp</p></li>
-					
-					
-					<li>
-					<li>  
-   <form name="login">
-   <table>
-   <tr><br></tr>
-   <tr>
-		<td><font size="1">Username</font><input type="text" style="font-size: 8pt" name="userid" width="6" height="2" /></td>
-		<td><input type="button" style="font-size: 8pt" onclick="check(this.form)"  height="3" value="Login"/></td></tr>
-		<tr><td><font size="1">Password</font><input type="password" style="font-size: 8pt" name="pswrd" width="6" height="2"/></td>
-		<td><input type="reset" style="font-size: 8pt" value="Cancel" height="3" /></td></tr></table>
-		</form></li>
-	<script>	
-		function makeBrewery(name, email, phone) {
-		var self = this;
-		self.name = name;
-		self.email = email;
-		self.phone = phone;
-		
-	}
-	
-	var apiUrl = "http://localhost:8080/brewery";
-
-	var breweries = ko.observableArray();
-	
-	$.ajax({
-		type: "GET",
-		url: apiUrl,
-		dataType: "json",
-		
-		success: function(data) 
-		{
-			console.log("Got data!");
-			console.log(data);
-			rawBrews = data.rObj;
-			rawBrews.forEach(function(entry) {
-				console.log("Pushing " + entry.b_name);
-				breweries.push(new makeBrewery(entry.b_name, entry.b_email, entry.b_phone));
-			})
-		},
-		error: function(err)
-		{
-			console.log("Didn't get data...");
-			console.log(err);
-		}
-	});
-	
-	ko.applyBindings(breweries);
-
-	
-</script>
-
-		<script language="javascript">
-		function check(form)/*function to check userid & password*/
-		{
-		 /*the following code checkes whether the entered userid and password are matching*/
-		 if(form.userid.value == "myuserid" && form.pswrd.value == "mypswrd")
-		  {
-			window.open('brewcenter.html')/*opens the target page while Id & password matches*/
-		  }
-		 else
-		 {
-		   alert("Error Password or Username")/*displays error message*/
-		  }
-		}
-		</script>
-		
-					
-					
-					
-					</li>
-				</ul>
-            </div>
-            <!-- /.navbar-collapse -->
-        </div>
+    <footer>
+		<nav class="navbar navbar-default" role="navigation">
+			<div class="container">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<!-- navbar-brand is hidden on larger screens, but visible when the menu is collapsed -->
+					<a class="navbar-brand" href="index.html">Business Casual</a>
+				</div>
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav">
+						<li><p><font size="1">Copyright &copy; BrewFind 2015</font></p></li>
+						<li><p>&nbsp</p></li>
+						<li><p>&nbsp</p></li>
+						<li><p>&nbsp</p></li>
+						<li><p>&nbsp</p></li>
+						<li><p>&nbsp</p></li>
+						<li><p>&nbsp</p></li>
+						<li><p>&nbsp</p></li>
+						<li>
+						<li>  
+						<form name="login">
+						<table>
+							<tr><br></tr>
+							<tr>
+							<td><font size="1">Username</font><input type="text" style="font-size: 8pt" name="userid" width="6" height="2" /></td>
+							<td><input type="button" style="font-size: 8pt" onclick="check(this.form)"  height="3" value="Login"/></td></tr>
+							<tr><td><font size="1">Password</font><input type="password" style="font-size: 8pt" name="pswrd" width="6" height="2"/></td>
+							<td><input type="reset" style="font-size: 8pt" value="Cancel" height="3" /></td></tr></table>
+						</form></li>
+						<script>	
+							function makeBrewery(name, email, phone) 
+							{
+								var self = this;
+								self.name = name;
+								self.email = email;
+								self.phone = phone;
+							}		
+							var apiUrl = "http://localhost:8080/brewery";
+							var breweries = ko.observableArray();
+						
+							$.ajax
+							({
+								type: "GET",
+								url: apiUrl,
+								dataType: "json",
+							
+								success: function(data) 
+								{
+									console.log("Got data!");
+									console.log(data);
+									rawBrews = data.rObj;
+									rawBrews.forEach(function(entry) 
+									{
+										console.log("Pushing " + entry.b_name);
+										breweries.push(new makeBrewery(entry.b_name, entry.b_email, entry.b_phone));
+									})
+								},
+								error: function(err)
+								{
+									console.log("Didn't get data...");
+									console.log(err);
+								}
+							});
+							ko.applyBindings(breweries);
+						</script>
+						<script language="javascript">
+							function check(form)/*function to check userid & password*/
+							{
+								/*the following code checkes whether the entered userid and password are matching*/
+								if(form.userid.value == "myuserid" && form.pswrd.value == "mypswrd")
+								{
+									window.open('brewcenter.html')/*opens the target page while Id & password matches*/
+								}
+								else
+								{
+							   alert("Error Password or Username")/*displays error message*/
+								}
+							}
+						</script>
+						</li>
+					</ul>
+				</div>
+				<!-- /.navbar-collapse -->
+			</div>
         <!-- /.container -->
-    </nav>
-        
+		</nav>
     </footer>
-
     <!-- jQuery -->
     <script src="js/jquery.js"></script>
-
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
-
     <!-- Script to Activate the Carousel -->
     <script>
-    $('.carousel').carousel({
-        interval: 5000 //changes the speed
-    })
+		$('.carousel').carousel({
+			interval: 5000 //changes the speed
+		})
     </script>
-
 </body>
-
 </html>
