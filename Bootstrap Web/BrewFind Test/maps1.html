@@ -100,8 +100,7 @@
 					<div class="col-md-2">
 						<div class ="breweries" style="height:450px;width:250px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;" data-bind="foreach: breweries">
 								<!-- this is where i was trying to get the on click function.  This is my site for reference. http://www.w3schools.com/jsref/event_onclick.asp The code is only partialy implemented. -->
-								<a data-bind="text: b_name" onclick = "populate_brewery" ></a>
-								
+								<a data-bind="text: name" ></a>
 								<br>
 							</div>
 					</div>
@@ -111,6 +110,11 @@
 				<div class="col-md-3" >
 				
 					<strong id = "mybrewery" >Brewery:</strong>
+						<script>
+							function makeBrewery(name, email, phone, address)
+							alert('The length of the array is ' + myObservableArray().length);
+							alert('The first element is ' + myObservableArray()[0]);
+						</script>
 					<div class ="breweries" style="height:400px;width:250px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;" >
 					 <p id = "myaddress">Address:</p>
 					 <p id = "myphone">Phone#:</p>
@@ -184,7 +188,7 @@
 									rawBrews.forEach(function(entry) 
 									{
 										console.log("Pushing " + entry.b_name);
-										breweries[entry.b_brewNum] = entry;
+										breweries.push(new makeBrewery(entry.b_name, entry.b_email, entry.b_phone, entry.b_addr1 ));
 									})
 								},
 								error: function(err)
@@ -193,9 +197,22 @@
 									console.log(err);
 								}
 							});
-							
+							//ko.applyBindings(breweries);
+							//var anotherObservableArray = ko.observableArray([
+							//	{ name: "name", type: get },
+							//	{ name: "email", type: get },
+							//	{ name: "address", type: get },
+							//	{ name: "phone", type: get }
+							//]);
+							//alert('The length of the array is ' + myObservableArray().length);
+							//alert('The first element is ' + myObservableArray()[0]);
 							ko.applyBindings(breweries);
+							
 						</script>
+						
+						
+						
+						
 						<script language="javascript">
 							function check(form)/*function to check userid & password*/
 							{
