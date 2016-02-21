@@ -95,7 +95,8 @@
 							<p style="font-size:25px">Breweries</p>
 							<div class ="breweries" style="height:450px;width:250px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;" data-bind="foreach: breweries">
 								<!-- this is where i was trying to get the on click function.  This is my site for reference. http://www.w3schools.com/jsref/event_onclick.asp The code is only partialy implemented. -->
-								<a data-bind="text: name" ></a>
+								<span data-bind="click: populateBrewery, text: b_name"
+								</span>
 								<br>
 							</div>
 						</div>
@@ -104,17 +105,28 @@
 								<p><strong type='text' value='picked'  id='picked' 
 								onblur="if (this.value == '') {this.value = 'picked';}"
 								onfocus="if (this.value == 'picked') {this.value = '';}"></strong></p><br>
-								<p>
-								Address: <br><br>
-								Phone #: <br><br>
-								Email: <br><br>
-								Open to public <br><br>
-								Growlers? <br><br>
-								Open hours: <br><br>
-								List of all their beers: <br><br>
-								Seasonal Beers: <br><br>
-								Current Tap list: <br><br>
-								</p>
+								<table>
+									<tr>
+										Name:
+										<span id="bName" />
+										<br/>
+									</tr>
+									<tr>
+										Phone:
+										<span id="bPhone" />
+										<br/>
+									</tr>
+									<tr>
+										Email:
+										<span id="bEmail" />
+										<br/>
+									</tr>
+									<tr>
+										Url:
+										<span id="bUrl" />
+										<br/>
+									</tr>
+								</table>
 							</div>
 						</div>
 					</div>
@@ -154,14 +166,18 @@
 								</table>
 							</form></li>
 						<script>
-							function makeBrewery(name, email, phone) {
-								var self = this;
-								self.name = name;
-								self.email = email;
-								self.phone = phone;
-							}
 							var apiUrl = "http://localhost:8080/brewery";
 							var breweries = ko.observableArray();
+							
+							function populateBrewery(brewery) {
+								console.log("Populating " + brewery.b_name );
+								
+								document.getElementById("bName").innerHTML = brewery.b_name;
+								document.getElementById("bPhone").innerHTML = brewery.b_phone;
+								document.getElementById("bEmail").innerHTML = brewery.b_email;
+								document.getElementById("bUrl").innerHTML = brewery.b_url;
+							}
+							
 							$.ajax({
 								type: "GET",
 								url: apiUrl,
@@ -174,7 +190,7 @@
 									rawBrews.forEach(function(entry) 
 									{
 										console.log("Pushing " + entry.b_name);
-										breweries.push(new makeBrewery(entry.b_name, entry.b_email, entry.b_phone));
+										breweries.push(entry);
 									})
 								},
 								error: function(err)
