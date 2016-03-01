@@ -2,3 +2,17 @@
 	width:150px;
 	height:150px;
 }
+
+.breweryList {
+	height:450px;
+	width:300px;
+	border:1px solid #ccc;
+	font:16px/26px Georgia, Garamond, Serif;
+	overflow:auto;
+}
+
+.brewLogo {
+	height:250px;
+	width:250px;
+	padding-bottom:20px;
+}

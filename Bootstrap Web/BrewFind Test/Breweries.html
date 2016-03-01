@@ -13,6 +13,8 @@
 		<link href="css/bootstrap.min.css" rel="stylesheet">
 		<!-- Custom CSS -->
 		<link href="css/business-casual.css" rel="stylesheet">
+		<!-- Our CSS -->
+		<link href="css/site.css" rel="stylesheet">
 		<!-- Fonts -->
 		<link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
 		<link href="http://fonts.googleapis.com/css?family=Josefin+Slab:100,300,400,600,700,100italic,300italic,400italic,600italic,700italic" rel="stylesheet" type="text/css">
@@ -60,65 +62,38 @@
 			<!-- /.container -->
 		</nav>
 		<!-- Page Content -->
-			<div class="container">
-				<!-- Introduction Row -->
-				<div class="row">
-					<div class="box">
-						<div class="col-lg-4">
-							<hr>
-							<h2 class="intro-text text-center">
-								<strong>Search for Breweries</strong>
-							</h2>
-							<p>	<!-- HTML for SEARCH BAR -->
-							<div id="tfheader">
-								<form id="tfnewsearch" method="get" action="http://www.google.com">
-									<input type="text" class="tftextinput" name="q" size="21" maxlength="120"><input type="submit" value="search" class="tfbutton">
-								</form>
-								<div class="tfclear"></div>
-							</div>
-							</p>
-							<br>
+		<div class="box">
+			<div class="container">		
+				<div class="col-md-4">
+					<p style="font-size:25px">Breweries</p>
+						<div class="breweryList">
+							<table>
+								<tbody data-bind="foreach: breweries">
+									<tr class="brewListItem" data-bind="click: $parent.populateBrewery, text: b_name"/>
+								</tbody>
+							</table>
 						</div>
-						<div class="col-lg-4">
-							<p style="font-size:25px">Breweries</p>
-							<div class ="breweries" style="height:450px;width:250px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;" data-bind="foreach: breweries">
-								<span data-bind="click: populateBrewery, text: b_name"
-								</span>
-								<br>
-							</div>
+				</div>
+				<div class="col-md-8">
+					<p style="font-size:25px" id="brewTitle">Click a brewery to get started!</p><br/>
+					<div class="row">
+						<div class="col-md-6">
+							<p id="bDesc"/><br/>
+							<a id="bLink">Visit their site!</a><br/>
+							<a id="bMapLink">...or visit them in person!</a>
 						</div>
-						<div class="col-lg-4">
-							<div class ="breweries" style="height:450px;width:200px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;">
-								<p><strong type='text' value='picked'  id='picked' 
-								onblur="if (this.value == '') {this.value = 'picked';}"
-								onfocus="if (this.value == 'picked') {this.value = '';}"></strong></p><br>
-								<table>
-									<tr>
-										Name:
-										<span id="bName" />
-										<br/>
-									</tr>
-									<tr>
-										Phone:
-										<span id="bPhone" />
-										<br/>
-									</tr>
-									<tr>
-										Email:
-										<span id="bEmail" />
-										<br/>
-									</tr>
-									<tr>
-										Url:
-										<span id="bUrl" />
-										<br/>
-									</tr>
-								</table>
-							</div>
+						<div class="col-md-4">
+							<img id="brewLogo" class="brewLogo" src="http://i.imgur.com/CE4r5vR.jpg"/>
+							<p id="bAddr1"/><br/>
+							<p id="bAddr2"/><br/>
+							<p id="bCSZ"/><br/>
+							<p id="bPhone"/><br/>
+							<p id="bEmail"/><br/>
 						</div>
 					</div>
 				</div>
-				<hr>
+			</div>
+		</div>
 				<!-- Footer -->
 				<footer>
 					<nav class="navbar navbar-default" role="navigation">
@@ -153,46 +128,75 @@
 								</table>
 							</form></li>
 						<script>
-							var apiUrl = "http://localhost:8080/brewery";
-							var breweries = ko.observableArray();
-							
-							function populateBrewery(brewery) {
-								console.log("Populating " + brewery.b_name );
-								
-								document.getElementById("bName").innerHTML = brewery.b_name;
-								document.getElementById("bPhone").innerHTML = brewery.b_phone;
-								document.getElementById("bEmail").innerHTML = brewery.b_email;
-								document.getElementById("bUrl").innerHTML = brewery.b_url;
+
+							function BreweryViewModel() {
+								var self = this;
+
+								self.breweries = ko.observableArray();
+
+								self.populateBrewery = function(brewery) {
+									console.log("Populating " + brewery.b_name );
+									
+									document.getElementById("bAddr1").innerHTML = brewery.b_addr1;
+
+									if(brewery.b_addr2 == null) {
+										document.getElementById("bAddr2").visibility = "hidden";
+									} else {
+										document.getElementById("bAddr2").visibility = "visible";
+										document.getElementById("bAddr2").innerHTML = brewery.b_addr2;
+									}
+
+									var csz = brewery.b_city + ", " + brewery.b_state + " " + brewery.b_zip;
+									document.getElementById("bCSZ").innerHTML = csz;
+									document.getElementById("bPhone").innerHTML = brewery.b_phone;
+									document.getElementById("bEmail").innerHTML = brewery.b_email;
+
+									document.getElementById("bLink").href = brewery.b_url;
+
+									document.getElementById("brewTitle").innerHTML = brewery.b_name;
+								}
+
+								self.getBreweries = function() {
+									var apiUrl = "http://localhost:8080/brewery";
+
+									$.ajax({
+										type: "GET",
+										url: apiUrl,
+										dataType: "json",
+										success: function(data) 
+										{
+											console.log("Got data!");
+											console.log(data);
+
+											data.rObj.forEach(function(entry) 
+											{
+												console.log("Pushing " + entry.b_name);
+												self.breweries.push(entry);
+											});
+
+											self.breweries.sort(function(a, b) {
+												var nameA = a.b_name.toUpperCase();
+												var nameB = b.b_name.toUpperCase();
+												return (nameA < nameB) ? -1 : (nameA > nameB) ? 1 : 0;
+											});
+										},
+										error: function(err)
+										{
+											console.log("Didn't get data...");
+											console.log(err);
+										}
+									});
+								}();
 							}
 							
-							$.ajax({
-								type: "GET",
-								url: apiUrl,
-								dataType: "json",
-								success: function(data) 
-								{
-									console.log("Got data!");
-									console.log(data);
-									rawBrews = data.rObj;
-									rawBrews.forEach(function(entry) 
-									{
-										console.log("Pushing " + entry.b_name);
-										breweries.push(entry);
-									})
-								},
-								error: function(err)
-								{
-									console.log("Didn't get data...");
-									console.log(err);
-								}
-							});
-							
-							ko.applyBindings(breweries);
+							ko.applyBindings(new BreweryViewModel());
+
 						</script>
 						<!-- this is the script for the onclick() function-->
 						<script>
 							function info(element, name) {
 								document.getElementById("picked").innerHTML = name;
+							}
 						</script>
 							<script language="javascript">
 								function check(form)/*function to check userid & password*/
