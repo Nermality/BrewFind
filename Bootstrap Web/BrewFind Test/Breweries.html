@@ -78,23 +78,10 @@
 							</div>
 							</p>
 							<br>
-							<ul style="list-style-type:none">
-								<li><input type="radio" name="beer" value="IPA"> IPA</li>
-								<li><input type="radio" name="beer" value="stout"> Stout</li>
-								<li><input type="radio" name="beer" value="porter"> Porter</li>
-								<li><input type="radio" name="beer" value="lager"> Lager</li>
-							</ul>
-							<br>
-							<ul style="list-style-type:none">
-								<li><input type="checkbox" name="beer" value="porter"> Distance Option </li>
-								<li><input type="text" name="number" size="20" placeholder="Mile radius"/></li>  
-								<li><input type="text" name="text" size="20" placeholder="Address"/></li>  
-							</ul>
 						</div>
 						<div class="col-lg-4">
 							<p style="font-size:25px">Breweries</p>
 							<div class ="breweries" style="height:450px;width:250px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;" data-bind="foreach: breweries">
-								<!-- this is where i was trying to get the on click function.  This is my site for reference. http://www.w3schools.com/jsref/event_onclick.asp The code is only partialy implemented. -->
 								<span data-bind="click: populateBrewery, text: b_name"
 								</span>
 								<br>
