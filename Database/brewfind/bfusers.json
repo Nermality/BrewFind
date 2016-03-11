@@ -1,0 +1,1 @@
+{"_id":{"$oid":"569e9d2de982c266c6fc0e1d"},"_class":"coldcoffee.brewfind.Objects.User","u_name":"bfadmin","u_pass":"500:9697318b4718d76d4972381081aa5ab9ae16e2c857860c89:c9ae06","u_access":3,"u_curToken":{"access":3,"token":"YmZhZG1pbg==","stamp":{"$numberLong":"1457726178961"}}}
