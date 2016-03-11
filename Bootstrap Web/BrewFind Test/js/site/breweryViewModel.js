@@ -13,7 +13,15 @@ function BreweryViewModel() {
 	self.populateBrewery = function(brewery) {
 		console.log("Populating " + brewery.b_name );
 		
+		document.getElementById("brewTitle").innerHTML = brewery.b_name;
+		document.getElementById("bDesc").innerHTML = brewery.b_description;
 		document.getElementById("bAddr1").innerHTML = brewery.b_addr1;
+
+		var logo = document.getElementById("brewLogo");
+		logo.src = "img/breweries/" + brewery.b_breweryNum + "/brewery_profile_pic.jpg";
+		logo.onerror = function() {
+			logo.src = "img/breweries/" + brewery.b_breweryNum + "/brewery_profile_pic.png";
+		}
 
 		if(brewery.b_addr2 == null) {
 			document.getElementById("bAddr2").visibility = "hidden";
@@ -27,7 +35,7 @@ function BreweryViewModel() {
 		document.getElementById("bPhone").innerHTML = brewery.b_phone;
 		document.getElementById("bEmail").innerHTML = brewery.b_email;
 
-		document.getElementById("bLink").href = brewery.b_url;
+		document.getElementById("bLink").href = brewery.b_url ? brewery.b_url : "#";
 
 		document.getElementById("brewTitle").innerHTML = brewery.b_name;
 	}
