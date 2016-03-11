@@ -35,46 +35,7 @@
 
 <body>
 
-	<div class="brand">BrewFind</div>
-   
-
-    <!-- Navigation -->
-    <nav class="navbar navbar-default" role="navigation">
-        <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-				
-                
-                <!-- navbar-brand is hidden on larger screens, but visible when the menu is collapsed -->
-                <a class="navbar-brand" href="index.html">Business Casual</a>
-            </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-			<ul class="nav navbar-nav">
-               
-                    <li>
-                        <a href="index.html">Home</a>
-                    </li>
-                    <li>
-                        <a href="breweries.html">Breweries</a>
-                    </li>
-                    <li>
-                        <a href="events.html">Calender</a>
-                    </li>
-					<li>
-                        <a href="maps.html">Map</a>
-                    </li>
-					<li>
-                        <a href="aboutUs.html">About Us</a>
-                    </li>
-				</ul>
-				
-            </div>
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container -->
-    </nav>
-
+	<?php include 'header.html' ?>
     <div class="container">
 
         <div class="row">
@@ -149,68 +110,7 @@ Ted proposed the idea as a senior project and we were all on board immediately. 
 		</div>
     <!-- /.container -->
 
-     <footer>
-	<nav class="navbar navbar-default" role="navigation">
-        <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-				
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <!-- navbar-brand is hidden on larger screens, but visible when the menu is collapsed -->
-                <a class="navbar-brand" href="index.html">Business Casual</a>
-            </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-					
-					<li>
-					<a>Copyright &copy; BrewFind 2015</a>
-					</li>
-					<li>
-					<li>  
-   <form name="login">
-   <table>
-   <tr><br></tr>
-   <tr>
-		<td>Username<input type="text" name="userid" size='6' /></td>
-		<td><input type="button" onclick="check(this.form)" value="Login"/></td></tr>
-		<tr><td>Password<input type="password" name="pswrd" size="6"/></td>
-		<td><input type="reset" value="Cancel"/></td></tr></table>
-		
-		
-		</form></li>
-		<script language="javascript">
-		function check(form)/*function to check userid & password*/
-		{
-		 /*the following code checkes whether the entered userid and password are matching*/
-		 if(form.userid.value == "myuserid" && form.pswrd.value == "mypswrd")
-		  {
-			window.open('brewcenter.html')/*opens the target page while Id & password matches*/
-		  }
-		 else
-		 {
-		   alert("Error Password or Username")/*displays error message*/
-		  }
-		}
-		</script>
-		
-					
-					
-					
-					</li>
-				</ul>
-            </div>
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container -->
-    </nav>
-        
-    </footer>
+    <?php include 'footer.html' ?>
 
     <!-- jQuery -->
     <script src="js/lib/jquery.js"></script>

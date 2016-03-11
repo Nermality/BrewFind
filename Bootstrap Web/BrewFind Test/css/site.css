@@ -16,3 +16,12 @@
 	width:250px;
 	padding-bottom:20px;
 }
+
+.formTitle {
+	text-align:center;
+	font-weight:bold;
+}
+
+#updateForm, #newBreweryForm {
+	text-align: right;
+}

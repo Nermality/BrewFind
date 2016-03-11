@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<!-- File containing all required JavaScript -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-3.3.0.js"></script>	
+	<script src="js/site/breweryViewModel.js"></script>
+	<title>BrewFind VT Portal</title>
+	<!-- Bootstrap Core CSS -->
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<!-- Custom CSS -->
+	<link href="css/business-casual.css" rel="stylesheet">
+	<!-- Our CSS -->
+	<link href="css/site.css" rel="stylesheet">
+	<!-- Fonts -->
+	<link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+	<link href="http://fonts.googleapis.com/css?family=Josefin+Slab:100,300,400,600,700,100italic,300italic,400italic,600italic,700italic" rel="stylesheet" type="text/css">
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+
+</head>
+<body>
+	<div class="brand">Brewfind Admin Portal</div>
+	<br>
+<div class="container">
+	<div class="box">
+		<div class="container">		
+			<div class="col-md-4">
+				<p style="font-size:25px">Breweries</p>
+					<div class="breweryList">
+						<table>
+							<tbody data-bind="foreach: breweries">
+								<tr class="brewListItem" data-bind="click: $parent.populateGodbrewForm, text: b_name"/>
+							</tbody>
+						</table>
+					</div>
+			</div>
+			<div class="col-md-8">
+				<div class="row">
+					<div class="col-md-5">
+						<h5 class="formTitle">Update an existing brewery!</h6>
+						<form id="updateForm" data-bind="updateBrewery"> 
+							Name:&nbsp<input type="text" name="name" id="in_name">
+							<br>
+							Address Line 1:&nbsp<input type="text" name="addr1" id="in_addr1">
+							<br>
+							Address Line 2:&nbsp<input type="text" name="addr2" id="in_addr2">
+							<br>
+							City:&nbsp<input type="text" name="city" id="in_city" value="city">
+							<br>
+							State:&nbsp<input type="text" name="state" id="in_state">
+							<br>
+							Zip Code:&nbsp<input type="text" name="zip" id="in_zip">
+							<br>
+							Phone Number:&nbsp<input type="text" name="phone" id="in_phone">
+							<br>
+							Email Address:&nbsp<input type="text" name="email" id="in_email">
+							<br>
+							Web Address:&nbsp<input type="text" name="url" id="in_url">
+							<br>
+							Has Tours?: Yes<input type="radio" value="true" name="tours" id="in_tours_yes">
+										No<input type="radio" value="false" name="tours" id="in_tours_no">
+							<br>
+							Has food?: Yes<input type="radio" value="true" name="food" id="in_food_yes">
+										No<input type="radio" value="false" name="food" id="in_food_no">
+							<br>
+							Has tap room (or equivalent)?: Yes<input type="radio" value="true" name="tap" id="in_tap_yes">
+										No<input type="radio" value="false" name="tap" id="in_tap_no">
+							<br>
+							Has growlers?: Yes<input type="radio" value="true" name="growler" id="in_growler_yes">
+										No<input type="radio" value="false" name="growler" id="in_growler_no">
+							<br>
+							Rating: 	1<input type="radio" value="1" name="rating" id="in_rate_1">
+										2<input type="radio" value="2" name="rating" id="in_rate_2">
+										3<input type="radio" value="3" name="rating" id="in_rate_3">
+										4<input type="radio" value="4" name="rating" id="in_rate_4">
+										5<input type="radio" value="5" name="rating" id="in_rate_5">
+							<br><br>
+							<input type="submit" value="submit">			
+						</form>
+					</div>
+					<div class="col-md-5">
+						<!-- Below is the form for creating a new brewery in the DB -->
+						<h5 class="formTitle">Create a new brewery</h6>
+							<form id="newBreweryForm" data-bind="submit: createNewBrewery"> 
+								Name:&nbsp<input type="text" name="name" id="new_name">
+								<br>
+								Address Line 1:&nbsp<input type="text" name="addr1" id="new_addr1">
+								<br>
+								Address Line 2:&nbsp<input type="text" name="addr2" id="new_addr2">
+								<br>
+								City:&nbsp<input type="text" name="city" id="new_city">
+								<br>
+								State:&nbsp<input type="text" name="state" id="new_state">
+								<br>
+								Zip Code:&nbsp<input type="text" name="zip" id="new_zip">
+								<br>
+								Phone Number:&nbsp<input type="text" name="phone" id="new_phone">
+								<br>
+								Email Address:&nbsp<input type="text" name="email" id="new_email">
+								<br>
+								Web Address:&nbsp<input type="text" name="url" id="new_url">
+								<br>
+								Has Tours?: Yes<input type="radio" value="yes" name="tours" id="new_tours_yes">
+											No<input type="radio" value="no" name="tours" id="new_tours_no">
+								<br>
+								Has food?: Yes<input type="radio" value="yes" name="food" id="new_food_yes">
+											No<input type="radio" value="no" name="food" id="new_food_no">
+											<br>
+								Has tap room (or equivalent)?: 	Yes<input type="radio" value="true" name="tap" id="new_tap_yes">
+																No<input type="radio" value="false" name="tap" id="new_tap_no">
+								<br>
+								Has growlers?: 	Yes<input type="radio" value="true" name="growler" id="new_growler_yes">
+												No<input type="radio" value="false" name="growler" id="new_growler_no">
+								<br>
+								Rating: 	1<input type="radio" value="1" name="rating" id="new_rate_1">
+											2<input type="radio" value="2" name="rating" id="new_rate_2">
+											3<input type="radio" value="3" name="rating" id="new_rate_3">
+											4<input type="radio" value="4" name="rating" id="new_rate_4">
+											5<input type="radio" value="5" name="rating" id="new_rate_5">
+								<br><br>
+								<input type="submit" value="Submit">			
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<script>
+ko.applyBindings(new BreweryViewModel());
+</script>
+</body>
+</html>
