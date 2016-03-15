@@ -45,8 +45,8 @@
 				<div class="row">
 					<div class="col-md-6">
 						<p id="bDesc"/><br/>
-						<a id="bLink">Visit their site!</a><br/>
-						<a id="bMapLink">...or visit them in person!</a>
+						<!-- <a id="bLink">Visit their site!</a><br/>
+						<a id="bMapLink">...or visit them in person!</a> -->
 					</div>
 					<div class="col-md-4">
 						<img id="brewLogo" class="brewLogo" src="http://i.imgur.com/CE4r5vR.jpg"/>
