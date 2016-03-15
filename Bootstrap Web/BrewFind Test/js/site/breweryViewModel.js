@@ -53,6 +53,7 @@ function BreweryViewModel() {
       '<p>'+brewery.b_phone+'</p>'+
 	  '<p>'+brewery.b_email+'</p>'+
 	  '<p>'+brewery.b_addr1+'</p>'+
+	  '<p>'+brewery.b_url+'</p>'+
       '</div>'+
       '</div>';
 
