@@ -31,6 +31,12 @@
 	<div class="box">
 		<div class="container">		
 			<div class="col-md-4">
+			<?php
+			if(!file_exists("breweryViewModel.js")) 
+			{
+				die("breweryViewModel.js is not found");
+			}
+			?>
 				<p style="font-size:25px">Breweries</p>
 					<div class="breweryList">
 						<table>
