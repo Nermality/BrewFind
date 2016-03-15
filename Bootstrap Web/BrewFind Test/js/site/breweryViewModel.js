@@ -2,7 +2,7 @@
 function BreweryViewModel() {
 	var self = this;
 
-	self.apiUrl = "http://localhost:8080";
+	self.apiUrl = "http:/52.35.37.107:8080";
 	self.breweryEnd = self.apiUrl + "/brewery";
 	self.eventEnd = self.apiUrl + "/event";
 	self.userEnd = self.apiUrl + "/user";
