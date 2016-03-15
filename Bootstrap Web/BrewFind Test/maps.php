@@ -63,6 +63,15 @@
 </head>
 
 <body>
+<script>
+function myFunction()
+{
+alert("Hello! I am an alert box!");
+}
+</script>
+ 
+<!-- <input type="button" onclick="myFunction()" value="Show alert box" /> -->
+
 	<?php include 'header.html' ?>
 	<div class="box">
 		<div class="container">
@@ -71,7 +80,7 @@
 				<div class="breweryList">
 					<table>
 						<tbody data-bind="foreach: breweries">
-							<tr class="brewListItem" data-bind="click: $parent.makePin, text: b_name"/>
+							<tr class="brewListItem" data-bind="click: $parent.makePin, text: b_name" />
 						</tbody>
 					</table>
 				</div>

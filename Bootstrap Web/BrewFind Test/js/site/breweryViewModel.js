@@ -40,9 +40,26 @@ function BreweryViewModel() {
 		document.getElementById("brewTitle").innerHTML = brewery.b_name;
 	}
 
+	
 	self.makePin = function(brewery) {
-		console.log("Making a pin for" + brewery.b_name);
+		console.log("Making a pin for " + brewery.b_name);
 		if(marker != null){ marker.setMap(null); }
+		
+		var contentString = '<div id="content">'+
+      '<div id="siteNotice">'+
+      '</div>'+
+      '<h1 id="firstHeading" class="firstHeading">'+brewery.b_name+'</h1>'+
+      '<div id="bodyContent">'+
+      '<p>'+brewery.b_phone+'</p>'+
+	  '<p>'+brewery.b_email+'</p>'+
+	  '<p>'+brewery.b_addr1+'</p>'+
+      '</div>'+
+      '</div>';
+
+		
+		var infowindow = new google.maps.InfoWindow({
+    content: contentString
+		});
 		
 		var brewLoc = new google.maps.LatLng(brewery.b_lat, brewery.b_long);
 		marker = new google.maps.Marker(
@@ -51,8 +68,12 @@ function BreweryViewModel() {
 			title: brewery.b_name
 		});
 
-		marker.setMap(map);
-	}
+		marker.addListener('click', function() {
+    infowindow.open(map, marker);
+  });
+		
+		marker.setMap(map);	
+		}
 
 	self.updateBrewery = function(updateForm) {
 
