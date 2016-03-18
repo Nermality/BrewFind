@@ -2,11 +2,16 @@
 function BreweryViewModel() {
 	var self = this;
 
-	self.apiUrl = "http://52.35.37.107:8080";
+	self.apiUrl = "http://localhost:8080";
 	self.breweryEnd = self.apiUrl + "/brewery";
 	self.eventEnd = self.apiUrl + "/event";
 	self.userEnd = self.apiUrl + "/user";
 	self.userAuthEnd = self.apiUrl + "/user/auth";
+
+	self.testToken = {};
+	self.testToken["token"] = "YmZhZG1pbg==";
+	self.testToken["access"] = 3;
+	self.testToken["stamp"] = 1458311957462;
 
 	self.breweries = ko.observableArray();
 
@@ -59,7 +64,7 @@ function BreweryViewModel() {
 
 		
 		var infowindow = new google.maps.InfoWindow({
-    content: contentString
+    		content: contentString
 		});
 		
 		var brewLoc = new google.maps.LatLng(brewery.b_lat, brewery.b_long);
@@ -70,93 +75,105 @@ function BreweryViewModel() {
 		});
 
 		marker.addListener('click', function() {
-    infowindow.open(map, marker);
-  });
+    		infowindow.open(map, marker);
+  		});
 		
 		marker.setMap(map);	
-		}
+	}
 
 	self.updateBrewery = function(updateForm) {
 
 	}
 
-	self.createNewBrewery = function(breweryForm) {
-		//var newBrewery = JSON.stringify($(breweryForm).serializeArray());
-		console.log(breweryForm);
+	self.createCORSRequest = function(method, url) {
+	  var xhr = new XMLHttpRequest();
+	  if ("withCredentials" in xhr) {
+	    // XHR for Chrome/Firefox/Opera/Safari.
+	    xhr.open(method, url, true);
+	  } else if (typeof XDomainRequest != "undefined") {
+	    // XDomainRequest for IE.
+	    xhr = new XDomainRequest();
+	    xhr.open(method, url);
+	  } else {
+	    // CORS not supported.
+	    xhr = null;
+	  }
+	  return xhr;
+	}
+
+	self.makeBreweryQuery = function(form) {
 		var newQuery = {};
-		var token = {};
 		var newBrews = [];
 		var toAdd = {};
 
-		token["access"] = 3;
-		token["token"] = "abcdefg";
-		token["stamp"] = 123983223;
+		toAdd["b_name"] = form.name.value;
 
-		toAdd["b_name"] = breweryForm.name.value;
-		toAdd["b_addr1"] = breweryForm.addr1.value;
-		toAdd["b_addr2"] = breweryForm.addr2.value;
-		toAdd["b_city"] = breweryForm.city.value;
-		toAdd["b_state"] = breweryForm.state.value;
-		toAdd["b_zip"] = breweryForm.zip.value;
-		toAdd["b_phone"] = breweryForm.phone.value;
-		toAdd["b_email"] = breweryForm.email.value;
-		toAdd["b_url"] = breweryForm.url.value;
+		toAdd["b_addr2"] = form.addr2.value;
+		toAdd["b_city"] = form.city.value;
+		toAdd["b_state"] = form.state.value;
+		toAdd["b_email"] = form.email.value;
+		toAdd["b_url"] = form.url.value;
 
-		toAdd["b_hasTour"] = breweryForm.tours.value;
-		toAdd["b_hasFood"] = breweryForm.food.value;
-		//toAdd["b_hasTap"] = breweryForm.tap.value;
-		//toAdd["b_hasGrowler"] = breweryForm.growler.value;
-		toAdd["b_rating"] = breweryForm.rating.value;
+		toAdd["b_hasTour"] = form.tours.value;
+		toAdd["b_hasFood"] = form.food.value;
+		toAdd["b_hasTap"] = form.tap.value;
+		toAdd["b_hasGrowler"] = form.growler.value;
 
+		// Can't add values that aren't strings - API doesn't like empty strings for int/doubles		
+		if(form.zip.value != "") {
+			toAdd["b_name"] = form.name.value;
+		}
+
+		if(form.phone.value != "") {
+			toAdd["b_phone"] = form.phone.value;
+		}
+
+		if(form.rating.value != "") {
+			toAdd["b_rating"] = form.rating.value;
+		}
+		
 		newBrews.push(toAdd);
 		newQuery["list"] = newBrews;
-		newQuery["token"]= token;
+		newQuery["token"]= self.testToken;
 
-		// GET BOOLEANS AND RATING
+		return newQuery;
+	}
 
-	    // var data = {};
-	    // var a = $(brewer).serializeArray();
-	    // $.each(a, function() {
-	    //     if (data[$(brewer).name] !== undefined) {
-	    //         if (!data[$(brewer).name].push) {
-	    //             data[$(brewer).name] = [data[$(brewer).name]];
-	    //         }
-	    //         data[$(brewer).name].push($(brewer).value || '1');
-	    //     } else {
-	    //         data[$(brewer).name] = $(brewer).value || '1';
-	    //     }
-	    // });
+	self.createNewBrewery = function(breweryForm) {
 
+		console.log(breweryForm);
+
+		var newQuery = self.makeBreweryQuery(breweryForm);
 	    console.log(newQuery);
-	
-		$.ajax({
-			type: "PUT",
-			url: apiUrl,
-			data: toAdd,
-			contentType: "json",
-			success: function(newBrewery) 
-			{
-				console.log("Got response! (new brewery)");
-				console.log(newBrewery);
 
-				if(newBrwery.status === 0) {
-					rawBrews = newBrewery.rObj;
-					rawBrews.forEach(function(entry) {
-						console.log("Pushing " + entry.b_name);
-						self.breweries.splice(entry.b_brewNum, 0, entry);
-					});
-				} else {
-					console.log("Something went wrong...");
-					console.log(newBrewery.description);
-				}
-				
-			},
-			error: function(err)
-			{
-				console.log("Didn't get data...");
-				console.log(err);
+	    var xhr = self.createCORSRequest('PUT', self.breweryEnd);
+
+	    xhr.onload = function() {
+			console.log("Got response!");
+			var response = xhr.responseText;
+			var newBrewery = JSON.parse(response);
+			console.log(newBrewery);
+
+			if(newBrewery.status != 0) {
+				console.log("Something went wrong...");
+				console.log(newBrewery.description);
+			} else {
+				rawBrews = newBrewery.rObj;
+				rawBrews.forEach(function(entry) {
+					console.log("Pushing " + entry.b_name);
+					self.breweries.splice(entry.b_brewNum, 0, entry);
+				});
 			}
-		});
+	    }
+
+	    xhr.onerror = function() {
+	    	console.log('XHR failure');
+	    }
+
+	    var string = JSON.stringify(newQuery);
+	    console.log(string);
+	    xhr.send(string);
+
 	}
 
 	self.populateGodbrewForm = function(brewery) {
