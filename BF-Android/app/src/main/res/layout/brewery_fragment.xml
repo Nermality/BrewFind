@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:id="@+id/coreInfo"
+                android:layout_weight=".45"
+                android:padding="15dp">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:id="@+id/brewName"
+                    android:layout_weight=".25"
+                    android:textStyle="bold"
+                    android:height="50dp" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:id="@+id/addr1"
+                    android:layout_weight=".12" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:id="@+id/addr2"
+                    android:layout_weight=".12" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:id="@+id/cityPlus"
+                    android:layout_weight=".12" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:id="@+id/phone"
+                    android:layout_weight=".12" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:id="@+id/email"
+                    android:layout_weight=".12" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:id="@+id/legendIcons"
+                android:layout_weight="0.37"
+                android:minHeight="128dp">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/hasFood"
+                    android:layout_weight=".25"
+                    android:src="@mipmap/li_food" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/hasTour"
+                    android:layout_weight=".25"
+                    android:src="@mipmap/li_tour" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/hasGrowler"
+                    android:layout_weight=".25"
+                    android:src="@mipmap/li_growler" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/hasTap"
+                    android:layout_weight=".25"
+                    android:src="@mipmap/li_tap" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:id="@+id/description"
+                android:layout_weight=".35"
+                android:padding="15dp">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:id="@+id/descText"
+                    android:singleLine="false" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
