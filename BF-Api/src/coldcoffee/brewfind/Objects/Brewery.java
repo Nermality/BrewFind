@@ -30,19 +30,12 @@ public class Brewery extends BrewFindObject {
 
 		public int b_breweryNum;
 		public int b_version;
-		//public String b_admin
 
-		public String b_logoImage;
 		public Double b_rating;
-
 		public Double b_lat;
 		public Double b_long;
 
 		public int b_utId;
-
-	//public Set<Drink> b_drinkList;
-
-	//facebook
 
 		public String getB_description() {
 			return b_description;
@@ -82,14 +75,6 @@ public class Brewery extends BrewFindObject {
 
 		public void setB_hasTap(Boolean b_hasTap) {
 			this.b_hasTap = b_hasTap;
-		}
-
-		public String getB_logoImage() {
-			return b_logoImage;
-		}
-
-		public void setB_logoImage(String b_logoImage) {
-			this.b_logoImage = b_logoImage;
 		}
 
 		public Double getB_rating() {
