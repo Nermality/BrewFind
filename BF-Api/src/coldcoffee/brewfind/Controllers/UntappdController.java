@@ -3,9 +3,9 @@ package coldcoffee.brewfind.Controllers;
 import coldcoffee.brewfind.Objects.BrewFindObject;
 import coldcoffee.brewfind.Objects.BrewFindResponse;
 import coldcoffee.brewfind.Objects.Brewery;
-import coldcoffee.brewfind.Objects.Drink;
+import coldcoffee.brewfind.Objects.UntappdObject;
 import coldcoffee.brewfind.Services.BreweryService;
-import coldcoffee.brewfind.Services.DrinkService;
+import coldcoffee.brewfind.Services.UntappdService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,11 +20,11 @@ import java.util.List;
  * Created by user on 3/15/2016.
  */
 @Component
-@Path("/drink")
-public class DrinkController {
+@Path("/utwrapper")
+public class UntappdController {
 
     @Autowired
-    private DrinkService drinkService;
+    private UntappdService untappdService;
 
     @Autowired
     private BreweryService breweryService;
@@ -35,10 +35,10 @@ public class DrinkController {
     public BrewFindResponse getDrinksForBrewery(@PathParam("brewId") int brewId) {
 
         Brewery toFind = breweryService.findBrewery(brewId);
+        UntappdObject toRet;
 
-        List<? extends BrewFindObject> toRet;
         try {
-            toRet = drinkService.getBreweryDrinks(toFind.getB_utId());
+            toRet = untappdService.getBreweryDrinks(toFind.getB_utId());
         } catch(IOException e) {
             e.printStackTrace();
             return new BrewFindResponse(16, "IOException getting drinks");
@@ -48,6 +48,6 @@ public class DrinkController {
             return new BrewFindResponse(10, "Null response from Untappd");
         }
 
-        return new BrewFindResponse(0, "OK", (List<BrewFindObject>)toRet);
+        return new BrewFindResponse(0, "OK", toRet);
     }
 }

@@ -1,7 +1,9 @@
 package coldcoffee.brewfind.Services;
 
 
+import coldcoffee.brewfind.Objects.BrewFindObject;
 import coldcoffee.brewfind.Objects.Drink;
+import coldcoffee.brewfind.Objects.UntappdObject;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
@@ -17,7 +19,7 @@ import java.util.List;
  * Created by user on 3/15/2016.
  */
 @Service
-public class DrinkService {
+public class UntappdService {
 
     private Client client;
 
@@ -26,11 +28,11 @@ public class DrinkService {
     private final String utClintSecret = "B85DCA33495CE957FA89A91352013F4E4105AB3D";
     private final String utToken = "04092770C9B837C4EC61906C97E6B9D735867E7F";
 
-    public DrinkService() {
+    public UntappdService() {
         client = ClientBuilder.newClient();
     }
 
-    public List<Drink> getBreweryDrinks(int id) throws IOException {
+    public UntappdObject getBreweryDrinks(int id) throws IOException {
 
          String response = client.target(utEndpoint)
                 .path("brewery/info/"+id)
@@ -41,6 +43,7 @@ public class DrinkService {
         if(response == null) { return null; }
 
         List<Drink> drinkList = new ArrayList<>();
+        UntappdObject utObj = new UntappdObject();
 
         ObjectMapper mapper = new ObjectMapper();
         JsonNode root = mapper.readTree(response);
@@ -49,6 +52,12 @@ public class DrinkService {
         if(breweryNode == null) {
             return null;
         }
+
+        utObj.setU_breweryName(breweryNode.path("brewery_name").asText());
+
+        JsonNode ratingNode = breweryNode.path("rating");
+        utObj.setU_rating(ratingNode.path("rating_score").asDouble());
+        utObj.setU_ratingCount(ratingNode.path("count").asInt());
 
         JsonNode beerNode = breweryNode.path("beer_list");
         JsonNode beerListNode = beerNode.path("items");
@@ -70,7 +79,9 @@ public class DrinkService {
             drinkList.add(toAdd);
         }
 
-        return drinkList;
+        utObj.setU_drinkList(drinkList);
+
+        return utObj;
     }
 
 }

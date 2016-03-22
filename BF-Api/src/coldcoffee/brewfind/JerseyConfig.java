@@ -1,6 +1,6 @@
 package coldcoffee.brewfind;
 
-import coldcoffee.brewfind.Controllers.DrinkController;
+import coldcoffee.brewfind.Controllers.UntappdController;
 import coldcoffee.brewfind.Controllers.EventController;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.stereotype.Component;
@@ -19,7 +19,7 @@ public class JerseyConfig extends ResourceConfig {
 		register(BreweryController.class);
 		register(UserController.class);
 		register(EventController.class);
-		register(DrinkController.class);
+		register(UntappdController.class);
 		register(CORSResponseFilter.class);
 	}
 }
