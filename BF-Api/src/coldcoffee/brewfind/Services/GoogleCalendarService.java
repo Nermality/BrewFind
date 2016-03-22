@@ -26,7 +26,7 @@ public class GoogleCalendarService {
         "BrewFind Google Calendar Integration";
 
     /** Directory to store user credentials for this application. */
-    private static final java.io.File DATA_STORE_DIR = new java.io.File("C:\\Users\\user\\BrewFind");
+    private static final java.io.File DATA_STORE_DIR = new java.io.File("/data/GAS");
 
     /** Global instance of the {@link FileDataStoreFactory}. */
     private static FileDataStoreFactory DATA_STORE_FACTORY;
