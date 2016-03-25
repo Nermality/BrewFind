@@ -35,8 +35,6 @@ public class BreweryActivityFragment extends Fragment
     public String lastError;
     public GoogleApiClient apiClient;
     Fragment _breweryFragment;
-
-
     private CacheManager cacheManager;
     public  ListView listView;
     public  List<Brewery> brewItems = new ArrayList<Brewery>();
@@ -76,17 +74,18 @@ public class BreweryActivityFragment extends Fragment
     }
 
     public void populatePage(){
-
-        brewMap=cacheManager.getBreweries();
-        for (int i = 0; i < brewMap.size(); i++) {
-            brewItems.addAll(cacheManager.getBreweries().values());
-            listView = (ListView) getView().findViewById(R.id.listView);
-            brewItems.add(brewMap.get(i));
-            listView = (ListView) getActivity().findViewById(R.id.listView);
-            BreweryListViewAdapter adapter = new BreweryListViewAdapter(getActivity(),
-                    R.layout.list_brew, brewItems);
+        BreweryListViewAdapter adapter = new BreweryListViewAdapter(getActivity(),
+                R.layout.list_brew, brewItems);
+            if(adapter != null) {
+                adapter.clear();
+            }
+                brewMap = cacheManager.getBreweries();
+                brewItems.addAll(cacheManager.getBreweries().values());
+                listView = (ListView) getView().findViewById(R.id.listView);
+                listView = (ListView) getActivity().findViewById(R.id.listView);
             listView.setAdapter(adapter);
-        }
+
+
     }
 
     public void onListItemClick(View v, Brewery b) {
