@@ -63,18 +63,13 @@
 </head>
 
 <body>
-<script>
-function myFunction()
-{
-alert("Hello! I am an alert box!");
-}
-</script>
- 
-<!-- <input type="button" onclick="myFunction()" value="Show alert box" /> -->
-
 	<?php include 'header.html' ?>
-	<div class="box">
-		<div class="container">
+	<div class="container">
+			<div class="row">
+				<div class="box">
+			<div id="error">
+			
+			</div>
 			<div class="col-md-4">
 				<p style="font-size:25px">Breweries</p>
 				<div class="breweryList">
@@ -88,7 +83,8 @@ alert("Hello! I am an alert box!");
 			<div class="col-md-8">
 				<p style="font-size:25px" id="brewTitle">Click a brewery to get started!</p>
 				<div class="col-md-6" id="googleMap" style="width:700px;height:500px;"></div>
-			</div>	
+			</div>
+		  </div>
 		</div>
 	</div>				
 
