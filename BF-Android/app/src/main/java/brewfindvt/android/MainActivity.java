@@ -1,5 +1,7 @@
 package brewfindvt.android;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.design.widget.FloatingActionButton;
@@ -54,6 +56,8 @@ public class MainActivity extends AppCompatActivity
     Fragment _brewActivityFragment;
     Fragment _mapFragment;
     CacheManager _cacheManager;
+    ProgressDialog dialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +73,7 @@ public class MainActivity extends AppCompatActivity
         _eventActivityFragment = new EventActivityFragment();
         _mapFragment = new MapActivityFragment();
         _cacheManager = CacheManager.getInstance();
+        dialog = new ProgressDialog(this);
         populateCache();
 
         setContentView(R.layout.activity_main);
@@ -80,9 +85,9 @@ public class MainActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
     }
 
     @Override
@@ -165,15 +170,21 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void populateCache(){
-        ApiManager.getBreweries(new JsonHttpResponseHandler(){
+        dialog.setCancelable(false);
+        dialog.setInverseBackgroundForced(true);
+        dialog.show();
+        dialog.setMessage("Loading breweries....");
 
+        ApiManager.getBreweries(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                try{
+                try {
+                    dialog.setMessage("Loading breweries....");
+
                     JSONArray brews = response.getJSONArray("rObj");
                     ArrayList<Brewery> breweries = new ArrayList<>();
                     ObjectMapper mapper = new ObjectMapper();
-                    for(int i = 0; i < brews.length(); i++) {
+                    for (int i = 0; i < brews.length(); i++) {
                         Brewery toAdd = mapper.readValue(brews.getString(i), Brewery.class);
                         breweries.add(toAdd);
                     }
@@ -185,6 +196,7 @@ public class MainActivity extends AppCompatActivity
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                dialog.hide();
             }
 
             @Override
@@ -203,21 +215,25 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        ApiManager.getEvents(new JsonHttpResponseHandler(){
+        ApiManager.getEvents(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                try{
+                try {
+                    dialog.show();
+                    dialog.setMessage("Loading Events");
                     JSONObject eventMap = response.getJSONObject("eventMap");
                     Map<String, List<EventSummary>> toIns = new HashMap<>();
                     ObjectMapper mapper = new ObjectMapper();
                     Iterator<String> itr = eventMap.keys();
-                    while(itr.hasNext()) {
+                    while (itr.hasNext()) {
                         String cal = itr.next();
-                        List<EventSummary> events = mapper.readValue(eventMap.getJSONArray(cal).toString(), new TypeReference<List<EventSummary>>(){});
+                        List<EventSummary> events = mapper.readValue(eventMap.getJSONArray(cal).toString(), new TypeReference<List<EventSummary>>() {
+                        });
                         toIns.put(cal, events);
                     }
                     _cacheManager.updateEvents(toIns);
                     Toast.makeText(getApplicationContext(), "HOLY SHIT EVENTS", Toast.LENGTH_LONG).show();
+                    dialog.hide();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

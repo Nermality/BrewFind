@@ -67,9 +67,6 @@ public class BreweryListViewAdapter extends ArrayAdapter<Brewery> {
 
         holder.txtDesc.setText(brewItem.getB_addr1());
         holder.txtTitle.setText(brewItem.getB_name());
-        if(imageMap.get(brewItem.getB_breweryNum()) == null){
-            holder.imageView.setImageResource(R.drawable.brewery_profile_pic);
-        }
         holder.imageView.setImageBitmap(imageMap.get(brewItem.getB_breweryNum()));
         return convertView;
     }

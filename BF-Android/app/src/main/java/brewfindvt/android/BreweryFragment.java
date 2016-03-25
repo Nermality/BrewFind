@@ -1,5 +1,6 @@
 package brewfindvt.android;
 
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.PorterDuff;
@@ -12,12 +13,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.Map;
+
+import brewfindvt.managers.CacheManager;
 import brewfindvt.objects.Brewery;
 
 /**
  * Created by user on 2/16/2016.
  */
 public class BreweryFragment extends android.support.v4.app.Fragment {
+
+    private CacheManager cacheManager;
+    public Map<Integer, Bitmap> imageMap;
 
     private TextView _name;
     private TextView _addr1;
@@ -52,6 +59,7 @@ public class BreweryFragment extends android.support.v4.app.Fragment {
         _cityPlus = (TextView) getActivity().findViewById(R.id.cityPlus);
         _phone = (TextView) getActivity().findViewById(R.id.phone);
         _email = (TextView) getActivity().findViewById(R.id.email);
+       // _logo = (ImageView) getActivity().findViewById(R.id.logo);
 
         _hasFood = (ImageView) getActivity().findViewById(R.id.hasFood);
         _hasTour = (ImageView) getActivity().findViewById(R.id.hasTour);
@@ -60,12 +68,16 @@ public class BreweryFragment extends android.support.v4.app.Fragment {
 
         _desc = (TextView) getActivity().findViewById(R.id.descText);
 
+        this.cacheManager = CacheManager.getInstance();
+        this.imageMap = cacheManager.getB_logos();
+
         if(newBrew != null) {
             populateBrewery(newBrew);
         }
     }
 
     public void populateBrewery(Brewery brew) {
+     //   _logo.setImageBitmap(imageMap.get(brew.getB_breweryNum()));
         _name.setText(brew.getB_name());
         _addr1.setText(brew.getB_addr1());
         if(brew.getB_addr2() == null || brew.getB_addr2() == "") {
