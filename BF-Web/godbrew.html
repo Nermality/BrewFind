@@ -51,7 +51,7 @@
 							<br>
 							Address Line 2:&nbsp<input type="text" name="addr2" id="in_addr2">
 							<br>
-							City:&nbsp<input type="text" name="city" id="in_city" value="city">
+							City:&nbsp<input type="text" name="city" id="in_city">
 							<br>
 							State:&nbsp<input type="text" name="state" id="in_state">
 							<br>
@@ -62,6 +62,8 @@
 							Email Address:&nbsp<input type="text" name="email" id="in_email">
 							<br>
 							Web Address:&nbsp<input type="text" name="url" id="in_url">
+							<br>
+							Description:&nbsp<input type="text" name="desc" id="in_desc">
 							<br>
 							Has Tours?: Yes<input type="radio" value="true" name="tours" id="in_tours_yes">
 										No<input type="radio" value="false" name="tours" id="in_tours_no">
@@ -87,7 +89,7 @@
 					<div class="col-md-5">
 						<!-- Below is the form for creating a new brewery in the DB -->
 						<h5 class="formTitle">Create a new brewery</h6>
-							<form id="newBreweryForm" data-bind="submit: createNewBrewery"> 
+						<form id="newBreweryForm" data-bind="submit: createNewBrewery"> 
 								Name:&nbsp<input type="text" name="name" id="new_name">
 								<br>
 								Address Line 1:&nbsp<input type="text" name="addr1" id="new_addr1">
@@ -105,6 +107,8 @@
 								Email Address:&nbsp<input type="text" name="email" id="new_email">
 								<br>
 								Web Address:&nbsp<input type="text" name="url" id="new_url">
+								<br>
+								Description:&nbsp<input type="text" name="desc" id="new_desc">
 								<br>
 								Has Tours?: Yes<input type="radio" value="yes" name="tours" id="new_tours_yes">
 											No<input type="radio" value="no" name="tours" id="new_tours_no">
@@ -126,8 +130,14 @@
 								<br><br>
 								<input type="submit" value="Submit">			
 							</form>
-						</div>
 					</div>
+				</div>
+				<br><br><br><br>
+				<div class="row">
+					<div class="col-md-5">
+						<h5>WHERE AM I????</h5>
+					<div>
+				</div>
 				</div>
 			</div>
 		</div>
