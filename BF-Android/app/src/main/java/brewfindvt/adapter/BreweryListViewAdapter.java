@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -32,6 +33,8 @@ public class BreweryListViewAdapter extends ArrayAdapter<Brewery> {
                                   List<Brewery> items) {
         super(context, resourceId, items);
         this.context = context;
+        this.cacheManager = CacheManager.getInstance();
+        this.imageMap = cacheManager.getB_logos();
     }
 
     /*private view holder class*/
@@ -45,6 +48,10 @@ public class BreweryListViewAdapter extends ArrayAdapter<Brewery> {
         ViewHolder holder = null;
         Brewery brewItem = getItem(position);
 
+        if(this.imageMap == null || this.imageMap.isEmpty()) {
+            this.imageMap = this.cacheManager.getB_logos();
+        }
+
         LayoutInflater mInflater = (LayoutInflater) context
                 .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         if (convertView == null) {
@@ -57,9 +64,12 @@ public class BreweryListViewAdapter extends ArrayAdapter<Brewery> {
         } else
             holder = (ViewHolder) convertView.getTag();
 
-        imageMap = cacheManager.getB_logos();
+
         holder.txtDesc.setText(brewItem.getB_addr1());
         holder.txtTitle.setText(brewItem.getB_name());
+        if(imageMap.get(brewItem.getB_breweryNum()) == null){
+            holder.imageView.setImageResource(R.drawable.brewery_profile_pic);
+        }
         holder.imageView.setImageBitmap(imageMap.get(brewItem.getB_breweryNum()));
         return convertView;
     }

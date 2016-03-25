@@ -85,7 +85,7 @@ public class CacheManager {
     public void updateImages(List<Brewery> brews) {
         for (Brewery b : brews) {
             try {
-                Bitmap bitmap = BitmapFactory.decodeStream((InputStream) new URL(b.b_logoImage).getContent());
+                Bitmap bitmap = BitmapFactory.decodeStream((InputStream) new URL("http://ec2-52-38-43-166.us-west-2.compute.amazonaws.com/img/breweries/"+b.b_breweryNum+"/brewery_profile_pic.jpg").getContent());
                 this.b_logos.put(b.b_breweryNum,bitmap);
             } catch (MalformedURLException e) {
                 e.printStackTrace();

@@ -28,6 +28,7 @@ public class Brewery extends BrewFindObject {
 
     public int b_breweryNum;
     public int b_version;
+    public int b_utId;
     //public String b_admin
 
     public String    b_logoImage;
@@ -197,5 +198,10 @@ public class Brewery extends BrewFindObject {
     public String getB_logoImage() { return b_logoImage; }
 
     public void setB_logoImage(String logoImage) { this.b_logoImage= logoImage; }
+
+    public int getB_utId() { return b_utId; }
+
+    public void setB_utId(int b_utId) { this.b_utId = b_utId; }
+
 
 }
