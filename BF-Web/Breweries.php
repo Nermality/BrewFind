@@ -28,9 +28,14 @@
 <body>
     <?php include 'header.html' ?>
 	<!-- Page Content -->
-	<div class="box">
-		<div class="container">		
+	<div class="container">
+			<div class="row">
+				<div class="box">
+					<div id="error">
+						
+					</div>
 			<div class="col-md-4">
+			
 				<p style="font-size:25px">Breweries</p>
 					<div class="breweryList">
 						<table>
@@ -57,6 +62,7 @@
 						<p id="bEmail"/><br/>
 					</div>
 				</div>
+			</div>
 			</div>
 		</div>
 	</div>

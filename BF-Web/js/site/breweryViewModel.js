@@ -1,7 +1,7 @@
 
 function BreweryViewModel() {
 	var self = this;
-
+	
 	self.apiUrl = "http://localhost:8080";
 	self.breweryEnd = self.apiUrl + "/brewery";
 	self.eventEnd = self.apiUrl + "/event";
@@ -21,7 +21,7 @@ function BreweryViewModel() {
 		document.getElementById("brewTitle").innerHTML = brewery.b_name;
 		document.getElementById("bDesc").innerHTML = brewery.b_description;
 		document.getElementById("bAddr1").innerHTML = brewery.b_addr1;
-
+		
 		var logo = document.getElementById("brewLogo");
 		logo.src = "img/breweries/" + brewery.b_breweryNum + "/brewery_profile_pic.jpg";
 		logo.onerror = function() {
@@ -50,6 +50,9 @@ function BreweryViewModel() {
 		console.log("Making a pin for " + brewery.b_name);
 		if(marker != null){ marker.setMap(null); }
 		
+		var nameForUrl = brewery.b_name.replace(/ /g, "+");
+		var googleUrl = "http://maps.google.com/maps/place/" + nameForUrl;
+		
 		var contentString = '<div id="content">'+
       '<div id="siteNotice">'+
       '</div>'+
@@ -58,15 +61,16 @@ function BreweryViewModel() {
       '<p>'+brewery.b_phone+'</p>'+
 	  '<p>'+brewery.b_email+'</p>'+
 	  '<p>'+brewery.b_addr1+'</p>'+
+	  '<p>'+brewery.b_state+' 05452</p>'+
 	  '<p>'+brewery.b_url+'</p>'+
+	  '<a id="googleMapLink" href=googleUrl>"Google Map link"</a>'+
       '</div>'+
       '</div>';
-
 		
 		var infowindow = new google.maps.InfoWindow({
     		content: contentString
 		});
-		
+				
 		var brewLoc = new google.maps.LatLng(brewery.b_lat, brewery.b_long);
 		marker = new google.maps.Marker(
 		{
@@ -76,6 +80,7 @@ function BreweryViewModel() {
 
 		marker.addListener('click', function() {
     		infowindow.open(map, marker);
+			document.getElementById("googleMapLink").href = googleUrl;
   		});
 		
 		marker.setMap(map);	
@@ -157,6 +162,11 @@ function BreweryViewModel() {
 			if(newBrewery.status != 0) {
 				console.log("Something went wrong...");
 				console.log(newBrewery.description);
+				var div = document.getElementById("errorDIV");
+				var message = 'Opps, some error occured  ---  ';
+				var errorMessage = message.concat(newBrewery.description) ;
+				document.getElementById("error").innerHTML = errorMessage;
+
 			} else {
 				rawBrews = newBrewery.rObj;
 				rawBrews.forEach(function(entry) {
@@ -168,6 +178,10 @@ function BreweryViewModel() {
 
 	    xhr.onerror = function() {
 	    	console.log('XHR failure');
+			var div = document.getElementById("errorDIV");
+			var message = 'Opps, some error occured  --- It looks like this webpage can\'t find the api. ';
+			document.getElementById("error").innerHTML = message;
+		
 	    }
 
 	    var string = JSON.stringify(newQuery);
@@ -216,12 +230,23 @@ function BreweryViewModel() {
 				} else {
 					console.log("Something went wrong...");
 					console.log(data.description);
+					var div = document.getElementById("errorDIV");
+					var message = 'Opps, some error occured  ---  ';
+					var errorMessage = message.concat(data.description) ;
+					document.getElementById("error").innerHTML = errorMessage;
 				}
 			},
 			error: function(err)
 			{
 				console.log("Didn't get data...");
 				console.log(err);
+				var div = document.getElementById("errorDIV");
+				var message = 'Opps, some error occured  --- It looks like this webpage can\'t find the api. ';
+				document.getElementById("error").innerHTML = message;
+				
+				
+				
+				
 			}
 		});
 	}();
