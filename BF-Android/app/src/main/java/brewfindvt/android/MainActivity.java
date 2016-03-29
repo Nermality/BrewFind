@@ -173,13 +173,13 @@ public class MainActivity extends AppCompatActivity
         dialog.setCancelable(false);
         dialog.setInverseBackgroundForced(true);
         dialog.show();
-        dialog.setMessage("Loading breweries....");
+        dialog.setMessage("Loading...");
 
         ApiManager.getBreweries(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
-                    dialog.setMessage("Loading breweries....");
+                    dialog.setMessage("Loading breweries...");
 
                     JSONArray brews = response.getJSONArray("rObj");
                     ArrayList<Brewery> breweries = new ArrayList<>();
@@ -192,7 +192,6 @@ public class MainActivity extends AppCompatActivity
                     _cacheManager.updateImages(breweries);
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.fragment_container, _brewActivityFragment).commit();
-                    Toast.makeText(getApplicationContext(), "HOLY SHIT WHAT", Toast.LENGTH_LONG).show();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -220,7 +219,7 @@ public class MainActivity extends AppCompatActivity
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
                     dialog.show();
-                    dialog.setMessage("Loading Events");
+                    dialog.setMessage("Loading Events...");
                     JSONObject eventMap = response.getJSONObject("eventMap");
                     Map<String, List<EventSummary>> toIns = new HashMap<>();
                     ObjectMapper mapper = new ObjectMapper();
@@ -232,7 +231,6 @@ public class MainActivity extends AppCompatActivity
                         toIns.put(cal, events);
                     }
                     _cacheManager.updateEvents(toIns);
-                    Toast.makeText(getApplicationContext(), "HOLY SHIT EVENTS", Toast.LENGTH_LONG).show();
                     dialog.hide();
                 } catch (Exception e) {
                     e.printStackTrace();

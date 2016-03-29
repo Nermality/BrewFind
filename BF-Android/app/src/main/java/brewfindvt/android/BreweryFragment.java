@@ -1,30 +1,50 @@
 package brewfindvt.android;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.PorterDuff;
+import android.net.Uri;
 import android.support.v4.app.Fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.BounceInterpolator;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.aakira.expandablelayout.ExpandableLayout;
+import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.List;
 import java.util.Map;
 
+import brewfindvt.managers.ApiManager;
 import brewfindvt.managers.CacheManager;
 import brewfindvt.objects.Brewery;
+import brewfindvt.objects.Drink;
+import brewfindvt.objects.Rating;
+import brewfindvt.objects.UntappdObject;
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by user on 2/16/2016.
  */
-public class BreweryFragment extends android.support.v4.app.Fragment {
+public class BreweryFragment extends android.support.v4.app.Fragment implements View.OnClickListener {
 
-    private CacheManager cacheManager;
-    public Map<Integer, Bitmap> imageMap;
+    private LinearLayout _bigBox;
+    private LinearLayout _drinkList;
 
     private TextView _name;
     private TextView _addr1;
@@ -32,17 +52,25 @@ public class BreweryFragment extends android.support.v4.app.Fragment {
     private TextView _cityPlus;
     private TextView _phone;
     private TextView _email;
+    private TextView _desc;
+    private TextView _rating;
 
     private ImageView _logo;
-
     private ImageView _hasFood;
     private ImageView _hasTour;
     private ImageView _hasGrowler;
     private ImageView _hasTap;
 
-    private TextView _desc;
+    private Button _contactInfoButton;
+    private Button _goToMapButton;
+
+    private ExpandableRelativeLayout _contactLayout;
+
+    private CacheManager cacheManager;
 
     private Brewery newBrew;
+    private List<Drink> drinkList;
+    private Rating rating;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -52,32 +80,182 @@ public class BreweryFragment extends android.support.v4.app.Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        cacheManager = CacheManager.getInstance();
+
+        _bigBox = (LinearLayout) getActivity().findViewById(R.id.bigBox);
+        _drinkList = (LinearLayout) getActivity().findViewById(R.id.drinkList);
 
         _name = (TextView) getActivity().findViewById(R.id.brewName);
         _addr1 = (TextView) getActivity().findViewById(R.id.addr1);
         _addr2 = (TextView) getActivity().findViewById(R.id.addr2);
         _cityPlus = (TextView) getActivity().findViewById(R.id.cityPlus);
-        _phone = (TextView) getActivity().findViewById(R.id.phone);
+        _phone = (TextView) getActivity().findViewById(R.id.phoneNumber);
         _email = (TextView) getActivity().findViewById(R.id.email);
-       // _logo = (ImageView) getActivity().findViewById(R.id.logo);
+        _rating = (TextView) getActivity().findViewById(R.id.rating);
 
+        _logo = (ImageView) getActivity().findViewById(R.id.logoImageView);
         _hasFood = (ImageView) getActivity().findViewById(R.id.hasFood);
         _hasTour = (ImageView) getActivity().findViewById(R.id.hasTour);
         _hasGrowler = (ImageView) getActivity().findViewById(R.id.hasGrowler);
         _hasTap = (ImageView) getActivity().findViewById(R.id.hasTap);
 
-        _desc = (TextView) getActivity().findViewById(R.id.descText);
+        _contactInfoButton = (Button) getActivity().findViewById(R.id.contactInfoButton);
+        _contactLayout = (ExpandableRelativeLayout) getActivity().findViewById(R.id.contactInfoView);
 
-        this.cacheManager = CacheManager.getInstance();
-        this.imageMap = cacheManager.getB_logos();
+        _goToMapButton = (Button) getActivity().findViewById(R.id.mapButton);
+
+        _goToMapButton.setOnClickListener(this);
+        _contactInfoButton.setOnClickListener(this);
 
         if(newBrew != null) {
             populateBrewery(newBrew);
         }
     }
 
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()) {
+            case R.id.contactInfoButton:
+                _contactLayout.toggle();
+                break;
+            case R.id.mapButton:
+                goToMap();
+                break;
+        }
+    }
+
+    public void goToMap() {
+        String newName = newBrew.b_name.replace(" ", "+");
+        String url = "http://www.google.com/maps/place/" + newName;
+
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        startActivity(intent);
+    }
+
+    public void getUntappdInfo(int brewNum) {
+
+        List<Drink> cacheDrinks = cacheManager.getDrinks(brewNum);
+        Rating cacheRating = cacheManager.getRating(brewNum);
+        if(cacheDrinks != null && cacheRating != null) {
+            drinkList = cacheDrinks;
+            rating = cacheRating;
+            return;
+        }
+
+        ApiManager.getUntappdInfoForBrewery(brewNum, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                try {
+                    JSONArray obj = response.getJSONArray("rObj");
+                    ObjectMapper mapper = new ObjectMapper();
+                    UntappdObject newUt = mapper.readValue(obj.getString(0), UntappdObject.class);
+                    Rating newRating = new Rating(newUt.getU_rating(), newUt.getU_ratingCount());
+                    rating = newRating;
+                    drinkList = newUt.u_drinkList;
+                    cacheManager.updateFromUntappdObject(newBrew.getB_breweryNum(), newUt);
+                    populateUntappdInfo();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String response, Throwable e) {
+                Toast.makeText(getActivity().getApplicationContext(), "Failed to get Untappd info", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, java.lang.Throwable throwable, org.json.JSONArray errorResponse) {
+                Toast.makeText(getActivity().getApplicationContext(), "Failed to get Untappd info", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, java.lang.Throwable throwable, org.json.JSONObject errorResponse) {
+                Toast.makeText(getActivity().getApplicationContext(), "Failed to get Untappd info", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void populateUntappdInfo(){
+        _rating.setText("Untappd Rating: " + rating.getRating() + "/5");
+
+        for(Drink d : drinkList) {
+            makeDrinkElement(d);
+        }
+    }
+
+    public void makeDrinkElement(Drink toMake) {
+
+        Button newButton = new Button(getActivity().getApplicationContext());
+        int buttonId = drinkList.indexOf(toMake);
+        newButton.setId(buttonId);
+        String buttonTitle = toMake.getD_name() + " - " + toMake.getD_style();
+        newButton.setText(buttonTitle);
+        newButton.setCompoundDrawables(null, null, null, getResources().getDrawable(android.R.drawable.arrow_down_float));
+
+        ExpandableRelativeLayout newLayout = new ExpandableRelativeLayout(getActivity().getApplicationContext());
+        ExpandableRelativeLayout.LayoutParams p = new ExpandableRelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        p.addRule(ExpandableRelativeLayout.BELOW, buttonId);
+        newLayout.setInterpolator(new BounceInterpolator());
+        newLayout.setOrientation(ExpandableLayout.VERTICAL);
+        newLayout.setLayoutParams(p);
+        newLayout.setId(buttonId + 666);
+
+        LinearLayout big = new LinearLayout(getActivity().getApplicationContext());
+        big.setOrientation(LinearLayout.HORIZONTAL);
+        big.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 400));
+
+        LinearLayout left = new LinearLayout(getActivity().getApplicationContext());
+        left.setOrientation(LinearLayout.VERTICAL);
+        left.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT));
+        left.setWeightSum(0.6f);
+
+        TextView description = new TextView(getActivity().getApplicationContext());
+        description.setText(toMake.getD_description());
+        left.addView(description);
+
+        LinearLayout right = new LinearLayout(getActivity().getApplicationContext());
+        right.setOrientation(LinearLayout.VERTICAL);
+        right.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT));
+        right.setWeightSum(0.4f);
+
+        TextView ibu = new TextView(getActivity().getApplicationContext());
+        String ibuText = "IBU: " + toMake.getD_ibu();
+        ibu.setText(ibuText);
+        right.addView(ibu);
+
+        TextView abv = new TextView(getActivity().getApplicationContext());
+        String abvText = "ABV: " + toMake.getD_abv();
+        abv.setText(abvText);
+        right.addView(abv);
+
+        TextView dRating = new TextView(getActivity().getApplicationContext());
+        String ratingText = "Rating: " + toMake.getD_rating() + "/5";
+        dRating.setText(ratingText);
+        right.addView(dRating);
+
+        big.addView(left);
+        big.addView(right);
+        newLayout.addView(big);
+        _drinkList.addView(newButton);
+        _drinkList.addView(newLayout);
+
+        newButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int toId = v.getId();
+                ExpandableRelativeLayout lay = (ExpandableRelativeLayout) getActivity().findViewById(toId + 666);
+                lay.toggle();
+            }
+        });
+    }
+
     public void populateBrewery(Brewery brew) {
-     //   _logo.setImageBitmap(imageMap.get(brew.getB_breweryNum()));
+
+        _drinkList.removeAllViews();
+
+        getUntappdInfo(brew.getB_breweryNum());
+
         _name.setText(brew.getB_name());
         _addr1.setText(brew.getB_addr1());
         if(brew.getB_addr2() == null || brew.getB_addr2() == "") {
@@ -91,6 +269,8 @@ public class BreweryFragment extends android.support.v4.app.Fragment {
 
         _phone.setText(brew.getB_phone());
         _email.setText(brew.getB_email());
+
+        _logo.setImageBitmap(cacheManager.getLogo(brew.getB_breweryNum()));
 
         if(brew.getB_hasFood() == null) {
             _hasFood.getDrawable().setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);

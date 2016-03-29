@@ -16,7 +16,10 @@ import java.util.List;
 import java.util.Map;
 
 import brewfindvt.objects.Brewery;
+import brewfindvt.objects.Drink;
 import brewfindvt.objects.EventSummary;
+import brewfindvt.objects.Rating;
+import brewfindvt.objects.UntappdObject;
 
 /**
  * Created by user on 2/2/2016.
@@ -31,6 +34,8 @@ public class CacheManager {
     private Map<LatLng, Integer> coords;
     private Map<String, List<EventSummary>> eventMap;
     private List<EventSummary> allEvents;
+    private Map<Integer, Rating> ratings;
+    private Map<Integer, List<Drink>> drinks;
 
     private CacheManager() {
         versions = new int[50];
@@ -39,14 +44,8 @@ public class CacheManager {
         coords = new HashMap<>();
         eventMap = new HashMap<>();
         allEvents = new ArrayList<>();
-    }
-
-    public Map<Integer, Brewery> getBreweries() {
-        return this.breweries;
-    }
-
-    public Map<LatLng, Integer> getCoords() {
-        return this.coords;
+        ratings = new HashMap<>();
+        drinks = new HashMap<>();
     }
 
     public static CacheManager getInstance() {
@@ -55,6 +54,32 @@ public class CacheManager {
         }
         return instance;
     }
+
+    public Map<Integer, Brewery> getBreweries() { return this.breweries; }
+
+    public Map<Integer, Rating> getRatings() { return this.ratings; }
+
+    public Rating getRating(int brewNum) { return this.ratings.get(brewNum); }
+
+    public Map<Integer, List<Drink>> getDrinks() { return this.drinks; }
+
+    public List<Drink> getDrinks(int brewNum) { return this.drinks.get(brewNum); }
+
+    public Map<String, List<EventSummary>> getEventMap() {
+        return eventMap;
+    }
+
+    public List<EventSummary> getAllEvents() {
+        return allEvents;
+    }
+
+    public Map<Integer, Bitmap> getB_logos() {
+        return b_logos;
+    }
+
+    public Bitmap getLogo(int brewNum) { return b_logos.get(brewNum); }
+
+    public Map<LatLng, Integer> getCoords() { return this.coords; }
 
     public void updateVersions(int[] vers) {
         versions = vers;
@@ -95,16 +120,12 @@ public class CacheManager {
         }
     }
 
-    public Map<String, List<EventSummary>> getEventMap() {
-        return eventMap;
+    public void updateFromUntappdObject(int brewNum, UntappdObject got) {
+        this.ratings.put(brewNum, new Rating(got.getU_rating(), got.getU_ratingCount()));
+        this.drinks.put(brewNum, got.getU_drinkList());
+        return;
     }
 
-    public List<EventSummary> getAllEvents() {
-        return allEvents;
-    }
 
-    public Map<Integer, Bitmap> getB_logos() {
-        return b_logos;
-    }
 
 }

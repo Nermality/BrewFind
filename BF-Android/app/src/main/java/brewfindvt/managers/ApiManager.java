@@ -21,7 +21,8 @@ import cz.msebera.android.httpclient.Header;
 public class ApiManager {
 
     private static final String TEST_ENDPOINT = "http://jsonplaceholder.typicode.com/posts/1";
-    private static final String BASE_API = "http://155.42.112.170:8080";
+    private static final String BASE_API = "http://52.35.37.107:8080";
+    private static final String UNTAPPD_ENDPOINT = "/utwrapper";
     private static final String BREWERY_ENDPOINT = "/brewery";
     private static final String USER_ENDPOINT = "/user";
     private static final String EVENT_ENDPOINT = "/event";
@@ -38,6 +39,10 @@ public class ApiManager {
 
     public static void updateBreweries(List<Version> current, AsyncHttpResponseHandler handler) {
         client.post((BASE_API + BREWERY_ENDPOINT + "/update"), handler);
+    }
+
+    public static void getUntappdInfoForBrewery(int brewNum, AsyncHttpResponseHandler handler) {
+        client.get((BASE_API + UNTAPPD_ENDPOINT + "/" + brewNum), handler);
     }
 
     public static void getEvents(AsyncHttpResponseHandler handler) {

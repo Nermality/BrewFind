@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <ScrollView
@@ -13,7 +15,8 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:id="@+id/bigBox">
 
             <LinearLayout
                 android:orientation="vertical"
@@ -30,42 +33,45 @@
                     android:id="@+id/brewName"
                     android:layout_weight=".25"
                     android:textStyle="bold"
-                    android:height="50dp" />
+                    android:height="50dp"
+                    android:textSize="25sp"
+                    android:singleLine="true" />
 
-                <TextView
+                <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="fill_parent"
-                    android:layout_height="0dp"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:id="@+id/addr1"
-                    android:layout_weight=".12" />
+                    android:layout_height="100dp">
 
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="0dp"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:id="@+id/addr2"
-                    android:layout_weight=".12" />
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight=".5"
+                        android:paddingRight="20dp">
 
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="0dp"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:id="@+id/cityPlus"
-                    android:layout_weight=".12" />
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="0dp"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:id="@+id/rating"
+                            android:layout_weight=".5" />
 
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="0dp"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:id="@+id/phone"
-                    android:layout_weight=".12" />
+                        <Button
+                            android:layout_width="fill_parent"
+                            android:layout_height="0dp"
+                            android:text="View in Maps"
+                            android:id="@+id/mapButton"
+                            android:layout_weight=".4" />
+                    </LinearLayout>
 
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="0dp"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:id="@+id/email"
-                    android:layout_weight=".12" />
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:id="@+id/logoImageView"
+                        android:layout_weight=".3"
+                        android:paddingLeft="20dp" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -104,25 +110,109 @@
                     android:id="@+id/hasTap"
                     android:layout_weight=".25"
                     android:src="@mipmap/li_tap" />
+
             </LinearLayout>
+
+            <Button
+                android:id="@+id/contactInfoButton"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#ba1f04"
+                android:drawableRight="@android:drawable/arrow_down_float"
+                android:paddingRight="10dp"
+                android:text="Contact Info"
+                android:textColor="#fff" />
+
+            <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+                android:id="@+id/contactInfoView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/contactInfoButton"
+                android:background="#90ba1f04"
+                android:padding="16dp"
+                app:ael_duration="400"
+                app:ael_expanded="false"
+                app:ael_interpolator="bounce"
+                app:ael_orientation="vertical">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:minHeight="250dp"
+                    android:id="@+id/contactInfoBox">
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dp"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Medium Text"
+                        android:id="@+id/addr1"
+                        android:layout_weight=".12" />
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dp"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Medium Text"
+                        android:id="@+id/addr2"
+                        android:layout_weight=".12" />
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dp"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Medium Text"
+                        android:id="@+id/cityPlus"
+                        android:layout_weight=".12" />
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dp"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Medium Text"
+                        android:id="@+id/phoneNumber"
+                        android:layout_weight=".12" />
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dp"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Medium Text"
+                        android:id="@+id/email"
+                        android:layout_weight=".12" />
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dp"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Medium Text"
+                        android:id="@+id/url"
+                        android:layout_weight=".12" />
+                </LinearLayout>
+
+            </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Drink List"
+                android:id="@+id/drinkListTitle"
+                style="@android:style/TextAppearance.DeviceDefault.Large"
+                android:textSize="@dimen/abc_text_size_display_1_material"
+                android:textAlignment="center"
+                android:paddingTop="10dp" />
 
             <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:id="@+id/description"
-                android:layout_weight=".35"
-                android:padding="15dp">
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:id="@+id/descText"
-                    android:singleLine="false" />
-            </LinearLayout>
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/drinkList"></LinearLayout>
 
         </LinearLayout>
+
+
     </ScrollView>
 
 </LinearLayout>
