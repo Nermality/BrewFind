@@ -1,5 +1,8 @@
 package brewfindvt.android;
 
+import android.app.ActionBar;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -9,6 +12,7 @@ import android.net.Uri;
 import android.support.v4.app.Fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +20,7 @@ import android.view.animation.BounceInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +32,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -67,6 +73,7 @@ public class BreweryFragment extends android.support.v4.app.Fragment implements 
     private ExpandableRelativeLayout _contactLayout;
 
     private CacheManager cacheManager;
+    private ProgressDialog dialog;
 
     private Brewery newBrew;
     private List<Drink> drinkList;
@@ -81,6 +88,7 @@ public class BreweryFragment extends android.support.v4.app.Fragment implements 
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         cacheManager = CacheManager.getInstance();
+        dialog = new ProgressDialog(getActivity());
 
         _bigBox = (LinearLayout) getActivity().findViewById(R.id.bigBox);
         _drinkList = (LinearLayout) getActivity().findViewById(R.id.drinkList);
@@ -142,6 +150,9 @@ public class BreweryFragment extends android.support.v4.app.Fragment implements 
             return;
         }
 
+        dialog.show();
+        dialog.setMessage("Loading Untappd info...");
+
         ApiManager.getUntappdInfoForBrewery(brewNum, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -153,7 +164,9 @@ public class BreweryFragment extends android.support.v4.app.Fragment implements 
                     rating = newRating;
                     drinkList = newUt.u_drinkList;
                     cacheManager.updateFromUntappdObject(newBrew.getB_breweryNum(), newUt);
+                    dialog.setMessage("Nearly there...");
                     populateUntappdInfo();
+                    dialog.hide();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -184,6 +197,30 @@ public class BreweryFragment extends android.support.v4.app.Fragment implements 
         }
     }
 
+    private ArrayList<View> getAllChildren(View v) {
+
+        if (!(v instanceof ViewGroup)) {
+            ArrayList<View> viewArrayList = new ArrayList<View>();
+            viewArrayList.add(v);
+            return viewArrayList;
+        }
+
+        ArrayList<View> result = new ArrayList<View>();
+
+        ViewGroup viewGroup = (ViewGroup) v;
+        for (int i = 0; i < viewGroup.getChildCount(); i++) {
+
+            View child = viewGroup.getChildAt(i);
+
+            ArrayList<View> viewArrayList = new ArrayList<View>();
+            viewArrayList.add(v);
+            viewArrayList.addAll(getAllChildren(child));
+
+            result.addAll(viewArrayList);
+        }
+        return result;
+    }
+
     public void makeDrinkElement(Drink toMake) {
 
         Button newButton = new Button(getActivity().getApplicationContext());
@@ -192,6 +229,15 @@ public class BreweryFragment extends android.support.v4.app.Fragment implements 
         String buttonTitle = toMake.getD_name() + " - " + toMake.getD_style();
         newButton.setText(buttonTitle);
         newButton.setCompoundDrawables(null, null, null, getResources().getDrawable(android.R.drawable.arrow_down_float));
+        newButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int toId = v.getId();
+                ExpandableRelativeLayout lay = (ExpandableRelativeLayout) getActivity().findViewById(toId + 666);
+                Toast.makeText(getActivity().getApplicationContext(), String.valueOf(getAllChildren(lay).size()), Toast.LENGTH_LONG).show();
+                lay.toggle();
+            }
+        });
 
         ExpandableRelativeLayout newLayout = new ExpandableRelativeLayout(getActivity().getApplicationContext());
         ExpandableRelativeLayout.LayoutParams p = new ExpandableRelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -200,6 +246,10 @@ public class BreweryFragment extends android.support.v4.app.Fragment implements 
         newLayout.setOrientation(ExpandableLayout.VERTICAL);
         newLayout.setLayoutParams(p);
         newLayout.setId(buttonId + 666);
+        newLayout.setBackgroundColor(Color.GRAY);
+
+        LinearLayout.LayoutParams fullHeightParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        LinearLayout.LayoutParams sharedHeightParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 0.25f);
 
         LinearLayout big = new LinearLayout(getActivity().getApplicationContext());
         big.setOrientation(LinearLayout.HORIZONTAL);
@@ -207,53 +257,56 @@ public class BreweryFragment extends android.support.v4.app.Fragment implements 
 
         LinearLayout left = new LinearLayout(getActivity().getApplicationContext());
         left.setOrientation(LinearLayout.VERTICAL);
-        left.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT));
-        left.setWeightSum(0.6f);
+        left.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.6f));
 
         TextView description = new TextView(getActivity().getApplicationContext());
         description.setText(toMake.getD_description());
-        left.addView(description);
+        description.setLayoutParams(fullHeightParams);
+        description.setTextColor(Color.BLACK);
 
         LinearLayout right = new LinearLayout(getActivity().getApplicationContext());
         right.setOrientation(LinearLayout.VERTICAL);
-        right.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT));
-        right.setWeightSum(0.4f);
+        right.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.4f));
 
         TextView ibu = new TextView(getActivity().getApplicationContext());
         String ibuText = "IBU: " + toMake.getD_ibu();
         ibu.setText(ibuText);
-        right.addView(ibu);
+        ibu.setLayoutParams(sharedHeightParams);
+        ibu.setTextColor(Color.BLACK);
 
         TextView abv = new TextView(getActivity().getApplicationContext());
         String abvText = "ABV: " + toMake.getD_abv();
         abv.setText(abvText);
-        right.addView(abv);
+        abv.setLayoutParams(sharedHeightParams);
+        abv.setTextColor(Color.BLACK);
 
         TextView dRating = new TextView(getActivity().getApplicationContext());
         String ratingText = "Rating: " + toMake.getD_rating() + "/5";
         dRating.setText(ratingText);
-        right.addView(dRating);
+        dRating.setLayoutParams(sharedHeightParams);
+        dRating.setTextColor(Color.BLACK);
 
+        _drinkList.addView(newButton);
+
+        newLayout.addView(big);
         big.addView(left);
         big.addView(right);
-        newLayout.addView(big);
-        _drinkList.addView(newButton);
+        left.addView(description);
+        right.addView(abv);
+        right.addView(ibu);
+        right.addView(dRating);
         _drinkList.addView(newLayout);
 
-        newButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int toId = v.getId();
-                ExpandableRelativeLayout lay = (ExpandableRelativeLayout) getActivity().findViewById(toId + 666);
-                lay.toggle();
-            }
-        });
     }
 
     public void populateBrewery(Brewery brew) {
 
-        _drinkList.removeAllViews();
+        dialog.setCancelable(false);
+        dialog.setInverseBackgroundForced(true);
+        dialog.show();
+        dialog.setMessage("Loading brewery info...");
 
+        _drinkList.removeAllViews();
         getUntappdInfo(brew.getB_breweryNum());
 
         _name.setText(brew.getB_name());

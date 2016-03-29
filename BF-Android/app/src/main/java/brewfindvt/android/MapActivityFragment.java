@@ -1,5 +1,6 @@
 package brewfindvt.android;
 
+import android.app.ProgressDialog;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -105,7 +106,6 @@ public class MapActivityFragment extends Fragment implements
         mapFrag = MapFragment.newInstance();
         getActivity().getFragmentManager().beginTransaction()
                 .add(R.id.mapHolster, mapFrag).commit();
-
         mapFrag.getMapAsync(this);
 
         seekText.setText("Search distance: 5 miles");
