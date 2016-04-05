@@ -74,7 +74,7 @@ public class BreweryActivityFragment extends Fragment
 
     public void populatePage(){
         BreweryListViewAdapter adapter = new BreweryListViewAdapter(getActivity(),
-                R.layout.list_brew, brewItems);
+                R.layout.brew_view, brewItems);
             if(adapter != null) {
                 adapter.clear();
             }
