@@ -55,6 +55,44 @@ public class CacheManager {
         return instance;
     }
 
+    public void updateBreweries(List<Brewery> brews) {
+        for(Brewery b : brews) {
+            this.breweries.put(b.b_breweryNum, b);
+        }
+
+        this.coords.clear();
+        for(Brewery b : breweries.values()) {
+            LatLng toAdd = new LatLng(b.b_lat, b.b_long);
+            this.coords.put(toAdd, b.b_breweryNum);
+        }
+
+        // TODO: init versions
+    }
+
+    public void updateEvents(Map<String, List<EventSummary>> events) {
+        this.eventMap = events;
+        for(List<EventSummary> l : events.values()) {
+            allEvents.addAll(l);
+        }
+    }
+
+
+    public void updateImages(List<Brewery> brews) {
+        for (Brewery b : brews) {
+            try {
+                Bitmap bitmap = BitmapFactory.decodeStream((InputStream) new URL("http://ec2-52-38-43-166.us-west-2.compute.amazonaws.com/img/breweries/"+b.b_breweryNum+"/brewery_profile_pic.jpg").getContent());
+                this.b_logos.put(b.b_breweryNum,bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void updateFromUntappdObject(int brewNum, UntappdObject got) {
+        this.ratings.put(brewNum, new Rating(got.getU_rating(), got.getU_ratingCount()));
+        this.drinks.put(brewNum, got.getU_drinkList());
+    }
+
     public Map<Integer, Brewery> getBreweries() { return this.breweries; }
 
     public Map<Integer, Rating> getRatings() { return this.ratings; }
@@ -84,48 +122,4 @@ public class CacheManager {
     public void updateVersions(int[] vers) {
         versions = vers;
     }
-
-    public void updateBreweries(List<Brewery> brews) {
-        for(Brewery b : brews) {
-            this.breweries.put(b.b_breweryNum, b);
-        }
-
-        this.coords.clear();
-        for(Brewery b : breweries.values()) {
-            LatLng toAdd = new LatLng(b.b_lat, b.b_long);
-            this.coords.put(toAdd, b.b_breweryNum);
-        }
-
-        // TODO: init versions
-    }
-
-    public void updateEvents(Map<String, List<EventSummary>> events) {
-        this.eventMap = events;
-        for(List<EventSummary> l : events.values()) {
-            allEvents.addAll(l);
-        }
-    }
-
-
-    public void updateImages(List<Brewery> brews) {
-        for (Brewery b : brews) {
-            try {
-                Bitmap bitmap = BitmapFactory.decodeStream((InputStream) new URL("http://ec2-52-38-43-166.us-west-2.compute.amazonaws.com/img/breweries/"+b.b_breweryNum+"/brewery_profile_pic.jpg").getContent());
-                this.b_logos.put(b.b_breweryNum,bitmap);
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public void updateFromUntappdObject(int brewNum, UntappdObject got) {
-        this.ratings.put(brewNum, new Rating(got.getU_rating(), got.getU_ratingCount()));
-        this.drinks.put(brewNum, got.getU_drinkList());
-        return;
-    }
-
-
-
 }

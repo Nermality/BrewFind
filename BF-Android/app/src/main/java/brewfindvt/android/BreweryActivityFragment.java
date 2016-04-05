@@ -33,7 +33,6 @@ public class BreweryActivityFragment extends Fragment
 
     public  Map<Integer, Brewery> brewMap;
     public String lastError;
-    public GoogleApiClient apiClient;
     Fragment _breweryFragment;
     private CacheManager cacheManager;
     public  ListView listView;
@@ -81,7 +80,6 @@ public class BreweryActivityFragment extends Fragment
             }
                 brewMap = cacheManager.getBreweries();
                 brewItems.addAll(cacheManager.getBreweries().values());
-                listView = (ListView) getView().findViewById(R.id.listView);
                 listView = (ListView) getActivity().findViewById(R.id.listView);
             listView.setAdapter(adapter);
 

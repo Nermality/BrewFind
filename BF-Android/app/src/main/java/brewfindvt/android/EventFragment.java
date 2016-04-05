@@ -1,23 +1,40 @@
 package brewfindvt.android;
 
 import android.app.usage.UsageEvents;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import brewfindvt.objects.EventSummary;
 
 /**
  * Created by user on 2/28/2016.
  */
-public class EventFragment extends Fragment {
+public class EventFragment extends Fragment implements View.OnClickListener {
 
     EventSummary newEvent;
-    TextView name;
-    TextView description;
+
+    TextView _name;
+    TextView _host;
+    TextView _startDate;
+    TextView _endDate;
+    TextView _locationText;
+    TextView _description;
+
+    Button _dateButton;
+    Button _locationButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -28,12 +45,43 @@ public class EventFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        name = (TextView) getActivity().findViewById(R.id.eventName);
-        description = (TextView) getActivity().findViewById(R.id.eventDesc);
+        _name = (TextView) getActivity().findViewById(R.id.eventName);
+        _host = (TextView) getActivity().findViewById(R.id.eventHost);
+        _startDate = (TextView) getActivity().findViewById(R.id.startDate);
+        _endDate = (TextView) getActivity().findViewById(R.id.endDate);
+        _locationText = (TextView) getActivity().findViewById(R.id.locationText);
+        _description = (TextView) getActivity().findViewById(R.id.descriptionText);
+
+        _dateButton = (Button) getActivity().findViewById(R.id.calendarButton);
+        _locationButton = (Button) getActivity().findViewById(R.id.mapButton);
+
+        _dateButton.setOnClickListener(this);
+        _locationButton.setOnClickListener(this);
 
         if(newEvent != null) {
             populateEvent();
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()) {
+            case R.id.calendarButton:
+                goToCalendar();
+            case R.id.mapButton:
+                goToMap();
+        }
+    }
+
+    public void goToCalendar() {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(newEvent.getHtmlLink()));
+        startActivity(intent);
+    }
+
+    public void goToMap() {
+        String url = "http://reddit.com";
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        startActivity(intent);
     }
 
     public void setNewEvent(EventSummary e) {
@@ -41,7 +89,64 @@ public class EventFragment extends Fragment {
     }
 
     public void populateEvent() {
-        name.setText(newEvent.getName());
-        description.setText(newEvent.getDescription());
+        _name.setText(newEvent.getName());
+        _host.setText("Hosted by: " + newEvent.getBreweryName());
+        _locationText.setText(newEvent.getLocation());
+        if(_locationText.getText().equals("TBD")) {
+            _locationButton.setEnabled(false);
+        } else {
+            _locationButton.setEnabled(true);
+        }
+        if(newEvent.getHtmlLink() == null || newEvent.getHtmlLink() == "") {
+            _dateButton.setEnabled(false);
+        } else {
+            _dateButton.setEnabled(true);
+        }
+        _description.setText(newEvent.getDescription());
+
+        setDate();
+    }
+
+    public void setDate() {
+        SimpleDateFormat sdfParser = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SS");
+
+        if(newEvent.getStartDate() == null) {
+            _startDate.setText("Starting: TBD");
+        } else {
+            Date tempStart;
+
+            try {
+                tempStart = sdfParser.parse(newEvent.getStartDate());
+            } catch (Exception e) {
+                tempStart = null;
+                Toast.makeText(getActivity().getApplicationContext(), "There was an issue parsing dates, we're sorry", Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
+
+            if(tempStart == null) {
+                _startDate.setText("Starting: TBD");
+            } else {
+                _startDate.setText(sdfParser.format(tempStart));
+            }
+
+        }
+        if(newEvent.getEndDate() == null) {
+            _endDate.setText("Ending: None specified");
+        } else {
+            Date tempEnd;
+            try {
+                tempEnd = sdfParser.parse(newEvent.getEndDate());
+            } catch (Exception e) {
+                e.printStackTrace();
+                tempEnd = null;
+                Toast.makeText(getActivity().getApplicationContext(), "There was an issue parsing dates, we're sorry", Toast.LENGTH_SHORT).show();
+            }
+
+            if(tempEnd == null) {
+                _endDate.setText("Ending: None specified");
+            } else {
+                _endDate.setText(sdfParser.format(tempEnd));
+            }
+        }
     }
 }

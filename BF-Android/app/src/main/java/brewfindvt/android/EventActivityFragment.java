@@ -11,7 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,7 +47,7 @@ import brewfindvt.objects.EventSummary;
 public class EventActivityFragment extends Fragment {
 
     ListView eventList;
-    TextView testText;
+    Spinner sortByList;
 
     CacheManager _cacheManager;
     Map<String, List<EventSummary>> eventMap;
@@ -61,9 +63,13 @@ public class EventActivityFragment extends Fragment {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        eventList = (ListView) getView().findViewById(R.id.eventList);
-        testText = (TextView) getActivity().findViewById(R.id.testText);
+        sortByList = (Spinner) getActivity().findViewById(R.id.sortByList);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
+                R.array.eventSortBy, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sortByList.setAdapter(adapter);
 
+        eventList = (ListView) getActivity().findViewById(R.id.eventList);
         eventList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -83,7 +89,7 @@ public class EventActivityFragment extends Fragment {
         allEvents = _cacheManager.getAllEvents();
         for (int i = 0; i < allEvents.size(); i++) {
             EventListViewAdapter adapter = new EventListViewAdapter(getActivity(),
-                    R.layout.list_brew, allEvents);
+                    R.layout.event_view, allEvents);
             eventList.setAdapter(adapter);
         }
     }

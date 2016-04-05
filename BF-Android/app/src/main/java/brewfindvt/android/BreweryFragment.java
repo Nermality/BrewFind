@@ -18,9 +18,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.BounceInterpolator;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -234,7 +236,6 @@ public class BreweryFragment extends android.support.v4.app.Fragment implements 
             public void onClick(View v) {
                 int toId = v.getId();
                 ExpandableRelativeLayout lay = (ExpandableRelativeLayout) getActivity().findViewById(toId + 666);
-                Toast.makeText(getActivity().getApplicationContext(), String.valueOf(getAllChildren(lay).size()), Toast.LENGTH_LONG).show();
                 lay.toggle();
             }
         });
@@ -248,53 +249,58 @@ public class BreweryFragment extends android.support.v4.app.Fragment implements 
         newLayout.setId(buttonId + 666);
         newLayout.setBackgroundColor(Color.GRAY);
 
-        LinearLayout.LayoutParams fullHeightParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        LinearLayout.LayoutParams sharedHeightParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 0.25f);
+        LinearLayout.LayoutParams fullHeightParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        TableLayout.LayoutParams infoParams = new TableLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 0.33f);
 
         LinearLayout big = new LinearLayout(getActivity().getApplicationContext());
-        big.setOrientation(LinearLayout.HORIZONTAL);
-        big.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 400));
+        big.setOrientation(LinearLayout.VERTICAL);
+        big.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        big.setMinimumHeight(100);
 
-        LinearLayout left = new LinearLayout(getActivity().getApplicationContext());
-        left.setOrientation(LinearLayout.VERTICAL);
-        left.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.6f));
-
-        TextView description = new TextView(getActivity().getApplicationContext());
-        description.setText(toMake.getD_description());
-        description.setLayoutParams(fullHeightParams);
-        description.setTextColor(Color.BLACK);
-
-        LinearLayout right = new LinearLayout(getActivity().getApplicationContext());
-        right.setOrientation(LinearLayout.VERTICAL);
-        right.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.4f));
+        LinearLayout infoBar = new LinearLayout(getActivity().getApplicationContext());
+        infoBar.setOrientation(LinearLayout.HORIZONTAL);
+        infoBar.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
         TextView ibu = new TextView(getActivity().getApplicationContext());
         String ibuText = "IBU: " + toMake.getD_ibu();
         ibu.setText(ibuText);
-        ibu.setLayoutParams(sharedHeightParams);
+        ibu.setLayoutParams(infoParams);
         ibu.setTextColor(Color.BLACK);
 
         TextView abv = new TextView(getActivity().getApplicationContext());
         String abvText = "ABV: " + toMake.getD_abv();
         abv.setText(abvText);
-        abv.setLayoutParams(sharedHeightParams);
+        abv.setLayoutParams(infoParams);
         abv.setTextColor(Color.BLACK);
 
         TextView dRating = new TextView(getActivity().getApplicationContext());
-        String ratingText = "Rating: " + toMake.getD_rating() + "/5";
+        String ratingText = "Rating: " + String.format("%.2f",toMake.getD_rating()) + "/5";
         dRating.setText(ratingText);
-        dRating.setLayoutParams(sharedHeightParams);
+        dRating.setLayoutParams(infoParams);
         dRating.setTextColor(Color.BLACK);
+
+        FrameLayout descBox = new FrameLayout(getActivity().getApplicationContext());
+        descBox.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        TextView description = new TextView(getActivity().getApplicationContext());
+        String desc = toMake.getD_description();
+        if(desc == null || desc == "") {
+            desc = "No description available.";
+        }
+        description.setText(desc);
+        description.setLayoutParams(fullHeightParams);
+        description.setTextColor(Color.BLACK);
 
         _drinkList.addView(newButton);
 
         newLayout.addView(big);
-        big.addView(left);
-        big.addView(right);
-        left.addView(description);
-        right.addView(abv);
-        right.addView(ibu);
-        right.addView(dRating);
+        big.addView(infoBar);
+        big.addView(descBox);
+        infoBar.addView(abv);
+        infoBar.addView(ibu);
+        infoBar.addView(dRating);
+        descBox.addView(description);
+
         _drinkList.addView(newLayout);
 
     }

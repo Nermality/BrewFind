@@ -1,12 +1,20 @@
 package coldcoffee.brewfind.Objects;
 
 
+import com.google.api.client.util.DateTime;
+
+import java.util.Date;
+
 public class EventSummary {
 
 	String name;
 	String id;
 	String description;
 	String htmlLink;
+	String location;
+	String breweryName;
+	String startDate;
+	String endDate;
 
 
 	public EventSummary(String name) {
@@ -45,8 +53,38 @@ public class EventSummary {
 		this.htmlLink = htmlLink;
 	}
 
+	public String getLocation() {
+		return location;
+	}
 
-	// name
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	public String getBreweryName() {
+		return breweryName;
+	}
+
+	public void setBreweryName(String breweryName) {
+		this.breweryName = breweryName;
+	}
+
+	public String getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+// name
 	// id
 	// summmary
 	// html link

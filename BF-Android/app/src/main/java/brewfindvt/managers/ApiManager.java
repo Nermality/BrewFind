@@ -20,7 +20,6 @@ import cz.msebera.android.httpclient.Header;
  */
 public class ApiManager {
 
-    private static final String TEST_ENDPOINT = "http://jsonplaceholder.typicode.com/posts/1";
     private static final String BASE_API = "http://52.35.37.107:8080";
     private static final String UNTAPPD_ENDPOINT = "/utwrapper";
     private static final String BREWERY_ENDPOINT = "/brewery";
@@ -28,10 +27,6 @@ public class ApiManager {
     private static final String EVENT_ENDPOINT = "/event";
 
     private static AsyncHttpClient client = new AsyncHttpClient();
-
-    public static void test(AsyncHttpResponseHandler handler) {
-        client.get(TEST_ENDPOINT, handler);
-    }
 
     public static void getBreweries(AsyncHttpResponseHandler handler) {
         client.get((BASE_API + BREWERY_ENDPOINT), handler);
@@ -46,7 +41,9 @@ public class ApiManager {
     }
 
     public static void getEvents(AsyncHttpResponseHandler handler) {
-        client.get((BASE_API + EVENT_ENDPOINT), handler);
+        //client.get((BASE_API + EVENT_ENDPOINT), handler);
+        // FOR TESTING:
+        client.get("http://155.42.112.45:8080/event", handler);
     }
 
     public static void authUser(String uname, String pwd, AsyncHttpResponseHandler handler) {

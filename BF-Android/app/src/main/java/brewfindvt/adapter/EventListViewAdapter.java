@@ -30,9 +30,12 @@ public class EventListViewAdapter extends ArrayAdapter<EventSummary> {
 
     /*private view holder class*/
     private class ViewHolder {
-        ImageView imageView;
-        TextView txtTitle;
-        TextView txtDesc;
+        TextView title;
+        TextView brewery;
+        TextView town;
+        TextView month;
+        TextView day;
+        TextView year;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -42,20 +45,26 @@ public class EventListViewAdapter extends ArrayAdapter<EventSummary> {
         LayoutInflater mInflater = (LayoutInflater) context
                 .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.list_brew, null);
+            convertView = mInflater.inflate(R.layout.event_view, null);
             holder = new ViewHolder();
-            holder.txtDesc = (TextView) convertView.findViewById(R.id.desc);
-            holder.txtTitle = (TextView) convertView.findViewById(R.id.title);
-            holder.imageView = (ImageView) convertView.findViewById(R.id.icon);
+
+            holder.title = (TextView) convertView.findViewById(R.id.eventName);
+            holder.brewery = (TextView) convertView.findViewById(R.id.eventBrewery);
+            holder.town = (TextView) convertView.findViewById(R.id.eventTown);
+            holder.month = (TextView) convertView.findViewById(R.id.eventMonth);
+            holder.day = (TextView) convertView.findViewById(R.id.eventDay);
+            holder.year = (TextView) convertView.findViewById(R.id.eventYear);
+
             convertView.setTag(holder);
         } else
             holder = (ViewHolder) convertView.getTag();
 
-        holder.txtDesc.setText((eventItem.getDescription() == "No description available") ? "" : eventItem.getDescription());
-        holder.txtTitle.setText(eventItem.getName());
-        //todo Insert image for brewery obejct
-        //holder.imageView.setImageResource(brewItem.getB_logoImage());
-        // holder.imageView.setImageResource(brewItem.getB_logoImage());
+        holder.title.setText(eventItem.getName());
+        holder.brewery.setText("TEST BREWERY");
+        holder.town.setText("TEST TOWN");
+        holder.month.setText("JAN");
+        holder.day.setText("1");
+        holder.year.setText("1999");
 
         return convertView;
     }

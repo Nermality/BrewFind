@@ -40,7 +40,7 @@ public class EventService {
 			for(CalendarListEntry entry : cList.getItems()) {
 
 				String name = entry.getSummary();
-				if((name.equals("Birthdays")) || name.equals("Holidays in United States")) {
+				if((name.equals("Birthdays")) || name.equals("Holidays in United States") || name.contains("..")) {
 					continue;
 				}
 
@@ -50,7 +50,7 @@ public class EventService {
 						.setTimeMin(now)
 						.execute()
 						.getItems();
-				List<EventSummary> summ = parseGoogleEvents(eList);
+				List<EventSummary> summ = parseGoogleEvents(eList, name);
 				toRet.put(name, summ);
 			}
 		} catch(Exception e) {
@@ -60,7 +60,7 @@ public class EventService {
 		return toRet;
 	}
 
-	public List<EventSummary> parseGoogleEvents(List<Event> events) {
+	public List<EventSummary> parseGoogleEvents(List<Event> events, String brewery) {
 		List<EventSummary> toRet = new ArrayList<>();
 
 		for(Event e : events) {
@@ -70,9 +70,17 @@ public class EventService {
 			if(desc == null) {
 				desc = "No description available";
 			}
+			String location = e.getLocation();
+			if(location == null) {
+				location = "TBD";
+			}
+			toAdd.setLocation(location);
+			toAdd.setBreweryName(brewery);
 			toAdd.setDescription(desc);
 			toAdd.setHtmlLink(e.getHtmlLink());
 			toAdd.setId(e.getId());
+			toAdd.setStartDate(e.getStart().getDateTime().toString());
+			toAdd.setEndDate(e.getEnd().getDateTime().toString());
 			toRet.add(toAdd);
 		}
 

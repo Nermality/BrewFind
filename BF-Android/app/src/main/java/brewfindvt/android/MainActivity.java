@@ -226,30 +226,34 @@ public class MainActivity extends AppCompatActivity
                     Iterator<String> itr = eventMap.keys();
                     while (itr.hasNext()) {
                         String cal = itr.next();
-                        List<EventSummary> events = mapper.readValue(eventMap.getJSONArray(cal).toString(), new TypeReference<List<EventSummary>>() {
-                        });
+                        List<EventSummary> events = mapper.readValue(eventMap.getJSONArray(cal).toString(), new TypeReference<List<EventSummary>>() {});
                         toIns.put(cal, events);
                     }
                     _cacheManager.updateEvents(toIns);
                     dialog.hide();
                 } catch (Exception e) {
                     e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), "There was an issue parsing events.", Toast.LENGTH_LONG).show();
+                    dialog.hide();
                 }
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String response, Throwable e) {
                 Toast.makeText(getApplicationContext(), "Failed to get events", Toast.LENGTH_LONG).show();
+                dialog.hide();
             }
 
             @Override
             public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, java.lang.Throwable throwable, org.json.JSONArray errorResponse) {
                 Toast.makeText(getApplicationContext(), "Failed to get events", Toast.LENGTH_LONG).show();
+                dialog.hide();
             }
 
             @Override
             public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, java.lang.Throwable throwable, org.json.JSONObject errorResponse) {
                 Toast.makeText(getApplicationContext(), "Failed to get events", Toast.LENGTH_LONG).show();
+                dialog.hide();
             }
         });
     }

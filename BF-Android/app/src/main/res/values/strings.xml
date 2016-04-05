@@ -18,6 +18,11 @@
         <item>Map</item>
         <item>Events</item>
     </string-array>
+    <string-array name="eventSortBy">
+        <item>Brewery</item>
+        <item>Date</item>
+        <item>Name</item>
+    </string-array>
     <string name="action_websearch">Web search</string>
     <string name="title_activity_brewery">Brewery</string>
     <string name="title_activity_event">Event</string>
