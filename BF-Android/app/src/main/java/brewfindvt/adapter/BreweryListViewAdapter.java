@@ -12,6 +12,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import brewfindvt.android.R;
 import brewfindvt.managers.CacheManager;
 import brewfindvt.objects.Brewery;
@@ -34,8 +36,9 @@ public class BreweryListViewAdapter extends ArrayAdapter<Brewery> {
     /*private view holder class*/
     private class ViewHolder {
         ImageView imageView;
-        TextView txtTitle;
-        TextView txtDesc;
+        TextView txtName;
+        TextView txtAddr;
+        TextView txtTown;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -51,16 +54,17 @@ public class BreweryListViewAdapter extends ArrayAdapter<Brewery> {
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.brew_view, null);
             holder = new ViewHolder();
-            holder.txtDesc = (TextView) convertView.findViewById(R.id.desc);
-            holder.txtTitle = (TextView) convertView.findViewById(R.id.title);
+            holder.txtTown = (TextView) convertView.findViewById(R.id.town);
+            holder.txtAddr = (TextView) convertView.findViewById(R.id.addr);
+            holder.txtName = (TextView) convertView.findViewById(R.id.title);
             holder.imageView = (ImageView) convertView.findViewById(R.id.icon);
             convertView.setTag(holder);
         } else
             holder = (ViewHolder) convertView.getTag();
 
-
-        holder.txtDesc.setText(brewItem.getB_addr1());
-        holder.txtTitle.setText(brewItem.getB_name());
+        holder.txtTown.setText(brewItem.getB_city() + ", VT");
+        holder.txtAddr.setText(brewItem.getB_addr1());
+        holder.txtName.setText(brewItem.getB_name());
         holder.imageView.setImageBitmap(imageMap.get(brewItem.getB_breweryNum()));
         return convertView;
     }

@@ -18,70 +18,75 @@
             android:layout_height="wrap_content"
             android:id="@+id/bigBox">
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:id="@+id/coreInfo"
-                android:layout_weight=".45"
-                android:padding="15dp">
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:layout_width="fill_parent"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:id="@+id/brewName"
                     android:layout_weight=".25"
                     android:textStyle="bold"
-                    android:height="50dp"
-                    android:textSize="25sp"
-                    android:singleLine="true" />
+                    android:textSize="28sp"
+                    android:singleLine="false"
+                    android:maxLines="2" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="140dp">
 
                 <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="fill_parent"
-                    android:layout_height="100dp">
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight=".5"
+                    android:paddingRight="20dp">
 
-                    <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="0dp"
-                        android:layout_height="fill_parent"
-                        android:layout_weight=".5"
-                        android:paddingRight="20dp">
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dp"
+                        android:textAppearance="@android:style/TextAppearance.Medium"
+                        android:id="@+id/rating"
+                        android:layout_weight=".33"
+                        android:layout_gravity="center" />
 
-                        <TextView
-                            android:layout_width="fill_parent"
-                            android:layout_height="0dp"
-                            android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:id="@+id/rating"
-                            android:layout_weight=".5" />
+                    <Button
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dp"
+                        android:text="View in Maps"
+                        android:id="@+id/mapButton"
+                        android:layout_weight=".33" />
 
-                        <Button
-                            android:layout_width="fill_parent"
-                            android:layout_height="0dp"
-                            android:text="View in Maps"
-                            android:id="@+id/mapButton"
-                            android:layout_weight=".4" />
-                    </LinearLayout>
-
-                    <ImageView
-                        android:layout_width="0dp"
-                        android:layout_height="fill_parent"
-                        android:id="@+id/logoImageView"
-                        android:layout_weight=".3"
-                        android:paddingLeft="20dp" />
-
+                    <Button
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dp"
+                        android:text="View Events"
+                        android:id="@+id/eventButton"
+                        android:layout_weight=".33" />
                 </LinearLayout>
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/logoImageView"
+                    android:layout_weight=".4"
+                    android:paddingLeft="20dp" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
-                android:layout_height="0dp"
+                android:layout_height="90dp"
                 android:id="@+id/legendIcons"
                 android:layout_weight="0.37"
-                android:minHeight="128dp">
+                android:minHeight="128dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp">
 
                 <ImageView
                     android:layout_width="0dp"
@@ -195,14 +200,15 @@
 
             <TextView
                 android:layout_width="fill_parent"
-                android:layout_height="50dp"
+                android:layout_height="60dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Drink List"
                 android:id="@+id/drinkListTitle"
                 style="@android:style/TextAppearance.DeviceDefault.Large"
                 android:textSize="@dimen/abc_text_size_display_1_material"
                 android:textAlignment="center"
-                android:paddingTop="10dp" />
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp" />
 
             <LinearLayout
                 android:orientation="vertical"

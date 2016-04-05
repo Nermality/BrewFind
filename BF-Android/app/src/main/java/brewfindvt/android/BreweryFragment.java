@@ -192,7 +192,13 @@ public class BreweryFragment extends android.support.v4.app.Fragment implements 
     }
 
     public void populateUntappdInfo(){
-        _rating.setText("Untappd Rating: " + rating.getRating() + "/5");
+        String ratingText;
+        if(rating.getRating() == 0) {
+            ratingText = "N/A";
+        } else {
+            ratingText = String.format("%.2f/5", rating.getRating());
+        }
+        _rating.setText("Rating: " + ratingText);
 
         for(Drink d : drinkList) {
             makeDrinkElement(d);
