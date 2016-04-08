@@ -17,6 +17,9 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import brewfindvt.adapter.BreweryListViewAdapter;
@@ -75,15 +78,32 @@ public class BreweryActivityFragment extends Fragment
     public void populatePage(){
         BreweryListViewAdapter adapter = new BreweryListViewAdapter(getActivity(),
                 R.layout.brew_view, brewItems);
-            if(adapter != null) {
-                adapter.clear();
+        if(adapter != null) {
+            adapter.clear();
+        }
+        brewMap = cacheManager.getBreweries();
+        brewItems.addAll(cacheManager.getBreweries().values());
+
+        Comparator<Brewery> brewCompare = new Comparator<Brewery>() {
+            @Override
+            public int compare(Brewery a, Brewery b) {
+                String ac = a.getB_name();
+                String bc = b.getB_name();
+
+                if(ac.startsWith("The")) {
+                    ac = ac.substring(4);
+                }
+                if(b.getB_name().startsWith("The")) {
+                    bc = bc.substring(4);
+                }
+
+                return ac.compareTo(bc);
             }
-                brewMap = cacheManager.getBreweries();
-                brewItems.addAll(cacheManager.getBreweries().values());
-                listView = (ListView) getActivity().findViewById(R.id.listView);
-            listView.setAdapter(adapter);
+        };
+        Collections.sort(brewItems, brewCompare);
 
-
+        listView = (ListView) getActivity().findViewById(R.id.listView);
+        listView.setAdapter(adapter);
     }
 
     public void onListItemClick(View v, Brewery b) {

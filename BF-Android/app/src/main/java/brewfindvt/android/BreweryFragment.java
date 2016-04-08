@@ -2,6 +2,7 @@ package brewfindvt.android;
 
 import android.app.ActionBar;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -55,11 +56,6 @@ public class BreweryFragment extends android.support.v4.app.Fragment implements 
     private LinearLayout _drinkList;
 
     private TextView _name;
-    private TextView _addr1;
-    private TextView _addr2;
-    private TextView _cityPlus;
-    private TextView _phone;
-    private TextView _email;
     private TextView _desc;
     private TextView _rating;
 
@@ -73,6 +69,7 @@ public class BreweryFragment extends android.support.v4.app.Fragment implements 
     private Button _goToMapButton;
 
     private ExpandableRelativeLayout _contactLayout;
+    private LinearLayout _contactInfoBox;
 
     private CacheManager cacheManager;
     private ProgressDialog dialog;
@@ -96,21 +93,22 @@ public class BreweryFragment extends android.support.v4.app.Fragment implements 
         _drinkList = (LinearLayout) getActivity().findViewById(R.id.drinkList);
 
         _name = (TextView) getActivity().findViewById(R.id.brewName);
-        _addr1 = (TextView) getActivity().findViewById(R.id.addr1);
-        _addr2 = (TextView) getActivity().findViewById(R.id.addr2);
-        _cityPlus = (TextView) getActivity().findViewById(R.id.cityPlus);
-        _phone = (TextView) getActivity().findViewById(R.id.phoneNumber);
-        _email = (TextView) getActivity().findViewById(R.id.email);
         _rating = (TextView) getActivity().findViewById(R.id.rating);
 
         _logo = (ImageView) getActivity().findViewById(R.id.logoImageView);
+
         _hasFood = (ImageView) getActivity().findViewById(R.id.hasFood);
+        _hasFood.setOnClickListener(this);
         _hasTour = (ImageView) getActivity().findViewById(R.id.hasTour);
+        _hasTour.setOnClickListener(this);
         _hasGrowler = (ImageView) getActivity().findViewById(R.id.hasGrowler);
+        _hasGrowler.setOnClickListener(this);
         _hasTap = (ImageView) getActivity().findViewById(R.id.hasTap);
+        _hasTap.setOnClickListener(this);
 
         _contactInfoButton = (Button) getActivity().findViewById(R.id.contactInfoButton);
         _contactLayout = (ExpandableRelativeLayout) getActivity().findViewById(R.id.contactInfoView);
+        _contactInfoBox = (LinearLayout) getActivity().findViewById(R.id.contactInfoBox);
 
         _goToMapButton = (Button) getActivity().findViewById(R.id.mapButton);
 
@@ -124,6 +122,7 @@ public class BreweryFragment extends android.support.v4.app.Fragment implements 
 
     @Override
     public void onClick(View v) {
+        String toast;
         switch(v.getId()) {
             case R.id.contactInfoButton:
                 _contactLayout.toggle();
@@ -131,15 +130,42 @@ public class BreweryFragment extends android.support.v4.app.Fragment implements 
             case R.id.mapButton:
                 goToMap();
                 break;
+            case R.id.hasFood:
+                makeLegendToast(newBrew.getB_hasFood(), "food available.");
+                break;
+            case R.id.hasGrowler:
+                makeLegendToast(newBrew.getB_hasGrowler(), "growler services.");
+                break;
+            case R.id.hasTap:
+                makeLegendToast(newBrew.getB_hasTap(), "a tap or tasting room.");
+                break;
+            case R.id.hasTour:
+                makeLegendToast(newBrew.getB_hasTour(), "tours available.");
+                break;
         }
+    }
+
+    public void makeLegendToast(Boolean b, String s) {
+        String toast;
+        if(b == null || !b) {
+            toast = "This brewery does not have " + s;
+        } else {
+            toast = "This brewery has " + s;
+        }
+        Toast.makeText(getActivity().getApplicationContext(), toast, Toast.LENGTH_SHORT).show();
     }
 
     public void goToMap() {
         String newName = newBrew.b_name.replace(" ", "+");
         String url = "http://www.google.com/maps/place/" + newName;
 
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-        startActivity(intent);
+        try {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            startActivity(intent);
+        } catch(ActivityNotFoundException e) {
+            Toast.makeText(getActivity().getApplicationContext(), "Unable to open map.", Toast.LENGTH_LONG).show();
+        }
+
     }
 
     public void getUntappdInfo(int brewNum) {
@@ -260,7 +286,7 @@ public class BreweryFragment extends android.support.v4.app.Fragment implements 
 
         LinearLayout big = new LinearLayout(getActivity().getApplicationContext());
         big.setOrientation(LinearLayout.VERTICAL);
-        big.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        big.setLayoutParams(fullHeightParams);
         big.setMinimumHeight(100);
 
         LinearLayout infoBar = new LinearLayout(getActivity().getApplicationContext());
@@ -322,53 +348,100 @@ public class BreweryFragment extends android.support.v4.app.Fragment implements 
         getUntappdInfo(brew.getB_breweryNum());
 
         _name.setText(brew.getB_name());
-        _addr1.setText(brew.getB_addr1());
-        if(brew.getB_addr2() == null || brew.getB_addr2() == "") {
-            _addr2.setVisibility(View.GONE);
-        } else {
-            _addr2.setText(brew.getB_addr2());
-        }
 
-        String cityPlus = brew.getB_city() + ", " + brew.getB_state() + " " + brew.getB_zip();
-        _cityPlus.setText(cityPlus);
-
-        _phone.setText(brew.getB_phone());
-        _email.setText(brew.getB_email());
+        populateContactInfo();
 
         _logo.setImageBitmap(cacheManager.getLogo(brew.getB_breweryNum()));
 
-        if(brew.getB_hasFood() == null) {
-            _hasFood.getDrawable().setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
-        } else if (brew.getB_hasFood()) {
-            _hasFood.getDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
-        } else {
-            _hasFood.getDrawable().setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
+        setLegendColor(_hasFood, brew.getB_hasFood());
+        setLegendColor(_hasTour, brew.getB_hasTour());
+        setLegendColor(_hasGrowler, brew.getB_hasGrowler());
+        setLegendColor(_hasTap, brew.getB_hasTap());
+
+    }
+
+    public void populateContactInfo() {
+
+        _contactInfoBox.removeAllViews();
+
+        if(newBrew.getB_addr1() != null  && !newBrew.getB_addr1().equals("")) {
+            TextView addr1 = new TextView(getActivity().getApplicationContext());
+            addr1.setText(newBrew.getB_addr1());
+            addr1.setTextSize(18f);
+            _contactInfoBox.addView(addr1);
+        }
+        if(newBrew.getB_addr2() != null && !newBrew.getB_addr2().equals("")) {
+            TextView addr2 = new TextView(getActivity().getApplicationContext());
+            addr2.setText(newBrew.getB_addr2());
+            addr2.setTextSize(18f);
+            _contactInfoBox.addView(addr2);
         }
 
-        if(brew.getB_hasTour() == null) {
-            _hasTour.getDrawable().setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
-        } else if (brew.getB_hasTour()) {
-            _hasTour.getDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
-        } else {
-            _hasTour.getDrawable().setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
+        String cityPlus = newBrew.getB_city() + ", VT " + newBrew.getB_zip();
+        TextView cpView = new TextView(getActivity().getApplicationContext());
+        cpView.setText(cityPlus);
+        cpView.setTextSize(18f);
+        _contactInfoBox.addView(cpView);
+
+        if(newBrew.getB_phone() != null  && !newBrew.getB_phone().equals("")) {
+            TextView phone = new TextView(getActivity().getApplicationContext());
+            phone.setText(newBrew.getB_phone());
+            phone.setTextSize(18f);
+            phone.setPadding(0, 50, 0, 50);
+            phone.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String num = "tel: " + newBrew.getB_phone().trim();
+                    try {
+                        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse(num));
+                        startActivity(intent);
+                    } catch(ActivityNotFoundException e) {
+                        Toast.makeText(getActivity().getApplicationContext(), "Unable to call brewery", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+            _contactInfoBox.addView(phone);
         }
 
-        if(brew.getB_hasGrowler() == null) {
-            _hasGrowler.getDrawable().setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
-        } else if (brew.getB_hasGrowler()) {
-            _hasGrowler.getDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
-        } else {
-            _hasGrowler.getDrawable().setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
+        if(newBrew.getB_email() != null  && !newBrew.getB_email().equals("")) {
+            TextView email = new TextView(getActivity().getApplicationContext());
+            email.setText(newBrew.getB_email());
+            email.setTextSize(18f);
+            _contactInfoBox.addView(email);
         }
 
-        if(brew.getB_hasTap() == null) {
-            _hasTap.getDrawable().setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
-        } else if (brew.getB_hasTap()) {
-            _hasTap.getDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
-        } else {
-            _hasTap.getDrawable().setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
+        if(newBrew.getB_url() != null  && !newBrew.getB_url().equals("")) {
+            TextView url = new TextView(getActivity().getApplicationContext());
+            url.setText(newBrew.getB_url());
+            url.setTextSize(18f);
+            url.setMinHeight(200);
+            url.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        String url = newBrew.getB_url();
+                        if (!url.startsWith("http://")) {
+                            url = "http://" + url;
+                        }
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                        startActivity(intent);
+                    } catch (ActivityNotFoundException e) {
+                        Toast.makeText(getActivity().getApplicationContext(), "Couldn't open website", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+            _contactInfoBox.addView(url);
         }
+    }
 
+    public void setLegendColor(ImageView i, Boolean b) {
+        if(b == null) {
+            i.getDrawable().setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+        } else if (b) {
+            i.getDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
+        } else {
+           i.getDrawable().setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
+        }
     }
 
     public void setNewBrew(Brewery b) {

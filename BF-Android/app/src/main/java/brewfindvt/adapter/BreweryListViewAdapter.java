@@ -22,7 +22,6 @@ public class BreweryListViewAdapter extends ArrayAdapter<Brewery> {
     private CacheManager cacheManager;
     public Map<Integer, Bitmap> imageMap;
 
-
     Context context;
 
     public BreweryListViewAdapter(Context context, int resourceId,
@@ -59,11 +58,18 @@ public class BreweryListViewAdapter extends ArrayAdapter<Brewery> {
             holder.txtName = (TextView) convertView.findViewById(R.id.title);
             holder.imageView = (ImageView) convertView.findViewById(R.id.icon);
             convertView.setTag(holder);
-        } else
+        } else {
             holder = (ViewHolder) convertView.getTag();
+        }
 
-        holder.txtTown.setText(brewItem.getB_city() + ", VT");
-        holder.txtAddr.setText(brewItem.getB_addr1());
+        if(brewItem.getB_addr1() == null || brewItem.getB_addr1().equals("")) {
+            holder.txtAddr.setText(brewItem.getB_city() + ", VT");
+            holder.txtTown.setVisibility(View.INVISIBLE);
+        } else {
+            holder.txtAddr.setText(brewItem.getB_addr1());
+            holder.txtTown.setText(brewItem.getB_city() + ", VT");
+            holder.txtTown.setVisibility(View.VISIBLE);
+        }
         holder.txtName.setText(brewItem.getB_name());
         holder.imageView.setImageBitmap(imageMap.get(brewItem.getB_breweryNum()));
         return convertView;
