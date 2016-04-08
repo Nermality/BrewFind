@@ -32,7 +32,7 @@ public class CacheManager {
     private Map<Integer, Brewery> breweries;
     private Map<Integer, Bitmap> b_logos;
     private Map<LatLng, Integer> coords;
-    private Map<String, List<EventSummary>> eventMap;
+    private Map<Integer, List<EventSummary>> eventMap;
     private List<EventSummary> allEvents;
     private Map<Integer, Rating> ratings;
     private Map<Integer, List<Drink>> drinks;
@@ -69,7 +69,7 @@ public class CacheManager {
         // TODO: init versions
     }
 
-    public void updateEvents(Map<String, List<EventSummary>> events) {
+    public void updateEvents(Map<Integer, List<EventSummary>> events) {
         this.eventMap = events;
         for(List<EventSummary> l : events.values()) {
             allEvents.addAll(l);
@@ -103,7 +103,7 @@ public class CacheManager {
 
     public List<Drink> getDrinks(int brewNum) { return this.drinks.get(brewNum); }
 
-    public Map<String, List<EventSummary>> getEventMap() {
+    public Map<Integer, List<EventSummary>> getEventMap() {
         return eventMap;
     }
 
