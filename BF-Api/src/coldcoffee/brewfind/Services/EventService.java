@@ -6,11 +6,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import coldcoffee.brewfind.Objects.Brewery;
 import coldcoffee.brewfind.Objects.EventSummary;
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.model.CalendarList;
 import com.google.api.services.calendar.model.CalendarListEntry;
 import com.google.api.services.calendar.model.Event;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.api.services.calendar.Calendar;
@@ -18,6 +20,9 @@ import com.google.api.services.calendar.model.Events;
 
 @Service
 public class EventService {
+
+	@Autowired
+	public BreweryService breweryService;
 	
 	private Calendar CALENDAR;
 		
@@ -32,8 +37,8 @@ public class EventService {
 
 	}
 	
-	public Map<String, List<EventSummary>> getEvents() throws IOException {
-		Map<String, List<EventSummary>> toRet = new HashMap<>();
+	public Map<Integer, List<EventSummary>> getEvents() throws IOException {
+		Map<Integer, List<EventSummary>> toRet = new HashMap<>();
 		DateTime now = new DateTime(System.currentTimeMillis());
 		try {
 			CalendarList cList =  CALENDAR.calendarList().list().execute();
@@ -44,6 +49,10 @@ public class EventService {
 					continue;
 				}
 
+				Integer num = breweryService.findBrewNum(name);
+				if(num == -1){
+					//Brewery does not exist in database return -1
+				}
 				String id = entry.getId();
 				List<Event> eList = CALENDAR.events()
 						.list(id)
@@ -51,7 +60,7 @@ public class EventService {
 						.execute()
 						.getItems();
 				List<EventSummary> summ = parseGoogleEvents(eList, name);
-				toRet.put(name, summ);
+				toRet.put(num, summ);
 			}
 		} catch(Exception e) {
 			throw e;
