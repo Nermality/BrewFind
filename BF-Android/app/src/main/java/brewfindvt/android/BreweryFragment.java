@@ -67,6 +67,7 @@ public class BreweryFragment extends android.support.v4.app.Fragment implements 
 
     private Button _contactInfoButton;
     private Button _goToMapButton;
+    private Button _eventButton;
 
     private ExpandableRelativeLayout _contactLayout;
     private LinearLayout _contactInfoBox;
@@ -111,6 +112,8 @@ public class BreweryFragment extends android.support.v4.app.Fragment implements 
         _contactInfoBox = (LinearLayout) getActivity().findViewById(R.id.contactInfoBox);
 
         _goToMapButton = (Button) getActivity().findViewById(R.id.mapButton);
+        _eventButton = (Button) getActivity().findViewById(R.id.eventButton);
+        _eventButton.setOnClickListener(this);
 
         _goToMapButton.setOnClickListener(this);
         _contactInfoButton.setOnClickListener(this);
@@ -129,6 +132,9 @@ public class BreweryFragment extends android.support.v4.app.Fragment implements 
                 break;
             case R.id.mapButton:
                 goToMap();
+                break;
+            case R.id.eventButton:
+                ((MainActivity)getActivity()).makeEventsForBrewery(newBrew.getB_breweryNum());
                 break;
             case R.id.hasFood:
                 makeLegendToast(newBrew.getB_hasFood(), "food available.");

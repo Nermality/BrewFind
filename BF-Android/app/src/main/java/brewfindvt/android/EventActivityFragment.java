@@ -50,6 +50,8 @@ public class EventActivityFragment extends Fragment {
     ListView eventList;
     Spinner sortByList;
 
+    private int newBrewNum;
+
     CacheManager _cacheManager;
     Map<Integer, List<EventSummary>> eventMap;
     List<EventSummary> allEvents;
@@ -80,35 +82,36 @@ public class EventActivityFragment extends Fragment {
                 ((MainActivity) getActivity()).makeEventPage(toGo);
             }
         });
-        Bundle bundle = this.getArguments();
-        int bnum = bundle.getInt("bnum", -1);
-        if (bnum != -1){
-            populateBrewPage(bnum);
+
+        if (newBrewNum != -1){
+            populateBrewPage(newBrewNum);
         }
         else {
             populatePage();
         }
+
         super.onActivityCreated(savedInstanceState);
     }
 
     public void populatePage(){
         eventMap = _cacheManager.getEventMap();
         allEvents = _cacheManager.getAllEvents();
-        for (int i = 0; i < allEvents.size(); i++) {
-            EventListViewAdapter adapter = new EventListViewAdapter(getActivity(),
+        EventListViewAdapter adapter = new EventListViewAdapter(getActivity(),
                     R.layout.event_view, allEvents);
-            eventList.setAdapter(adapter);
-        }
+        eventList.setAdapter(adapter);
+
     }
 
     public void populateBrewPage(Integer b_num){
         eventMap = _cacheManager.getEventMap();
         allEvents = eventMap.get(b_num);
-        for (int i = 0; i < allEvents.size(); i++) {
-            EventListViewAdapter adapter = new EventListViewAdapter(getActivity(),
-                    R.layout.event_view, allEvents);
-            eventList.setAdapter(adapter);
-        }
+        EventListViewAdapter adapter = new EventListViewAdapter(getActivity(),
+                R.layout.event_view, allEvents);
+        eventList.setAdapter(adapter);
+    }
+
+    public void setNewBrewNum(int bnum) {
+        newBrewNum = bnum;
     }
 
     @Override

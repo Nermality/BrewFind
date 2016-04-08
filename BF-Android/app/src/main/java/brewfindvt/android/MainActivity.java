@@ -134,8 +134,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_Breweries) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, _brewActivityFragment).commit();
-
         } else if (id == R.id.nav_Events) {
+            ((EventActivityFragment)_eventActivityFragment).setNewBrewNum(-1);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, _eventActivityFragment).commit();
         } else if (id == R.id.nav_share) {
@@ -165,6 +165,14 @@ public class MainActivity extends AppCompatActivity
         ((EventFragment)_eventFragment).setNewEvent(e);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, _eventFragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    public void makeEventsForBrewery(int brewNum) {
+        ((EventActivityFragment)_eventActivityFragment).setNewBrewNum(brewNum);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, _eventActivityFragment)
                 .addToBackStack(null)
                 .commit();
     }
