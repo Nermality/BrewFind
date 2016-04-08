@@ -221,13 +221,14 @@ public class MainActivity extends AppCompatActivity
                     dialog.show();
                     dialog.setMessage("Loading Events...");
                     JSONObject eventMap = response.getJSONObject("eventMap");
-                    Map<String, List<EventSummary>> toIns = new HashMap<>();
+                    Map<Integer, List<EventSummary>> toIns = new HashMap<>();
                     ObjectMapper mapper = new ObjectMapper();
                     Iterator<String> itr = eventMap.keys();
                     while (itr.hasNext()) {
                         String cal = itr.next();
+                        Integer key = Integer.parseInt(cal);
                         List<EventSummary> events = mapper.readValue(eventMap.getJSONArray(cal).toString(), new TypeReference<List<EventSummary>>() {});
-                        toIns.put(cal, events);
+                        toIns.put(key, events);
                     }
                     _cacheManager.updateEvents(toIns);
                     dialog.hide();

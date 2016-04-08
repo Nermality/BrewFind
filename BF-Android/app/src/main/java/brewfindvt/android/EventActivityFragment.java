@@ -2,6 +2,7 @@ package brewfindvt.android;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
@@ -50,7 +51,7 @@ public class EventActivityFragment extends Fragment {
     Spinner sortByList;
 
     CacheManager _cacheManager;
-    Map<String, List<EventSummary>> eventMap;
+    Map<Integer, List<EventSummary>> eventMap;
     List<EventSummary> allEvents;
 
     // FRAGMENT OVERRIDES
@@ -79,14 +80,30 @@ public class EventActivityFragment extends Fragment {
                 ((MainActivity) getActivity()).makeEventPage(toGo);
             }
         });
-
-        populatePage();
+        Bundle bundle = this.getArguments();
+        int bnum = bundle.getInt("bnum", -1);
+        if (bnum != -1){
+            populateBrewPage(bnum);
+        }
+        else {
+            populatePage();
+        }
         super.onActivityCreated(savedInstanceState);
     }
 
     public void populatePage(){
         eventMap = _cacheManager.getEventMap();
         allEvents = _cacheManager.getAllEvents();
+        for (int i = 0; i < allEvents.size(); i++) {
+            EventListViewAdapter adapter = new EventListViewAdapter(getActivity(),
+                    R.layout.event_view, allEvents);
+            eventList.setAdapter(adapter);
+        }
+    }
+
+    public void populateBrewPage(Integer b_num){
+        eventMap = _cacheManager.getEventMap();
+        allEvents = eventMap.get(b_num);
         for (int i = 0; i < allEvents.size(); i++) {
             EventListViewAdapter adapter = new EventListViewAdapter(getActivity(),
                     R.layout.event_view, allEvents);

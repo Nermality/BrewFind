@@ -28,6 +28,13 @@ public class BreweryService {
 		return breweryRepository.searchByBname(bname);
 	}
 
+	public int findBrewNum(String bname) {
+		if( breweryRepository.searchByBname(bname) == null){
+			return -1;
+		}
+		return breweryRepository.searchByBname(bname).b_breweryNum;
+	}
+
 	public Brewery findBrewery(int breweryNum) {
 		return breweryRepository.searchByBrewNum(breweryNum);
 	}

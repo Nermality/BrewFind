@@ -33,7 +33,7 @@ public class EventController {
     @Produces("application/json")
     public EventResponse getEvents() {
 
-        Map<String, List<EventSummary>> toRet;
+        Map<Integer, List<EventSummary>> toRet;
 
         try {
             toRet = eventService.getEvents();

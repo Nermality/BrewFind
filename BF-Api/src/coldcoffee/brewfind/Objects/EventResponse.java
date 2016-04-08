@@ -13,9 +13,9 @@ public class EventResponse {
 
     public int status;
     public String message;
-    public Map<String, List<EventSummary>> eventMap;
+    public Map<Integer, List<EventSummary>> eventMap;
 
-    public EventResponse(int s, String m, Map<String, List<EventSummary>> map) {
+    public EventResponse(int s, String m, Map<Integer, List<EventSummary>> map) {
         status = s;
         message = m;
         eventMap = map;
@@ -37,11 +37,11 @@ public class EventResponse {
         this.message = message;
     }
 
-    public Map<String, List<EventSummary>> getEventMap() {
+    public Map<Integer, List<EventSummary>> getEventMap() {
         return eventMap;
     }
 
-    public void setEventMap(Map<String, List<EventSummary>> eventMap) {
+    public void setEventMap(Map<Integer, List<EventSummary>> eventMap) {
         this.eventMap = eventMap;
     }
 }

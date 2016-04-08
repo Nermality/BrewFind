@@ -19,8 +19,8 @@ import cz.msebera.android.httpclient.Header;
  * Created by user on 2/1/2016.
  */
 public class ApiManager {
-
-    private static final String BASE_API = "http://52.35.37.107:8080";
+    private static final String BASE_API = "http://155.42.112.170:8080";
+    //private static final String BASE_API = "http://52.35.37.107:8080";
     private static final String UNTAPPD_ENDPOINT = "/utwrapper";
     private static final String BREWERY_ENDPOINT = "/brewery";
     private static final String USER_ENDPOINT = "/user";
@@ -43,7 +43,7 @@ public class ApiManager {
     public static void getEvents(AsyncHttpResponseHandler handler) {
         //client.get((BASE_API + EVENT_ENDPOINT), handler);
         // FOR TESTING:
-        client.get("http://155.42.112.45:8080/event", handler);
+        client.get("http://155.42.112.170:8080/event", handler);
     }
 
     public static void authUser(String uname, String pwd, AsyncHttpResponseHandler handler) {
