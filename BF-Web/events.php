@@ -13,8 +13,10 @@
     <!-- Custom CSS -->
     <link href="css/business-casual.css" rel="stylesheet">
     <!-- Fonts -->
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
-    <link href="http://fonts.googleapis.com/css?family=Josefin+Slab:100,300,400,600,700,100italic,300italic,400italic,600italic,700italic" rel="stylesheet" type="text/css">
+  
+	
+	
+	
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -27,10 +29,9 @@
     <div class="container">
 		<div class="box">
             <div class="col-md-1"></div>
-		      <div class="col-md-6">
-	               <iframe src="https://calendar.google.com/calendar/embed?src=tad88m7h39n9dpalcmoedg0dmc%40group.calendar.google.com&ctz=America/New_York" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
-			
-		      </div>		
+		      <div class="col-md-6">		     
+				<iframe src="https://calendar.google.com/calendar/embed?src=0asqtrktd2aq00fjdqgs0404uo%40group.calendar.google.com&ctz=America/New_York" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+			  </div>				  
 		      <div class="col-md-3"></div>
 		</div>
 	</div>

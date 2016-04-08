@@ -29,29 +29,42 @@
     <![endif]-->
     <title>BrewFind</title>
 </head>
+<style>
+div.ex1 {
+    width:500px;
+	
+
+}
+</style>
 	<body>
 		<?php include 'header.html' ?>
 		<div class="container">
 			<div class="row">
 				<div class="box">
 					<div class="col-lg-12 text-center">
-						<div id="carousel-example-generic" class="carousel slide">
+						<h2 class="brand-before">
+							<small>Welcome to</small>
+						</h2>
+						<h1 class="brand-name">BrewFind</h1>
+						<hr class="tagline-divider">
+						<center><div class ="ex1">
+						<div id="carousel-example-generic" class="carousel slide" >
 							<!-- Indicators -->
-							<ol class="carousel-indicators hidden-xs">
+							<ol class="carousel-indicators hidden-xs" >
 								<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
 								<li data-target="#carousel-example-generic" data-slide-to="1"></li>
 								<li data-target="#carousel-example-generic" data-slide-to="2"></li>
 							</ol>
 							<!-- Wrapper for slides -->
-							<div class="carousel-inner">
-								<div class="item active">
-									<img class="img-responsive img-full" src="img/slide-1.png" alt="">
+							<div class="carousel-inner"  height="42" width="42">
+								<div class="item active"  height="42" width="42">
+									<img class="img-responsive img-full" src="img/slide-1.png" alt="" height="42" width="42">
 								</div>
-								<div class="item">
-									<img class="img-responsive img-full" src="img/slide-2.jpg" alt="">
+								<div class="item"  height="42" width="42">
+									<img class="img-responsive img-full" src="img/slide-2.jpg" alt="" height="42" width="42">
 								</div>
-								<div class="item">
-									<img class="img-responsive img-full" src="img/slide-3.jpg" alt="">
+								<div class="item"  height="42" width="42">
+									<img class="img-responsive img-full" src="img/slide-3.jpg" alt="" height="42" width="42">
 								</div>
 							</div>
 							<!-- Controls -->
@@ -62,16 +75,10 @@
 								<span class="icon-next"></span>
 							</a>
 						</div>
-						<h2 class="brand-before">
-							<small>Welcome to</small>
-						</h2>
-						<h1 class="brand-name">BrewFind</h1>
-						<hr class="tagline-divider">
+						</div></center>
+						
 					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="box">
+					<br>
 					<div class="col-lg-12">
 						<hr>
 						<h2 class="intro-text text-center">About Us

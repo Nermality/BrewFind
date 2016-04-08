@@ -14,7 +14,9 @@ function BreweryViewModel() {
 	self.testToken["stamp"] = 1458311957462;
 
 	self.breweries = ko.observableArray();
-
+	self.drinkList = ko.observableArray();
+	self.RObj = ko.observableArray();
+	
 	self.populateBrewery = function(brewery) {
 		console.log("Populating " + brewery.b_name );
 		
@@ -22,12 +24,28 @@ function BreweryViewModel() {
 		document.getElementById("bDesc").innerHTML = brewery.b_description;
 		document.getElementById("bAddr1").innerHTML = brewery.b_addr1;
 		
+		
+		
+		
 		var logo = document.getElementById("brewLogo");
 		logo.src = "img/breweries/" + brewery.b_breweryNum + "/brewery_profile_pic.jpg";
 		logo.onerror = function() {
 			logo.src = "img/breweries/" + brewery.b_breweryNum + "/brewery_profile_pic.png";
-		}
 
+			self.populateBrewery = function(drinklist) {
+				self.apiUntapped = "http://52.35.37.107:8080/utwrapper/";
+				self.uDrinksEnd = self.apiUntapped + brewery.b_breweryNum;
+				var RObj = function (u_ratingCount, u_rating, u_drinkList) {
+					this.uNumRating = ko.observable(u_ratingCount);
+					this.uRating = ko.observable(u_rating);
+					this.udrinks = ko.observable(u_drinkList);
+					}
+				
+				document.getElementById("uDrinks").innerHTML = u_drinkList;
+				document.getElementById("uRating").innerHTML = u_rating;
+				document.getElementById("uNumRating").innerHTML = u_ratingCount;
+			}
+		}
 		if(brewery.b_addr2 == null) {
 			document.getElementById("bAddr2").visibility = "hidden";
 		} else {
@@ -40,12 +58,12 @@ function BreweryViewModel() {
 		document.getElementById("bPhone").innerHTML = brewery.b_phone;
 		document.getElementById("bEmail").innerHTML = brewery.b_email;
 
-		document.getElementById("bLink").href = brewery.b_url ? brewery.b_url : "#";
+		//document.getElementById("bLink").href = brewery.b_url ? brewery.b_url : "#";
 
 		document.getElementById("brewTitle").innerHTML = brewery.b_name;
 	}
-
 	
+
 	self.makePin = function(brewery) {
 		console.log("Making a pin for " + brewery.b_name);
 		if(marker != null){ marker.setMap(null); }
@@ -63,6 +81,9 @@ function BreweryViewModel() {
 	  '<p>'+brewery.b_addr1+'</p>'+
 	  '<p>'+brewery.b_state+' 05452</p>'+
 	  '<p>'+brewery.b_url+'</p>'+
+	  '<p>'+u_rating+'</p>'+
+	  '<p>'+u_ratingCount+'</p>'+
+	  '<p>'+u_drinkList+'</p>'+
 	  '<a id="googleMapLink" href=googleUrl>"Google Map link"</a>'+
       '</div>'+
       '</div>';
@@ -249,5 +270,60 @@ function BreweryViewModel() {
 				
 			}
 		});
+
 	}();
+	
+	
+	
+	
+	self.getDrinkList = function() {
+
+		$.ajax({
+			type: "GET",
+			url: self.uDrinksEnd,
+			dataType: "json",
+			success: function(data) 
+			{
+				console.log("Got data!");
+				console.log(data);
+
+				if(data.status === 0) {
+					data.rObj.forEach(function(entry) 
+					{
+						console.log("Pushing " + entry.b_name);
+						self.breweries.splice(entry.b_brewNum, 0, entry);
+					});
+
+					console.log(self.breweries());
+
+					self.breweries.sort(function(a, b) {
+						var nameA = a.b_name.toUpperCase();
+						var nameB = b.b_name.toUpperCase();
+						return (nameA < nameB) ? -1 : (nameA > nameB) ? 1 : 0;
+					});
+				} else {
+					console.log("Something went wrong...");
+					console.log(data.description);
+					var div = document.getElementById("errorDIV");
+					var message = 'Opps, some error occured  ---  ';
+					var errorMessage = message.concat(data.description) ;
+					document.getElementById("error").innerHTML = errorMessage;
+				}
+			},
+			error: function(err)
+			{
+				console.log("Didn't get data...");
+				console.log(err);
+				var div = document.getElementById("errorDIV");
+				var message = 'Opps, some error occured  --- It looks like this webpage can\'t find the api. ';
+				document.getElementById("error").innerHTML = message;
+				
+				
+				
+				
+			}
+		});
+
+	}();
+
 }

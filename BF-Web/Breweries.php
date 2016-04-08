@@ -49,17 +49,22 @@
 				<p style="font-size:25px" id="brewTitle">Click a brewery to get started!</p><br/>
 				<div class="row">
 					<div class="col-md-6">
-						<p id="bDesc"/><br/>
+						<p id="bDesc"></p><br/>
+						
 						<!-- <a id="bLink">Visit their site!</a><br/>
 						<a id="bMapLink">...or visit them in person!</a> -->
 					</div>
 					<div class="col-md-4">
-						<img id="brewLogo" class="brewLogo" src="http://i.imgur.com/CE4r5vR.jpg"/>
-						<p id="bAddr1"/><br/>
-						<p id="bAddr2"/><br/>
-						<p id="bCSZ"/><br/>
-						<p id="bPhone"/><br/>
-						<p id="bEmail"/><br/>
+						<img id="brewLogo" class="brewLogo" src="http://i.imgur.com/CE4r5vR.jpg"></img>
+						<p id="bAddr1"></p><br/>
+						<p id="bAddr2"></p><br/>
+						<p id="bCSZ"></p><br/>
+						<p id="bPhone"></p><br/>
+						<p id="bEmail"></p><br/>
+						<p id="uRating"></p><br/>
+						<p id="uNumRating"></p><br/>
+						<p id="uDrinks"></p><br/>
+						
 					</div>
 				</div>
 			</div>
