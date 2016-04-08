@@ -8,7 +8,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta name="description" content="">
 		<meta name="author" content="">
-		<title>BrewFind</title>
+		<title>BrewFind - Breweries</title>
 		<!-- Bootstrap Core CSS -->
 		<link href="css/bootstrap.min.css" rel="stylesheet">
 		<!-- Custom CSS -->
@@ -27,15 +27,21 @@
 	</head>
 <body>
     <?php include 'header.html' ?>
+	<div class="container">
+		<div class="row">
+			<div class="box">
+				<div class="col-lg-12 text-center">
+				<hr>
+					<h2>Select a Brewery for more info!</h2>
+				<hr>
+				</div>
+			</div>
+		</div>
+	</div>
 	<!-- Page Content -->
 	<div class="container">
-			<div class="row">
-				<div class="box">
-					<div id="error">
-						
-					</div>
+		<div class="box">		
 			<div class="col-md-4">
-			
 				<p style="font-size:25px">Breweries</p>
 					<div class="breweryList">
 						<table>
@@ -46,28 +52,22 @@
 					</div>
 			</div>
 			<div class="col-md-8">
-				<p style="font-size:25px" id="brewTitle">Click a brewery to get started!</p><br/>
+				<p style="font-size:25px" id="brewTitle"></p><br/>
 				<div class="row">
 					<div class="col-md-6">
-						<p id="bDesc"></p><br/>
-						
+						<p id="bDesc"/><br/>
 						<!-- <a id="bLink">Visit their site!</a><br/>
 						<a id="bMapLink">...or visit them in person!</a> -->
 					</div>
 					<div class="col-md-4">
-						<img id="brewLogo" class="brewLogo" src="http://i.imgur.com/CE4r5vR.jpg"></img>
-						<p id="bAddr1"></p><br/>
-						<p id="bAddr2"></p><br/>
-						<p id="bCSZ"></p><br/>
-						<p id="bPhone"></p><br/>
-						<p id="bEmail"></p><br/>
-						<p id="uRating"></p><br/>
-						<p id="uNumRating"></p><br/>
-						<p id="uDrinks"></p><br/>
-						
+						<img id="brewLogo" class="brewLogo" src="http://i.imgur.com/CE4r5vR.jpg"/>
+						<p id="bAddr1"/><br/>
+						<p id="bAddr2"/><br/>
+						<p id="bCSZ"/><br/>
+						<p id="bPhone"/><br/>
+						<p id="bEmail"/><br/>
 					</div>
 				</div>
-			</div>
 			</div>
 		</div>
 	</div>

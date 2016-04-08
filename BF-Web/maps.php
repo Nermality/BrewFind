@@ -38,7 +38,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>BrewFind</title>
+    <title>BrewFind - Map</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -63,13 +63,30 @@
 </head>
 
 <body>
+<script>
+function myFunction()
+{
+alert("Hello! I am an alert box!");
+}
+</script>
+ 
+<!-- <input type="button" onclick="myFunction()" value="Show alert box" /> -->
+
 	<?php include 'header.html' ?>
 	<div class="container">
-			<div class="row">
-				<div class="box">
-			<div id="error">
-			
+		<div class="row">
+			<div class="box">
+				<div class="col-lg-12 text-center">
+				<hr>
+					<h2>Click a Brewery to get started!</h2>
+				<hr>
+				</div>
 			</div>
+		</div>
+	</div>
+<div class="container">
+	<div class="box">
+		<div class="container">
 			<div class="col-md-4">
 				<p style="font-size:25px">Breweries</p>
 				<div class="breweryList">
@@ -81,12 +98,12 @@
 				</div>
 			</div>
 			<div class="col-md-8">
-				<p style="font-size:25px" id="brewTitle">Click a brewery to get started!</p>
+				<p style="font-size:25px" id="brewTitle"></p>
 				<div class="col-md-6" id="googleMap" style="width:700px;height:500px;"></div>
-			</div>
-		  </div>
+			</div>	
 		</div>
-	</div>				
+	</div>	
+</div>	
 
     <?php include 'footer.html' ?>
     <script>

@@ -27,44 +27,59 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <title>BrewFind</title>
+    <title>BrewFind - Home</title>
 </head>
-<style>
-div.ex1 {
-    width:500px;
-	
-
-}
-</style>
 	<body>
 		<?php include 'header.html' ?>
+	<div class="container">
+		<div class="row">
+			<div class="box">
+				<div class="col-lg-12 text-center">
+				<hr>
+					<h2>Welcome to</h2>
+					<h1 class="brand-name">BrewFind</h1>
+				<hr>
+				</div>
+			</div>
+		</div>
+	</div>
 		<div class="container">
 			<div class="row">
 				<div class="box">
-					<div class="col-lg-12 text-center">
-						<h2 class="brand-before">
-							<small>Welcome to</small>
-						</h2>
-						<h1 class="brand-name">BrewFind</h1>
-						<hr class="tagline-divider">
-						<center><div class ="ex1">
-						<div id="carousel-example-generic" class="carousel slide" >
+					<div class="col-lg-5 text-center">
+						<div id="carousel-example-generic" class="carousel slide">
 							<!-- Indicators -->
-							<ol class="carousel-indicators hidden-xs" >
+							<!-- <h2 class="brand-before">
+							<small>Welcome to</small>
+							</h2>
+							<h1 class="brand-name">BrewFind</h1> -->
+							<br>
+							<div id="homeCarousel"
+							class="carousel slide"
+							style="width: 450px; margin: 0 auto">
+							<ol class="carousel-indicators hidden-xs">
 								<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
 								<li data-target="#carousel-example-generic" data-slide-to="1"></li>
 								<li data-target="#carousel-example-generic" data-slide-to="2"></li>
+								<li data-target="#carousel-example-generic" data-slide-to="3"></li>
+								<li data-target="#carousel-example-generic" data-slide-to="4"></li>
 							</ol>
 							<!-- Wrapper for slides -->
-							<div class="carousel-inner"  height="42" width="42">
-								<div class="item active"  height="42" width="42">
-									<img class="img-responsive img-full" src="img/slide-1.png" alt="" height="42" width="42">
+							<div class="carousel-inner">
+								<div class="item active">
+									<img class="img-responsive img-full" src="img/slide-1.jpg" alt="">
 								</div>
-								<div class="item"  height="42" width="42">
-									<img class="img-responsive img-full" src="img/slide-2.jpg" alt="" height="42" width="42">
+								<div class="item">
+									<img class="img-responsive img-full" src="img/slide-2.jpg" alt="">
 								</div>
-								<div class="item"  height="42" width="42">
-									<img class="img-responsive img-full" src="img/slide-3.jpg" alt="" height="42" width="42">
+								<div class="item">
+									<img class="img-responsive img-full" src="img/slide-3.jpg" alt="">
+								</div>
+								<div class="item">
+									<img class="img-responsive img-full" src="img/slide-4.jpg" alt="">
+								</div>
+								<div class="item">
+									<img class="img-responsive img-full" src="img/slide-5.jpg" alt="">
 								</div>
 							</div>
 							<!-- Controls -->
@@ -74,22 +89,15 @@ div.ex1 {
 							<a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
 								<span class="icon-next"></span>
 							</a>
+							</div>
 						</div>
-						</div></center>
-						
 					</div>
-					<br>
-					<div class="col-lg-12">
-						<hr>
-						<h2 class="intro-text text-center">About Us
-							<strong>How we started</strong>
-						</h2>
-						<hr>
-						<img class="img-responsive img-border img-left" src="img/intro-pic.jpg" alt="">
-						<hr class="visible-xs">
+					<div class="col-5 text-center">
 						<br>
-						<br>
-						<p>We are a bunch of guys who love Vermont and craft brews, so we thought for our senior projects why not do something that can help others find what we love so much.</p>
+						<p>BrewFind is an app and coinciding website used to find VT breweries and show what they currently have on tap!
+						<br><br>BrewFind is currently available for Android and is in development for iOS. For more, up-to-date information
+						on BrewFind please visit our Facebook, Instagram, and Twitter pages!
+						<br><br> </p>
 					</div>
 				</div>
 			</div>

@@ -13,6 +13,7 @@
 	<link href="css/business-casual.css" rel="stylesheet">
 	<!-- Our CSS -->
 	<link href="css/site.css" rel="stylesheet">
+	<link href="css/tabstuff.css" rel="stylesheet">
 	<!-- Fonts -->
 	<link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
 	<link href="http://fonts.googleapis.com/css?family=Josefin+Slab:100,300,400,600,700,100italic,300italic,400italic,600italic,700italic" rel="stylesheet" type="text/css">
@@ -22,106 +23,187 @@
 	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
 	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 	<![endif]-->
+	<!-- The JS script below will process content in each tab -->
+<script>
+	var tabLinks = new Array();
+    var contentDivs = new Array();
+    	
+    	 function init() {
+			  // Grab the tab links and content divs from the page
+			  var tabListItems = document.getElementById('tabs').childNodes;
+			  for ( var i = 0; i < tabListItems.length; i++ ) {
+				if ( tabListItems[i].nodeName == "LI" ) {
+				  var tabLink = getFirstChildWithTagName( tabListItems[i], 'A' );
+				  var id = getHash( tabLink.getAttribute('href') );
+				  tabLinks[id] = tabLink;
+				  contentDivs[id] = document.getElementById( id );
+				}
+			  }
 
+			  // Assign onclick events to the tab links, and
+			  // highlight the first tab
+			  var i = 0;
+
+			  for ( var id in tabLinks ) {
+				tabLinks[id].onclick = showTab;
+				tabLinks[id].onfocus = function() { this.blur() };
+				if ( i == 0 ) tabLinks[id].className = 'selected';
+				i++;
+			  }
+
+			  // Hide all content divs except the first
+			  var i = 0;
+
+			  for ( var id in contentDivs ) {
+				if ( i != 0 ) contentDivs[id].className='tabContent hide';
+				i++;
+			  }
+    	}
+    	
+    	function showTab() {
+		  var selectedId = getHash( this.getAttribute('href') );
+
+		  // Highlight the selected tab, and dim all others.
+		  // Also show the selected content div, and hide all others.
+		  for ( var id in contentDivs ) {
+			if ( id == selectedId ) {
+			  tabLinks[id].className = 'selected';
+			  contentDivs[id].className = 'tabContent';
+			} else {
+			  tabLinks[id].className = '';
+			  contentDivs[id].className = 'tabContent hide';
+			}
+		  }
+
+		  // Stop the browser following the link
+		  return false;									
+    	}
+    	
+    	function getFirstChildWithTagName( element, tagName ) {
+      		for ( var i = 0; i < element.childNodes.length; i++ ) {
+        		if ( element.childNodes[i].nodeName == tagName ) return element.childNodes[i];
+      		}
+   		}
+   		
+   		function getHash( url ) {
+      	var hashPos = url.lastIndexOf ( '#' );
+      	return url.substring( hashPos + 1 );
+    	}
+</script>
 </head>
-<body>
+<body onload="init()">
 	<div class="brand">Brewfind Admin Portal</div>
 	<br>
 <div class="container">
 	<div class="box">
-		<div class="container">		
-			<div class="col-md-4">
+		<ul id="tabs">
+		  <li><a href="#breweries">Breweries</a></li>
+		  <li><a href="#users">Users</a></li>
+		  <li><a href="#event">Events</a></li>
+		</ul>
+		<div class="tabContent" id="breweries">		
+					<div class="col-md-2">
 				<p style="font-size:25px">Breweries</p>
 					<div class="breweryList">
+					
 						<table>
 							<tbody data-bind="foreach: breweries">
 								<tr class="brewListItem" data-bind="click: $parent.populateGodbrewForm, text: b_name"/>
 							</tbody>
 						</table>
 					</div>
-			</div>
-			<div class="col-md-8">
-				<div class="row">
-					<div class="col-md-5">
-						<h5 class="formTitle">Update an existing brewery!</h6>
+					</div>
+				<div class="col-md-5"> 
+					<div class="row">
+				<!-- Below is the form for updating an existing brewery in the DB -->
+						<!-- <div class="col-md-4"> -->
+						<h5 class="formTitle">Update an existing brewery!</h5>
 						<form id="updateForm" data-bind="updateBrewery"> 
-							Name:&nbsp<input type="text" name="name" id="in_name">
-							<br>
-							Address Line 1:&nbsp<input type="text" name="addr1" id="in_addr1">
-							<br>
+							Name*:&nbsp<input type="text" name="name" id="in_name" required>
+							<br><br>
+							Address Line 1*:&nbsp<input type="text" name="addr1" id="in_addr1" required>
+							<br><br>
 							Address Line 2:&nbsp<input type="text" name="addr2" id="in_addr2">
-							<br>
-							City:&nbsp<input type="text" name="city" id="in_city">
-							<br>
-							State:&nbsp<input type="text" name="state" id="in_state">
-							<br>
-							Zip Code:&nbsp<input type="text" name="zip" id="in_zip">
-							<br>
+							<br><br>
+							City*:&nbsp<input type="text" name="city" id="in_city" required>
+							<br><br>
+							State*:&nbsp<input type="text" name="state" id="in_state" required>
+							<br><br>
+							Zip Code*:&nbsp<input type="text" name="zip" id="in_zip" required>
+							<br><br>
 							Phone Number:&nbsp<input type="text" name="phone" id="in_phone">
-							<br>
+							<br><br>
 							Email Address:&nbsp<input type="text" name="email" id="in_email">
-							<br>
+							<br><br>
 							Web Address:&nbsp<input type="text" name="url" id="in_url">
-							<br>
-							Description:&nbsp<input type="text" name="desc" id="in_desc">
-							<br>
+							<br><br>
+							<!-- Description:&nbsp<input type="text" name="desc" id="in_description"> -->
+							Description:&nbsp <TEXTAREA name="desc" ROWS=2 COLS=0 id="in_description"></TEXTAREA>
+							<br><br>
 							Has Tours?: Yes<input type="radio" value="true" name="tours" id="in_tours_yes">
 										No<input type="radio" value="false" name="tours" id="in_tours_no">
-							<br>
+							<br><br>
 							Has food?: Yes<input type="radio" value="true" name="food" id="in_food_yes">
 										No<input type="radio" value="false" name="food" id="in_food_no">
-							<br>
+							<br><br>
 							Has tap room (or equivalent)?: Yes<input type="radio" value="true" name="tap" id="in_tap_yes">
 										No<input type="radio" value="false" name="tap" id="in_tap_no">
-							<br>
+							<br><br>
 							Has growlers?: Yes<input type="radio" value="true" name="growler" id="in_growler_yes">
 										No<input type="radio" value="false" name="growler" id="in_growler_no">
-							<br>
+							<br><br>
 							Rating: 	1<input type="radio" value="1" name="rating" id="in_rate_1">
 										2<input type="radio" value="2" name="rating" id="in_rate_2">
 										3<input type="radio" value="3" name="rating" id="in_rate_3">
 										4<input type="radio" value="4" name="rating" id="in_rate_4">
 										5<input type="radio" value="5" name="rating" id="in_rate_5">
 							<br><br>
-							<input type="submit" value="submit">			
+							<input type="submit" value="Submit">
+							<input type="reset"  value="Clear">
+							<h6 class="formTitle">* Indicates Required Field</h6>
 						</form>
+						<!-- </div> -->
 					</div>
+				</div> 
+
 					<div class="col-md-5">
 						<!-- Below is the form for creating a new brewery in the DB -->
-						<h5 class="formTitle">Create a new brewery</h6>
-						<form id="newBreweryForm" data-bind="submit: createNewBrewery"> 
-								Name:&nbsp<input type="text" name="name" id="new_name">
-								<br>
-								Address Line 1:&nbsp<input type="text" name="addr1" id="new_addr1">
-								<br>
+						<h5 class="formTitle">Create A New Brewery!</h5>
+						
+							<form id="newBreweryForm" data-bind="submit: createNewBrewery"> 
+								Name*:&nbsp<input type="text" name="name" id="new_name" required>
+								<br><br>
+								Address Line 1*:&nbsp<input type="text" name="addr1" id="new_addr1" required>
+								<br><br>
 								Address Line 2:&nbsp<input type="text" name="addr2" id="new_addr2">
-								<br>
-								City:&nbsp<input type="text" name="city" id="new_city">
-								<br>
-								State:&nbsp<input type="text" name="state" id="new_state">
-								<br>
-								Zip Code:&nbsp<input type="text" name="zip" id="new_zip">
-								<br>
+								<br><br>
+								City*:&nbsp<input type="text" name="city" id="new_city" required>
+								<br><br>
+								State*:&nbsp<input type="text" name="state" id="new_state" required>
+								<br><br>
+								Zip Code*:&nbsp<input type="text" name="zip" id="new_zip" required>
+								<br><br>
 								Phone Number:&nbsp<input type="text" name="phone" id="new_phone">
-								<br>
+								<br><br>
 								Email Address:&nbsp<input type="text" name="email" id="new_email">
-								<br>
+								<br><br>
 								Web Address:&nbsp<input type="text" name="url" id="new_url">
-								<br>
-								Description:&nbsp<input type="text" name="desc" id="new_desc">
-								<br>
+								<br><br>
+								<!-- Description:&nbsp<input type="text" name="desc" id="new_description"> -->
+								Description:&nbsp <TEXTAREA name="desc" ROWS=2 COLS=20 id="new_description"></TEXTAREA>
+								<br><br>
 								Has Tours?: Yes<input type="radio" value="yes" name="tours" id="new_tours_yes">
 											No<input type="radio" value="no" name="tours" id="new_tours_no">
-								<br>
+								<br><br>
 								Has food?: Yes<input type="radio" value="yes" name="food" id="new_food_yes">
 											No<input type="radio" value="no" name="food" id="new_food_no">
-											<br>
+								<br><br>
 								Has tap room (or equivalent)?: 	Yes<input type="radio" value="true" name="tap" id="new_tap_yes">
 																No<input type="radio" value="false" name="tap" id="new_tap_no">
-								<br>
+								<br><br>
 								Has growlers?: 	Yes<input type="radio" value="true" name="growler" id="new_growler_yes">
 												No<input type="radio" value="false" name="growler" id="new_growler_no">
-								<br>
+								<br><br>
 								Rating: 	1<input type="radio" value="1" name="rating" id="new_rate_1">
 											2<input type="radio" value="2" name="rating" id="new_rate_2">
 											3<input type="radio" value="3" name="rating" id="new_rate_3">
@@ -129,14 +211,74 @@
 											5<input type="radio" value="5" name="rating" id="new_rate_5">
 								<br><br>
 								<input type="submit" value="Submit">			
+								<input type="reset"  value="Clear">
+								<h6 class="formTitle">* Indicates Required Field</h6>
 							</form>
-					</div>
-				</div>
-				<br><br><br><br>
-				<div class="row">
+					</div> 
+		</div>
 					<div class="col-md-5">
-					<div>
-				</div>
+						<!-- Below is the form for adding a new user to the DB -->
+						<div class="tabContent" id="users">
+							<h5 class="formTitle">Add A User!</h5>
+								<form id="newUserForm" data-bind="submit: addNewUser"> 
+									User Name*:&nbsp<input type="text" name="uname" id="in_uname" required>
+									<br><br>
+									Password*:&nbsp<input type="text" name="desc" id="in_pass" required>
+									<br><br>
+									First Name*:&nbsp<input type="text" name="fname" id="in_fname" required>
+									<br><br>
+									Last Name*:&nbsp<input type="text" name="f=lname" id="in_lname" required>
+								
+									<br><br>
+									Access Level: User<input type="radio" value="true" name="access" id="u_acccess_user">
+												  Brewery<input type="radio" value="true" name="access" id="u_acccess_brewery">
+												  Admin<input type="radio" value="true" name="access" id="u_acccess_admin">
+									<br><br>
+									<input type="submit" value="Submit">			
+									<input type="reset"  value="Clear">
+								</form>
+						</div>
+					</div>
+					<div class="col-md-5">
+						<!-- Below is the form for adding a new event to the DB -->
+							<div class="tabContent" id="event">
+								<h5 class="formTitle">Add An Event!</h5>
+									<form id="newEventForm" data-bind="submit: addNewEvent"> 
+										Event Name*:&nbsp<input type="text" name="uname" id="in_ename" required>
+										<br><br>
+										Description*:&nbsp<input type="text" name="pass" id="in_edesc" required>
+										<br><br>
+										Host*:&nbsp<input type="text" name="fname" id="in_host" required>
+										<br><br>
+										Website URL:&nbsp<input type="text" name="f=lname" id="in_eurl">
+										<br><br>
+										Start Date*:&nbsp<input type="text" name="f=lname" id="in_startDate" required>
+										<br><br>
+										Start Time*:&nbsp<input type="text" name="f=lname" id="in_startTime" required>
+										<br><br>
+										End Date*:&nbsp<input type="text" name="f=lname" id="in_endDate" required>
+										<br><br>
+										End Time*:&nbsp<input type="text" name="f=lname" id="in_endTime" required>
+										<br><br>
+										Location: Indoors<input type="radio" value="true" name="location" id="e_location_in">
+												  Outdoors<input type="radio" value="true" name="location" id="e_location_out">
+										<br><br>
+										Family Friendly: Yes<input type="radio" value="true" name="family" id="e_family_yes">
+														 No<input type="radio" value="false" name="family" id="e_family_no">
+										<br><br>
+										Pet Friendly: 	Yes<input type="radio" value="true" name="pets" id="e_pets_yes">
+														No<input type="radio" value="false" name="pets" id="e_pets_no">
+										<br><br>
+										Has Food?:	 Yes<input type="radio" value="true" name="food" id="e_food_yes">
+													 No<input type="radio" value="false" name="food" id="e_food_no">
+										<br><br>
+										<input type="submit" value="Submit">			
+										<input type="reset"  value="Clear">
+									</form>
+								</div>
+							</div>
+						
+					</div>
 				</div>
 			</div>
 		</div>
