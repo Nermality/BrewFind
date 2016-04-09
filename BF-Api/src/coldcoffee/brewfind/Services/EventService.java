@@ -1,10 +1,9 @@
 package coldcoffee.brewfind.Services;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import coldcoffee.brewfind.Objects.Brewery;
 import coldcoffee.brewfind.Objects.EventSummary;
@@ -17,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.Events;
+
 
 @Service
 public class EventService {
@@ -83,6 +83,15 @@ public class EventService {
 			if(location == null) {
 				location = "TBD";
 			}
+
+			DateTime d = e.getStart().getDateTime();
+			Date date = new Date ();
+			date.setTime(d.getValue());
+			java.util.Calendar calendar  = java.util.Calendar.getInstance();
+			calendar.setTime(date);
+			toAdd.setDay(calendar.get(java.util.Calendar.DAY_OF_MONTH));
+			toAdd.setMonth(calendar.get(java.util.Calendar.MONTH));
+			toAdd.setYear(calendar.get(java.util.Calendar.YEAR));
 			toAdd.setLocation(location);
 			toAdd.setBreweryName(brewery);
 			toAdd.setDescription(desc);
@@ -91,6 +100,7 @@ public class EventService {
 			toAdd.setStartDate(e.getStart().getDateTime().toString());
 			toAdd.setEndDate(e.getEnd().getDateTime().toString());
 			toRet.add(toAdd);
+
 		}
 
 		return toRet;

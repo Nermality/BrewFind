@@ -1,7 +1,10 @@
 package brewfindvt.android;
 
+import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.design.widget.FloatingActionButton;
@@ -63,6 +66,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
@@ -87,6 +91,8 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#f4c630"));
+        getSupportActionBar().setBackgroundDrawable(colorDrawable);
 
     }
 
@@ -130,14 +136,15 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_Map) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, _mapActivityFragment).commit();
+                    .replace(R.id.fragment_container, _mapActivityFragment).addToBackStack(null).commit();
         } else if (id == R.id.nav_Breweries) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, _brewActivityFragment).commit();
+                    .replace(R.id.fragment_container, _brewActivityFragment).addToBackStack(null).commit();
+
         } else if (id == R.id.nav_Events) {
             ((EventActivityFragment)_eventActivityFragment).setNewBrewNum(-1);
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, _eventActivityFragment).commit();
+                    .replace(R.id.fragment_container, _eventActivityFragment).addToBackStack(null).commit();
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
@@ -165,14 +172,6 @@ public class MainActivity extends AppCompatActivity
         ((EventFragment)_eventFragment).setNewEvent(e);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, _eventFragment)
-                .addToBackStack(null)
-                .commit();
-    }
-
-    public void makeEventsForBrewery(int brewNum) {
-        ((EventActivityFragment)_eventActivityFragment).setNewBrewNum(brewNum);
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, _eventActivityFragment)
                 .addToBackStack(null)
                 .commit();
     }
