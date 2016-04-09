@@ -168,6 +168,14 @@ public class MainActivity extends AppCompatActivity
                 .commit();
     }
 
+    public void makeEventsForBrewery(int brewNum) {
+        ((EventActivityFragment)_eventActivityFragment).setNewBrewNum(brewNum);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, _eventActivityFragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
     public void makeEventPage(EventSummary e) {
         ((EventFragment)_eventFragment).setNewEvent(e);
         getSupportFragmentManager().beginTransaction()
