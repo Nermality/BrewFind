@@ -118,7 +118,7 @@
 				<!-- Below is the form for updating an existing brewery in the DB -->
 						<!-- <div class="col-md-4"> -->
 						<h5 class="formTitle">Update an existing brewery!</h5>
-						<form id="updateForm" data-bind="updateBrewery"> 
+						<form id="updateForm" data-bind="submit: updateBrewery"> 
 							Name*:&nbsp<input type="text" name="name" id="in_name" required>
 							<br><br>
 							Address Line 1*:&nbsp<input type="text" name="addr1" id="in_addr1" required>
@@ -158,6 +158,7 @@
 										4<input type="radio" value="4" name="rating" id="in_rate_4">
 										5<input type="radio" value="5" name="rating" id="in_rate_5">
 							<br><br>
+							<input type="number" id="in_brewNum" name="brewNum" hidden>
 							<input type="submit" value="Submit">
 							<input type="reset"  value="Clear">
 							<h6 class="formTitle">* Indicates Required Field</h6>
@@ -284,7 +285,8 @@
 		</div>
 	</div>
 <script>
-ko.applyBindings(new BreweryViewModel());
+var bvm = new BreweryViewModel();
+ko.applyBindings(bvm);
 </script>
 </body>
 </html>

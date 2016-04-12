@@ -111,6 +111,7 @@ public class BreweryService {
 			
 			// TODO: SAFE UPDATE
 			//update brewery in database
+			brewery.b_id = oldb.b_id;
 			saveBrewery(brewery);
 			
 			//return success message
@@ -209,57 +210,6 @@ public class BreweryService {
 			getList();
 		}
 		return curBrewMax;
-	}
-	
-	/**
-	 * Copies information from an 'update' brewery object to their original object
-	 * This allows breweries to be updated with all or little information 
-	 * @param oldB - the brewerie's original brewery object
-	 * @param newB - brewery object containing updates
-	 * @return - fully updated, comprehensive brewery object
-	 */
-	public Brewery safeUpdate(Brewery oldB, Brewery newB) {
-		
-		// TODO: Add in description/others
-		
-		Boolean modified = false;
-		// only things update-able:
-		//	addr1, addr2, city, zip, phone, email, url
-		if(newB.getB_addr1() != null && !newB.getB_addr1().equals(oldB.getB_addr1())) {
-			modified = true;
-			oldB.setB_addr1(newB.getB_addr1());
-		}
-		if(newB.getB_addr2() != null && !newB.getB_addr2().equals(oldB.getB_addr2())) {
-			modified = true;
-			oldB.setB_addr2(newB.getB_addr2());
-		}
-		if(newB.getB_city() != null && !newB.getB_city().equals(oldB.getB_city())) {
-			modified = true;
-			oldB.setB_city(newB.getB_city());
-		}
-		if(newB.getB_zip() != null && !newB.getB_zip().equals(oldB.getB_zip())) {
-			modified = true;
-			oldB.setB_zip(newB.getB_zip());
-		}
-		if(newB.getB_email() != null && !newB.getB_email().equals(oldB.getB_email())) {
-			modified = true;
-			oldB.setB_email(newB.getB_email());
-		}
-		if(newB.getB_phone() != null && !newB.getB_phone().equals(oldB.getB_phone())) {
-			modified = true;
-			oldB.setB_phone(newB.getB_phone());
-		}
-		if(newB.getB_url() != null && !newB.getB_url().equals(oldB.getB_url())) {
-			modified = true;
-			oldB.setB_url(newB.getB_url());
-		}
-
-		if(!modified) {
-			return null;
-		}
-		
-		oldB.b_version++;
-		return oldB;
 	}
 
 	/**

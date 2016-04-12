@@ -2,7 +2,7 @@
 function BreweryViewModel() {
 	var self = this;
 
-	self.apiUrl = "http://52.35.37.107:8080";
+	self.apiUrl = "http://localhost:8080";
 	self.imgUrl = "http://ec2-52-38-43-166.us-west-2.compute.amazonaws.com/"
 	self.breweryEnd = self.apiUrl + "/brewery";
 	self.eventEnd = self.apiUrl + "/event";
@@ -143,9 +143,11 @@ function BreweryViewModel() {
 
 	self.updateBrewery = function(breweryForm) {
 
-		console.log(breweryForm);
-
-		var newQuery = self.makeBreweryQuery(breweryForm);
+		var newQuery = self.makeBreweryUpdateQuery(breweryForm);
+		if(newQuery === null) {
+			console.log("Something went wrong generating update query - no action taken.");
+			return;
+		}
 		console.log(newQuery);
 
 		var xhr = self.createCORSRequest('POST', self.breweryEnd);
@@ -192,6 +194,75 @@ function BreweryViewModel() {
 	    xhr = null;
 	  }
 	  return xhr;
+	}
+
+	self.makeBreweryUpdateQuery = function(form) {
+		var brewNum = form.brewNum.value;
+		var brewery = self.breweries()[brewNum - 1];
+		if(brewery == null) {
+			console.log("Something went wrong, unable to find brewery with brewNum of " + brewNum);
+			return null;
+		}
+
+		var modified = false;
+
+		if(brewery["b_addr1"] != form.addr1.value.trim()) {
+			modified = true;
+			brewery["b_addr1"] = form.addr1.value.trim();
+		}
+		if(brewery["b_addr2"] != form.addr2.value.trim()) {
+			modified = true;
+			brewery["b_addr2"] = form.addr2.value.trim();
+		}
+		if(brewery["b_city"] != form.city.value.trim()) {
+			modified = true;
+			brewery["b_city"] = form.city.value.trim();
+		}
+		if(brewery["b_email"] != form.email.value.trim()) {
+			modified = true;
+			brewery["b_email"] = form.email.value.trim();
+		}
+		if(brewery["b_url"] != form.url.value.trim()) {
+			modified = true;
+			brewery["b_url"] = form.url.value.trim();
+		}
+		if(brewery["b_hasTour"] != form.tours.value.trim()) {
+			modified = true;
+			brewery["b_hasTour"] = form.tours.value.trim();
+		}
+		if(brewery["b_hasFood"] != form.food.value.trim()) {
+			modified = true;
+			brewery["b_hasFood"] = form.food.value.trim();
+		}
+		if(brewery["b_hasTap"] != form.tap.value.trim()) {
+			modified = true;
+			brewery["b_hasTap"] = form.tap.value.trim();
+		}
+		if(brewery["b_hasGrowler"] != form.growler.value.trim()) {
+			modified = true;
+			brewery["b_hasGrowler"] = form.growler.value.trim();
+		}
+
+		if(brewery["b_zip"] != form.zip.value.trim() && form.zip.value != "") {
+			modified = true;
+			brewery["b_zip"] = form.zip.value.trim();
+		}
+		if(brewery["b_phone"] != form.phone.value.trim()) {
+			modified = true;
+			if(form.phone.value === "") {
+				brewery["b_phone"] = null;
+			} else {
+				brewery["b_phone"] = form.phone.value.trim();
+			}			
+		}
+
+		var query = {}
+		var list = []
+		list.push(brewery);
+		query["list"] = list;
+		query["token"] = self.testToken;
+
+		return query;
 	}
 
 	self.makeBreweryQuery = function(form) {
@@ -298,6 +369,7 @@ function BreweryViewModel() {
 		document.getElementById("in_email").value = brewery.b_email;	
 		document.getElementById("in_url").value = brewery.b_url;
 		document.getElementById("in_description").value = brewery.b_description;	
+		document.getElementById("in_brewNum").value = brewery.b_breweryNum;
 	}
 	
 	self.populateUser = function(user) {
