@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import brewfindvt.objects.EventSummary;
@@ -103,12 +104,13 @@ public class EventFragment extends Fragment implements View.OnClickListener {
             _dateButton.setEnabled(true);
         }
         _description.setText(newEvent.getDescription());
-
         setDate();
     }
 
     public void setDate() {
         SimpleDateFormat sdfParser = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SS");
+        Calendar cal = Calendar.getInstance();
+        Date date;
 
         if(newEvent.getStartDate() == null) {
             _startDate.setText("Starting: TBD");
@@ -116,36 +118,42 @@ public class EventFragment extends Fragment implements View.OnClickListener {
             Date tempStart;
 
             try {
-                tempStart = sdfParser.parse(newEvent.getStartDate());
+                date = sdfParser.parse(newEvent.getStartDate());
+              //  tempStart = sdfParser.parse(newEvent.getStartDate());
+                cal.setTime(date);
             } catch (Exception e) {
                 tempStart = null;
                 Toast.makeText(getActivity().getApplicationContext(), "There was an issue parsing dates, we're sorry", Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
 
-            if(tempStart == null) {
+            if(cal == null) {
                 _startDate.setText("Starting: TBD");
             } else {
-                _startDate.setText(sdfParser.format(tempStart));
-            }
 
+                _startDate.setText(cal.get(Calendar.DAY_OF_MONTH)+"/"+cal.get(Calendar.MONTH)+"/"+cal.get(Calendar.YEAR)+"\n"+
+                                    cal.get(Calendar.HOUR_OF_DAY)+":"+cal.get(Calendar.MINUTE));
+            }
+         //   sdfParser.format(tempStart)
         }
         if(newEvent.getEndDate() == null) {
             _endDate.setText("Ending: None specified");
         } else {
             Date tempEnd;
             try {
-                tempEnd = sdfParser.parse(newEvent.getEndDate());
+                date = sdfParser.parse(newEvent.getEndDate());
+                cal.setTime(date);
             } catch (Exception e) {
                 e.printStackTrace();
                 tempEnd = null;
                 Toast.makeText(getActivity().getApplicationContext(), "There was an issue parsing dates, we're sorry", Toast.LENGTH_SHORT).show();
             }
 
-            if(tempEnd == null) {
+            if(cal == null) {
                 _endDate.setText("Ending: None specified");
             } else {
-                _endDate.setText(sdfParser.format(tempEnd));
+                _endDate.setText(cal.get(Calendar.DAY_OF_MONTH)+"/"+cal.get(Calendar.MONTH)+"/"+cal.get(Calendar.YEAR)+"\n"+
+                        cal.get(Calendar.HOUR_OF_DAY)+":"+cal.get(Calendar.MINUTE));
             }
         }
     }

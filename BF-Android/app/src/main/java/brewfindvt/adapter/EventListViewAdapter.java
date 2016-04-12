@@ -60,11 +60,11 @@ public class EventListViewAdapter extends ArrayAdapter<EventSummary> {
             holder = (ViewHolder) convertView.getTag();
 
         holder.title.setText(eventItem.getName());
-        holder.brewery.setText("TEST BREWERY");
-        holder.town.setText("TEST TOWN");
-        holder.month.setText("JAN");
-        holder.day.setText("1");
-        holder.year.setText("1999");
+        holder.brewery.setText(eventItem.getBreweryName());
+        holder.town.setText(eventItem.getLocation());
+        holder.month.setText(eventItem.getMonth());
+        holder.day.setText(eventItem.getDay());
+        holder.year.setText(eventItem.getYear());
 
         return convertView;
     }

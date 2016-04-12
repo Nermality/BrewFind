@@ -15,6 +15,10 @@ public class EventSummary {
 	String breweryName;
 	String startDate;
 	String endDate;
+	int day;
+	int month;
+	int year;
+
 
 
 	public EventSummary(String name) {
@@ -84,6 +88,19 @@ public class EventSummary {
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
+
+	public int getDay(){ return this.day; }
+
+	public void setDay (int day){ this.day = day; }
+
+	public int getMonth() { return this.month; }
+
+	public void setMonth(int month) { this.month = month; }
+
+	public int getYear() { return this.year; }
+
+	public void setYear(int year) { this.year = year; }
+
 // name
 	// id
 	// summmary

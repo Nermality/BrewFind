@@ -43,7 +43,7 @@ public class ApiManager {
     public static void getEvents(AsyncHttpResponseHandler handler) {
         //client.get((BASE_API + EVENT_ENDPOINT), handler);
         // FOR TESTING:
-        client.get("http://155.42.112.45:8080/event", handler);
+        client.get("http://155.42.112.170:8080/event", handler);
     }
 
     public static void authUser(String uname, String pwd, AsyncHttpResponseHandler handler) {
