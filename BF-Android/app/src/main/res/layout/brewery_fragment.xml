@@ -60,14 +60,18 @@
                         android:layout_height="0dp"
                         android:text="View in Maps"
                         android:id="@+id/mapButton"
-                        android:layout_weight=".33" />
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight=".33"
+                        android:background="@drawable/button_border"/>
 
                     <Button
                         android:layout_width="fill_parent"
                         android:layout_height="0dp"
                         android:text="View Events"
                         android:id="@+id/eventButton"
-                        android:layout_weight=".33" />
+                        android:layout_weight=".33"
+                        android:background="@drawable/button_border"/>
+
                 </LinearLayout>
 
                 <ImageView
@@ -128,7 +132,7 @@
                 android:id="@+id/contactInfoButton"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="#ba1f04"
+                android:background="@drawable/contact_border"
                 android:drawableRight="@android:drawable/arrow_down_float"
                 android:paddingRight="10dp"
                 android:text="Contact Info"
@@ -139,7 +143,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/contactInfoButton"
-                android:background="#90ba1f04"
+                android:background="@color/contactBar"
                 android:padding="10dp"
                 app:ael_duration="400"
                 app:ael_expanded="false"
@@ -171,6 +175,7 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/beerInfo"
                 android:id="@+id/drinkList"></LinearLayout>
 
         </LinearLayout>

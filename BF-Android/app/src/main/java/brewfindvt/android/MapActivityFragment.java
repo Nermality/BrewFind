@@ -165,6 +165,7 @@ public class MapActivityFragment extends Fragment implements
     }
 
     public void getPinsReady() {
+        seekBar.setProgress(0);
         if(rBrewery.isChecked()) {
             for(Marker be : eventMarkers) {
                 be.setVisible(false);

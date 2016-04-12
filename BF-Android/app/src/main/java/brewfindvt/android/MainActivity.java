@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#f4c630"));
+        ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#cd950c"));
         getSupportActionBar().setBackgroundDrawable(colorDrawable);
 
     }
