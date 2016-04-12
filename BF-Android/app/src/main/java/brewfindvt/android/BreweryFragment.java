@@ -181,6 +181,8 @@ public class BreweryFragment extends android.support.v4.app.Fragment implements 
         if(cacheDrinks != null && cacheRating != null) {
             drinkList = cacheDrinks;
             rating = cacheRating;
+            populateUntappdInfo();
+            dialog.hide();
             return;
         }
 
@@ -265,6 +267,7 @@ public class BreweryFragment extends android.support.v4.app.Fragment implements 
 
         Button newButton = new Button(getActivity().getApplicationContext());
         int buttonId = drinkList.indexOf(toMake);
+        newButton.setBackground(getResources().getDrawable(R.drawable.drink_border));
         newButton.setId(buttonId);
         String buttonTitle = toMake.getD_name() + " - " + toMake.getD_style();
         newButton.setText(buttonTitle);
@@ -285,7 +288,7 @@ public class BreweryFragment extends android.support.v4.app.Fragment implements 
         newLayout.setOrientation(ExpandableLayout.VERTICAL);
         newLayout.setLayoutParams(p);
         newLayout.setId(buttonId + 666);
-        newLayout.setBackgroundColor(Color.GRAY);
+        newLayout.setBackgroundColor(getResources().getColor(R.color.beerInfo));
 
         LinearLayout.LayoutParams fullHeightParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         TableLayout.LayoutParams infoParams = new TableLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 0.33f);
@@ -350,8 +353,11 @@ public class BreweryFragment extends android.support.v4.app.Fragment implements 
         dialog.show();
         dialog.setMessage("Loading brewery info...");
 
-        _drinkList.removeAllViews();
-        getUntappdInfo(brew.getB_breweryNum());
+
+        if(dialog.isShowing()) {
+            _drinkList.removeAllViews();
+            getUntappdInfo(brew.getB_breweryNum());
+        }
 
         _name.setText(brew.getB_name());
 

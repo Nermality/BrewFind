@@ -4,5 +4,11 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="background">#f9f1dc</color>
-    <color name="infoBar">#cd950c</color>
+    <color name="infoBar">#f4c630</color>
+    <color name="actionBar">#cd950c</color>
+    <color name="contactBar">#C40505</color>
+    <color name="beerButton">#755330</color>
+    <color name="beerInfo">#B0703C</color>
+    <color name="buttonBrew">#C25B1F</color>
+
 </resources>
