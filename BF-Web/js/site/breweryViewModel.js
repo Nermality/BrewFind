@@ -2,10 +2,12 @@
 function BreweryViewModel() {
 	var self = this;
 
-	self.apiUrl = "http://localhost:8080";
+	self.apiUrl = "http://52.35.37.107:8080";
+	self.imgUrl = "http://ec2-52-38-43-166.us-west-2.compute.amazonaws.com/"
 	self.breweryEnd = self.apiUrl + "/brewery";
 	self.eventEnd = self.apiUrl + "/event";
 	self.userEnd = self.apiUrl + "/user";
+	self.drinkEnd = self.apiUrl + "/utwrapper";
 	self.userAuthEnd = self.apiUrl + "/user/auth";
 
 	self.testToken = {};
@@ -14,13 +16,14 @@ function BreweryViewModel() {
 	self.testToken["stamp"] = 1458311957462;
 
 	self.breweries = ko.observableArray();
+	self.breweryGroups = ko.observableArray();
+	self.drinkList = ko.observableArray();
 
 	self.populateBrewery = function(brewery) {
 		console.log("Populating " + brewery.b_name );
 		
 		document.getElementById("brewTitle").innerHTML = brewery.b_name;
 		document.getElementById("bDesc").innerHTML = brewery.b_description;
-		document.getElementById("bAddr1").innerHTML = brewery.b_addr1;
 
 		var logo = document.getElementById("brewLogo");
 		logo.src = "img/breweries/" + brewery.b_breweryNum + "/brewery_profile_pic.jpg";
@@ -28,23 +31,80 @@ function BreweryViewModel() {
 			logo.src = "img/breweries/" + brewery.b_breweryNum + "/brewery_profile_pic.png";
 		}
 
-		if(brewery.b_addr2 == null) {
-			document.getElementById("bAddr2").visibility = "hidden";
-		} else {
-			document.getElementById("bAddr2").visibility = "visible";
-			document.getElementById("bAddr2").innerHTML = brewery.b_addr2;
+		var addrHtml = brewery.b_addr1 ? brewery.b_addr1 + "<br/>" : "";
+
+		if(brewery.b_addr2 != null && brewery.b_addr2 != "") {
+			addrHtml += brewery.b_addr2 + "<br/>";
 		}
 
-		var csz = brewery.b_city + ", " + brewery.b_state + " " + brewery.b_zip;
-		document.getElementById("bCSZ").innerHTML = csz;
-		document.getElementById("bPhone").innerHTML = brewery.b_phone;
-		document.getElementById("bEmail").innerHTML = brewery.b_email;
+		addrHtml += brewery.b_city + ", " + brewery.b_state + " " + brewery.b_zip;
+		document.getElementById("bAddr").innerHTML = addrHtml;
 
-		document.getElementById("bLink").href = brewery.b_url ? brewery.b_url : "#";
+		document.getElementById("bPhone").innerHTML = brewery.b_phone ? brewery.b_phone : "No phone number available";
+		document.getElementById("bEmail").innerHTML = brewery.b_email ? brewery.b_email : "No email available";
 
+		var url;
+		if(brewery.b_url === null || brewery.b_url === "") {
+				url = brewery.b_url;
+			}
+		else if(!brewery.b_url.startsWith("http://")) {
+			url = "http://" + brewery.b_url;
+		} else {
+			url = brewery.b_url;
+		}
+
+		document.getElementById("bUrl").href = url ? url : "";
+		document.getElementById("bUrl").innerHTML = url ? url : "No website available";
 		document.getElementById("brewTitle").innerHTML = brewery.b_name;
+
+		document.getElementById("breweryBox").style = "display: block"; 
+
+		self.drinkList.removeAll();
+		self.getDrinksForBrewery(brewery.b_breweryNum);
 	}
 
+	self.getDrinksForBrewery = function(brewNum) {
+
+		$.ajax({
+			type: "GET",
+			url: self.drinkEnd + "/" + brewNum,
+			dataType: "json",
+			success: function(data) 
+			{
+				console.log("Got data!");
+				console.log(data);
+
+				if(data.status === 0) {
+					data.rObj[0].u_drinkList.forEach(function(entry)
+					{
+						console.log("Pushing " + entry.d_name);
+						entry["tag"] = entry.d_name.replace(/\s+/g, '').replace(/[^a-zA-Z ]/g, "").toLowerCase();
+						if(entry.d_description === null || entry.d_description === "") {
+							entry.d_description = "No description available";
+						}
+						self.drinkList.push(entry);
+					});
+
+					self.drinkList.sort(function(a, b) {
+						var nameA = a.d_name.toUpperCase();
+						var nameB = b.d_name.toUpperCase();
+						return (nameA < nameB) ? -1 : (nameA > nameB) ? 1 : 0;
+					});
+
+					console.log(self.drinkList());
+
+				} else {
+					console.log("Something went wrong...");
+					console.log(data.description);
+				}
+			},
+			error: function(err)
+			{
+				console.log("Didn't get data...");
+				console.log(err);
+			}
+		});
+	}
 	
 	self.makePin = function(brewery) {
 		console.log("Making a pin for " + brewery.b_name);
@@ -81,7 +141,40 @@ function BreweryViewModel() {
 		marker.setMap(map);	
 	}
 
-	self.updateBrewery = function(updateForm) {
+	self.updateBrewery = function(breweryForm) {
+
+		console.log(breweryForm);
+
+		var newQuery = self.makeBreweryQuery(breweryForm);
+		console.log(newQuery);
+
+		var xhr = self.createCORSRequest('POST', self.breweryEnd);
+
+		xhr.onload = function() {
+		console.log("Got response!");
+		var response = xhr.responseText;
+		var newBrewery = JSON.parse(response);
+		console.log(newBrewery);
+
+			if(newBrewery.status != 0) {
+				console.log("Something went wrong...");
+				console.log(newBrewery.description);
+			} else {
+				rawBrews = newBrewery.rObj;
+				rawBrews.forEach(function(entry) {
+					console.log("Pushing " + entry.b_name);
+					self.breweries[entry.b_breweryNum] = entry;
+				});
+			}
+	    }
+
+	    xhr.onerror = function() {
+	    	console.log('XHR failure');
+	    }
+
+	    var string = JSON.stringify(newQuery);
+	    console.log(string);
+	    xhr.send(string);
 
 	}
 
@@ -121,7 +214,7 @@ function BreweryViewModel() {
 
 		// Can't add values that aren't strings - API doesn't like empty strings for int/doubles		
 		if(form.zip.value != "") {
-			toAdd["b_name"] = form.name.value;
+			toAdd["b_zip"] = form.zip.value;
 		}
 
 		if(form.phone.value != "") {
@@ -134,6 +227,24 @@ function BreweryViewModel() {
 		
 		newBrews.push(toAdd);
 		newQuery["list"] = newBrews;
+		newQuery["token"]= self.testToken;
+
+		return newQuery;
+	}
+
+	self.makeUserQuery= function(form) {
+		var newQuery = {};
+		var newUser = [];
+		var toAdd = {};
+		
+		toAdd["u_uname"] = form.uname.value;
+		toAdd["u_pass"] = form.pass.value;
+		toAdd["u_firstName"] = form.fname.value;
+		toAdd["u_lastName"] = form.lname.value;
+		toAdd["u_access"] = form.access.value;
+		
+		newUser.push(toAdd);
+		newQuery["list"] = newUser;
 		newQuery["token"]= self.testToken;
 
 		return newQuery;
@@ -226,13 +337,31 @@ function BreweryViewModel() {
 						self.breweries.splice(entry.b_brewNum, 0, entry);
 					});
 
-					console.log(self.breweries());
-
 					self.breweries.sort(function(a, b) {
 						var nameA = a.b_name.toUpperCase();
 						var nameB = b.b_name.toUpperCase();
 						return (nameA < nameB) ? -1 : (nameA > nameB) ? 1 : 0;
 					});
+
+					var current = [];
+					var count = 0;
+					self.breweries().forEach(function(brewery) {
+						if(((count % 6) == 0) && (count != 0))  {
+							self.breweryGroups.push(current);
+							current = [];
+						}
+
+						current.push(brewery);
+
+						if(count === (self.breweries().length - 1)) {
+							self.breweryGroups.push(current);
+						}
+
+						count++;
+					})
+
+					console.log(self.breweryGroups());
+
 				} else {
 					console.log("Something went wrong...");
 					console.log(data.description);

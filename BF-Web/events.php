@@ -1,12 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+
     <title>BrewFind - Calendar</title>
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -24,36 +19,62 @@
 </head>
 <body>
     <?php include 'header.html' ?>
-	<div class="container">
-		<div class="row">
-			<div class="box">
-				<div class="col-lg-12 text-center">
-				<hr>
-					<h2>Click a date for more info!</h2>
-				<hr>
-				</div>
-			</div>
-		</div>
-	</div>
-    <div class="container">
-		<div class="box">
-            <div class="col-md-1"></div>
-		      <div class="col-md-6">
-	               <iframe src="https://calendar.google.com/calendar/embed?src=tad88m7h39n9dpalcmoedg0dmc%40group.calendar.google.com&ctz=America/New_York" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
-		      </div>		
-		      <div class="col-md-3"></div>
-		</div>
-	</div>
+<div class="container">
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingOne">
+      <h4 class="panel-title">
+        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+           Event #1 <br>
+		 <small> -subtitle- </small><br>
+		  April 8th, 2016 <br>
+		  VTC Williston
+        </a>
+      </h4>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+      <div class="panel-body">
+		Description of the event will go here.
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingTwo">
+      <h4 class="panel-title">
+        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          Event #2 <br>
+		  <small> -subtitle- </small><br>
+		  April 8th, 2016 <br>
+		  VTC Williston
+        </a>
+      </h4>
+    </div>
+    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+      <div class="panel-body">
+		
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingThree">
+      <h4 class="panel-title">
+        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+           Event #3 <br>
+		<small> -subtitle- </small><br>
+		  April 8th, 2016 <br>
+		  VTC Williston
+        </a>
+      </h4>
+    </div>
+    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+      <div class="panel-body">
+		
+      </div>
+    </div>
+  </div>
+</div>
+</div>
    <?php include 'footer.html' ?>
-    <!-- jQuery -->
-    <script src="js/lib/jquery.js"></script>
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/lib/bootstrap.min.js"></script>
-    <!-- Script to Activate the Carousel -->
-    <script>
-    $('.carousel').carousel({
-        interval: 5000 //changes the speed
-    })
-    </script>
+
 </body>
 </html>

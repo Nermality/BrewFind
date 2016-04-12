@@ -35,39 +35,99 @@
 					<h2>Select a Brewery for more info!</h2>
 				<hr>
 				</div>
+
+				
 			</div>
+			<div id="breweries-carousel" class="carousel slide" data-ride="carousel">
+				  
+				  <ol class="carousel-indicators" data-bind="foreach: breweryGroups">
+				    	<li data-target="#breweries-carousel" data-bind="attr: { 'data-slide-to': $index() }" ></li>
+				  </ol>
+
+				  <!-- Wrapper for slides -->
+				  <div class="carousel-inner" role="listbox" data-bind="foreach: breweryGroups">
+			    	<div class="item" data-bind="css: {'active': $index()==0}">
+			    		<div class="row">
+					        <div data-bind="foreach: $data">
+					            <div class="col-md-2">
+						            <div class="thumbnail" data-bind="click: $root.populateBrewery">
+									      <img data-bind="attr: { 'src': $root.imgUrl + '/img/breweries/' + b_breweryNum + '/brewery_profile_pic.jpg'}" alt="" style="height: 150px">
+									      <div class="caption">
+									        <h4 data-bind="text: b_name"></h4>
+									      </div>
+									</div>				              
+				        		</div>
+				        	</div>
+				        </div>
+				    </div>
+				  </div>
+
+				  <!-- Controls -->
+				  <a class="left carousel-control" href="#breweries-carousel" role="button" data-slide="prev" style="width: 75px">
+				    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+				    <span class="sr-only">Previous</span>
+				  </a>
+				  <a class="right carousel-control" href="#breweries-carousel" role="button" data-slide="next" style="width: 75px">
+				    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+				    <span class="sr-only">Next</span>
+				  </a>
+				</div>
 		</div>
 	</div>
 	<!-- Page Content -->
-	<div class="container">
-		<div class="box">		
-			<div class="col-md-4">
-				<p style="font-size:25px">Breweries</p>
-					<div class="breweryList">
-						<table>
-							<tbody data-bind="foreach: breweries">
-								<tr class="brewListItem" data-bind="click: $parent.populateBrewery, text: b_name"/>
-							</tbody>
-						</table>
-					</div>
+	<div class="container" id="breweryBox" style="display: none">
+		<div class="box">	
+			<div class="jumbotron text-center">
+				<h1 id="brewTitle"></h1>
+				<hr>
 			</div>
-			<div class="col-md-8">
-				<p style="font-size:25px" id="brewTitle"></p><br/>
-				<div class="row">
-					<div class="col-md-6">
-						<p id="bDesc"/><br/>
-						<!-- <a id="bLink">Visit their site!</a><br/>
-						<a id="bMapLink">...or visit them in person!</a> -->
-					</div>
-					<div class="col-md-4">
-						<img id="brewLogo" class="brewLogo" src="http://i.imgur.com/CE4r5vR.jpg"/>
-						<p id="bAddr1"/><br/>
-						<p id="bAddr2"/><br/>
-						<p id="bCSZ"/><br/>
-						<p id="bPhone"/><br/>
-						<p id="bEmail"/><br/>
-					</div>
-				</div>
+			<div class="col-md-8 text-left">
+				<p id="bDesc"></p>
+				<hr><br/>
+				<h1 class="text-center">Drink List</h1>
+				<div class="panel-group" id="drinkAccordion" role="tablist" aria-multiselectable="true" data-bind="foreach: drinkList">
+  					<div class="panel panel-default">
+  						<div class="panel-heading" role="tab" data-bind="attr: { 'id': 'head' + tag }">
+  							<h4 class="panel-title">
+  								<a class="collapsed" role="button" data-toggle="collapse" data-parent="#drinkAccordion" aria-expanded="false" data-bind="attr: { 'href': '#coll' + tag, 'aria-controls': 'coll' + tag}, text: d_name"></a>
+  							</h4>
+  						</div>
+  						<div class="panel-collapse collapse" role="tabpanel" data-bind="attr: { 'id': 'coll' + tag, 'aria-labelledby':'head' + tag}">
+  							<div class="panel-body">
+  								<div class="box">
+	  								<div class="row">
+		  								<div class="well well-sm col-md-4">
+		  									<p class="text-center" data-bind="text: 'ABV: ' + d_abv"></p>
+		  								</div>
+		  								<div class="well well-sm col-md-4">
+		  									<p class="text-center" data-bind="text: 'IBU: ' + d_ibu"></p>
+		  								</div>
+		  								<div class="well well-sm col-md-4">
+		  									<p class="text-center" data-bind="text: 'Rating: ' + d_rating"></p>
+		  								</div>
+		  							</div>
+		  							<div class="row">
+		  								<p data-bind="text: d_description"></p>
+		  							</div>
+		  						</div>
+      						</div>
+      					</div>
+      				</div>
+      			</div>
+			</div>
+			<div class="col-md-4">
+				<img id="brewLogo" class="thumbnail img-responsive center-block">
+				<strong>Street Address:</strong>
+				<p id="bAddr" class="text-center"></p>
+
+				<strong>Phone:</strong>
+				<p id="bPhone" class="text-center"></p>
+
+				<strong>Email:</strong>
+				<p id="bEmail" class="text-center"></p>
+
+				<strong>Visit their site: </strong>
+				<p class="text-center"><a id="bUrl"></a></p>
 			</div>
 		</div>
 	</div>
