@@ -6,6 +6,8 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-3.3.0.js"></script>	
 	<script src="js/site/breweryViewModel.js"></script>
+	<script src="js/lib/moment.js"></script>
+	<script src="js/lib/datetimepicker.js"></script>
 	<title>BrewFind VT Portal</title>
 	<!-- Bootstrap Core CSS -->
 	<link href="css/bootstrap.min.css" rel="stylesheet">
@@ -221,7 +223,7 @@
 						<!-- Below is the form for adding a new user to the DB -->
 						<div class="tabContent" id="users">
 							<h5 class="formTitle">Add A User!</h5>
-								<form id="newUserForm" data-bind="submit: addNewUser"> 
+								<form id="newUserForm"> 
 									User Name*:&nbsp<input type="text" name="uname" id="in_uname" required>
 									<br><br>
 									Password*:&nbsp<input type="text" name="desc" id="in_pass" required>
@@ -240,41 +242,124 @@
 								</form>
 						</div>
 					</div>
-					<div class="col-md-5">
+
+					<div class="col-md-8 col-md-offset-2">
 						<!-- Below is the form for adding a new event to the DB -->
 							<div class="tabContent" id="event">
-								<h5 class="formTitle">Add An Event!</h5>
+								<h3 class="formTitle">Add An Event!</h5>
 									<form id="newEventForm" data-bind="submit: addNewEvent"> 
-										Event Name*:&nbsp<input type="text" name="uname" id="in_ename" required>
-										<br><br>
-										Description*:&nbsp<input type="text" name="pass" id="in_edesc" required>
-										<br><br>
-										Host*:&nbsp<input type="text" name="fname" id="in_host" required>
-										<br><br>
-										Website URL:&nbsp<input type="text" name="f=lname" id="in_eurl">
-										<br><br>
-										Start Date*:&nbsp<input type="text" name="f=lname" id="in_startDate" required>
-										<br><br>
-										Start Time*:&nbsp<input type="text" name="f=lname" id="in_startTime" required>
-										<br><br>
-										End Date*:&nbsp<input type="text" name="f=lname" id="in_endDate" required>
-										<br><br>
-										End Time*:&nbsp<input type="text" name="f=lname" id="in_endTime" required>
-										<br><br>
-										Location: Indoors<input type="radio" value="true" name="location" id="e_location_in">
-												  Outdoors<input type="radio" value="true" name="location" id="e_location_out">
-										<br><br>
-										Family Friendly: Yes<input type="radio" value="true" name="family" id="e_family_yes">
-														 No<input type="radio" value="false" name="family" id="e_family_no">
-										<br><br>
-										Pet Friendly: 	Yes<input type="radio" value="true" name="pets" id="e_pets_yes">
-														No<input type="radio" value="false" name="pets" id="e_pets_no">
-										<br><br>
-										Has Food?:	 Yes<input type="radio" value="true" name="food" id="e_food_yes">
-													 No<input type="radio" value="false" name="food" id="e_food_no">
-										<br><br>
-										<input type="submit" value="Submit">			
-										<input type="reset"  value="Clear">
+										<div class="form-group">
+											<label for="in_ename">Event Name*</label>
+											<input type="text" class="form-control" name="e_name" id="in_ename" placeholder="Your Event Name" required>
+										</div>
+										<div class="form-group">
+											<label for="in_edesc">Event Description*</label>
+											<textarea rows="3" class="form-control" name="e_desc" id="in_edesc" placeholder="Activities, vendors, etc..." required></textarea>
+										</div>
+										<div class="form-group">
+											<label for="in_ehost">Host*</label>
+											<input type="text" class="form-control" name="e_host" id="in_ehost" placeholder="A brewery, a company..." required>
+										</div>
+										<div class="form-group">
+											<label for="in_eurl">Event Name*</label>
+											<input type="url" class="form-control" name="e_url" id="in_eurl" placeholder="anevent@example.com/thisevent" required>
+										</div>
+										<div class="form-group">
+											<label for="in_location">Location</label>
+											<div class="row">
+												<div class="radio-inline">
+												  <label>
+												    <input type="radio" name="locEvent" id="in_loc_atBrewery" value="atBrewery" checked>
+												    At brewery location
+												  </label>
+												</div>
+												<div class="radio-inline">
+												  <label>
+												    <input type="radio" name="locEvent" id="in_loc_customLoc" value="customLoc" checked>
+												    Search:
+												    <input id="autocomplete" class="form-control" placeholder="Street addr, City, State Zip"
+             											onFocus="geolocate()" type="text"></input>
+												  </label>
+												</div>
+											</div>
+										</div>
+						                <div class="form-group">
+						                	<label for="startDatePicker">Start Date*</label>
+							                <div class='input-group date' name="e_startDate" id='startDatePicker'>
+							                    <input type='text' class="form-control" required>
+							                    <span class="input-group-addon">
+							                        <span class="glyphicon glyphicon-calendar"></span>
+							                    </span>
+							                </div>
+							            </div>
+							            <div class="form-group">
+						                	<label for="endDatePicker">End Date</label>
+							                <div class='input-group date' name="e_endDate" id='endDatePicker'>
+							                    <input type='text' class="form-control" required>
+							                    <span class="input-group-addon">
+							                        <span class="glyphicon glyphicon-calendar"></span>
+							                    </span>
+							                </div>
+							            </div>
+							            <script type="text/javascript">
+								            $(function () {
+								                $('#startDatePicker').datetimepicker();
+								                $('#endDatePicker').datetimepicker();
+								            });
+								        </script>
+
+										<div class="row">
+											<div class="col-md-4">
+								                <p class="text-center">Family Friendly:</p>
+								                <div class="radio-inline col-md-offset-3">
+												  <label>
+												    <input type="radio" name="family" id="e_family_t" value="true" checked>
+												    Yes
+												  </label>
+												</div>
+												<div class="radio-inline">
+												  <label>
+												    <input type="radio" name="family" id="e_family_f" value="true">
+												    No
+												  </label>
+												</div>
+											</div>
+											<div class="col-md-4">
+												<p class="text-center">Pet Friendly:</p>
+								                <div class="radio-inline col-md-offset-3">
+												  <label>
+												    <input type="radio" name="pet" id="e_pet_t" value="true" checked>
+												    Yes
+												  </label>
+												</div>
+												<div class="radio-inline">
+												  <label>
+												    <input type="radio" name="pet" id="e_pet_f" value="true">
+												    No
+												  </label>
+												</div>
+											</div>
+											<div class="col-md-4">
+												<p class="text-center">Indoors/Outdoors:</p>
+								                <div class="radio-inline col-md-offset-1">
+												  <label>
+												    <input type="radio" name="inout" id="e_inout_in" value="true" checked>
+												    Indoors
+												  </label>
+												</div>
+												<div class="radio-inline">
+												  <label>
+												    <input type="radio" name="inout" id="e_inout_out" value="true">
+												    Outdoors
+												  </label>
+												</div>
+											</div>	
+										</div>
+										<br/><br/>
+										<div class="col-md-offset-4">
+											<input type="submit" value="Submit" class="btn btn-default">			
+											<input type="reset"  value="Clear" class="btn btn-default">
+										</div>
 									</form>
 								</div>
 							</div>
@@ -285,8 +370,32 @@
 		</div>
 	</div>
 <script>
-var bvm = new BreweryViewModel();
-ko.applyBindings(bvm);
+	var bvm = new BreweryViewModel();
+	ko.applyBindings(bvm);
+
+	var autocomplete;
+	function initAutocomplete() {
+        autocomplete = new google.maps.places.Autocomplete(
+            /** @type {!HTMLInputElement} */(document.getElementById('autocomplete')),
+            {types: ['geocode']});
+    };
+
+   function geolocate() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var geolocation = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+        var circle = new google.maps.Circle({
+          center: geolocation,
+          radius: position.coords.accuracy
+        });
+        autocomplete.setBounds(circle.getBounds());
+      });
+    }
+  };
 </script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDaX_lnFJWqVvudnA1fqOGRp0zKP8oxR94&libraries=places&callback=initAutocomplete" async defer></script>
 </body>
 </html>

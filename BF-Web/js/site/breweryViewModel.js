@@ -358,6 +358,10 @@ function BreweryViewModel() {
 
 	}
 
+	self.addNewEvent = function(eventForm) {
+
+	};
+
 	self.populateGodbrewForm = function(brewery) {
 		document.getElementById("in_addr1").value = brewery.b_addr1;
 		document.getElementById("in_addr2").value = brewery.b_addr2;
