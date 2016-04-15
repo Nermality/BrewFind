@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 
@@ -288,7 +289,8 @@ public class BreweryFragment extends android.support.v4.app.Fragment implements 
         newLayout.setOrientation(ExpandableLayout.VERTICAL);
         newLayout.setLayoutParams(p);
         newLayout.setId(buttonId + 666);
-        newLayout.setBackgroundColor(getResources().getColor(R.color.beerInfo));
+        newLayout.setBackground(getResources().getDrawable(R.drawable.beerinfo_border));
+
 
         LinearLayout.LayoutParams fullHeightParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         TableLayout.LayoutParams infoParams = new TableLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 0.33f);
@@ -303,22 +305,37 @@ public class BreweryFragment extends android.support.v4.app.Fragment implements 
         infoBar.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
         TextView ibu = new TextView(getActivity().getApplicationContext());
-        String ibuText = "IBU: " + toMake.getD_ibu();
+        String ibuText = " IBU: " + toMake.getD_ibu();
+        ibu.setTextSize(15);
+        ibu.setTypeface(null, Typeface.BOLD);
+        ibu.setBackground(getResources().getDrawable(R.drawable.iteminfo_border));
         ibu.setText(ibuText);
         ibu.setLayoutParams(infoParams);
-        ibu.setTextColor(Color.BLACK);
+        ibu.setTextColor(Color.WHITE);
+        ibu.setPadding(100, 20, 0, 20);
+
 
         TextView abv = new TextView(getActivity().getApplicationContext());
-        String abvText = "ABV: " + toMake.getD_abv();
+        String abvText = " ABV: " + toMake.getD_abv();
+        abv.setTypeface(null, Typeface.BOLD);
+        abv.setTextSize(15);
+        abv.setBackground(getResources().getDrawable(R.drawable.iteminfo_border));
         abv.setText(abvText);
         abv.setLayoutParams(infoParams);
-        abv.setTextColor(Color.BLACK);
+        abv.setTextColor(Color.WHITE);
+        abv.setPadding(80, 20, 0, 20);
+
 
         TextView dRating = new TextView(getActivity().getApplicationContext());
-        String ratingText = "Rating: " + String.format("%.2f",toMake.getD_rating()) + "/5";
+        String ratingText = " Rating: " + String.format("%.2f",toMake.getD_rating()) + "/5";
+        dRating.setTextSize(15);
+        dRating.setTypeface(null, Typeface.BOLD);
+        dRating.setBackground(getResources().getDrawable(R.drawable.iteminfo_border));
         dRating.setText(ratingText);
         dRating.setLayoutParams(infoParams);
-        dRating.setTextColor(Color.BLACK);
+        dRating.setTextColor(Color.WHITE);
+        dRating.setPadding(0, 20, 0, 20);
+
 
         FrameLayout descBox = new FrameLayout(getActivity().getApplicationContext());
         descBox.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -329,8 +346,9 @@ public class BreweryFragment extends android.support.v4.app.Fragment implements 
             desc = "No description available.";
         }
         description.setText(desc);
+        description.setPadding(40,20,40,20);
         description.setLayoutParams(fullHeightParams);
-        description.setTextColor(Color.BLACK);
+        description.setTextColor(Color.WHITE);
 
         _drinkList.addView(newButton);
 
@@ -380,12 +398,14 @@ public class BreweryFragment extends android.support.v4.app.Fragment implements 
             TextView addr1 = new TextView(getActivity().getApplicationContext());
             addr1.setText(newBrew.getB_addr1());
             addr1.setTextSize(18f);
+            addr1.setTextColor(Color.WHITE);
             _contactInfoBox.addView(addr1);
         }
         if(newBrew.getB_addr2() != null && !newBrew.getB_addr2().equals("")) {
             TextView addr2 = new TextView(getActivity().getApplicationContext());
             addr2.setText(newBrew.getB_addr2());
             addr2.setTextSize(18f);
+            addr2.setTextColor(Color.WHITE);
             _contactInfoBox.addView(addr2);
         }
 
@@ -393,6 +413,7 @@ public class BreweryFragment extends android.support.v4.app.Fragment implements 
         TextView cpView = new TextView(getActivity().getApplicationContext());
         cpView.setText(cityPlus);
         cpView.setTextSize(18f);
+        cpView.setTextColor(Color.WHITE);
         _contactInfoBox.addView(cpView);
 
         if(newBrew.getB_phone() != null  && !newBrew.getB_phone().equals("")) {
@@ -400,6 +421,7 @@ public class BreweryFragment extends android.support.v4.app.Fragment implements 
             phone.setText(newBrew.getB_phone());
             phone.setTextSize(18f);
             phone.setPadding(0, 50, 0, 50);
+            phone.setTextColor(Color.WHITE);
             phone.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -419,6 +441,7 @@ public class BreweryFragment extends android.support.v4.app.Fragment implements 
             TextView email = new TextView(getActivity().getApplicationContext());
             email.setText(newBrew.getB_email());
             email.setTextSize(18f);
+            email.setTextColor(Color.WHITE);
             _contactInfoBox.addView(email);
         }
 
@@ -427,6 +450,7 @@ public class BreweryFragment extends android.support.v4.app.Fragment implements 
             url.setText(newBrew.getB_url());
             url.setTextSize(18f);
             url.setMinHeight(200);
+            url.setTextColor(Color.WHITE);
             url.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

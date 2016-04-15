@@ -131,7 +131,7 @@ public class EventFragment extends Fragment implements View.OnClickListener {
                 _startDate.setText("Starting: TBD");
             } else {
 
-                _startDate.setText(cal.get(Calendar.DAY_OF_MONTH)+"/"+cal.get(Calendar.MONTH)+"/"+cal.get(Calendar.YEAR)+"\n"+
+                _startDate.setText(cal.get(Calendar.MONTH)+"/"+cal.get(Calendar.DAY_OF_MONTH)+"/"+cal.get(Calendar.YEAR)+"\n"+
                                     cal.get(Calendar.HOUR_OF_DAY)+":"+cal.get(Calendar.MINUTE));
             }
          //   sdfParser.format(tempStart)
@@ -152,7 +152,7 @@ public class EventFragment extends Fragment implements View.OnClickListener {
             if(cal == null) {
                 _endDate.setText("Ending: None specified");
             } else {
-                _endDate.setText(cal.get(Calendar.DAY_OF_MONTH)+"/"+cal.get(Calendar.MONTH)+"/"+cal.get(Calendar.YEAR)+"\n"+
+                _endDate.setText(cal.get(Calendar.MONTH)+"/"+cal.get(Calendar.DAY_OF_MONTH)+"/"+cal.get(Calendar.YEAR)+"\n"+
                         cal.get(Calendar.HOUR_OF_DAY)+":"+cal.get(Calendar.MINUTE));
             }
         }

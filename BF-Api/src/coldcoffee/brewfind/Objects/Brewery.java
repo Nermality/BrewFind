@@ -3,6 +3,9 @@ package coldcoffee.brewfind.Objects;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.Map;
+
 @Document(collection="breweries")
 public class Brewery extends BrewFindObject {
 
@@ -30,6 +33,8 @@ public class Brewery extends BrewFindObject {
 
 		public int b_breweryNum;
 		public int b_version;
+		Map<Integer, String> openDates;
+		Map<Integer, String> closeDates;
 
 		public Double b_rating;
 		public Double b_lat;
@@ -196,6 +201,14 @@ public class Brewery extends BrewFindObject {
 		public void setB_utId(int b_utId) {
 			this.b_utId = b_utId;
 		}
+
+		public Map<Integer, String> getOpenDates() { return openDates; }
+
+		public void setOpenDates(Map<Integer, String> dates){ openDates = dates; }
+
+		public Map<Integer, String> getCloseDates() { return closeDates; }
+
+		public void setCloseDates (Map<Integer, String> dates) { closeDates = dates; }
 
 	public Brewery()
 		{}

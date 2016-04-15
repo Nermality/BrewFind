@@ -145,9 +145,6 @@ public class MainActivity extends AppCompatActivity
             ((EventActivityFragment)_eventActivityFragment).setNewBrewNum(-1);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, _eventActivityFragment).addToBackStack(null).commit();
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
 
         }
 

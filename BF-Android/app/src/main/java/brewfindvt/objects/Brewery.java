@@ -1,5 +1,7 @@
 package brewfindvt.objects;
 
+import java.util.Map;
+
 /**
  * Created by user on 2/2/2016.
  */
@@ -37,6 +39,8 @@ public class Brewery extends BrewFindObject {
 
     public Double b_lat;
     public Double b_long;
+
+
 
     //public Set<Drink> b_drinkList;
 

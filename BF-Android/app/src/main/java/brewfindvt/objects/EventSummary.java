@@ -2,6 +2,8 @@ package brewfindvt.objects;
 
 import com.google.api.client.util.DateTime;
 
+import java.util.Map;
+
 /**
  * Created by user on 2/26/2016.
  */
@@ -18,6 +20,12 @@ public class EventSummary {
     String day;
     String month;
     String year;
+
+    Boolean isFamFriendly;
+    Boolean isPetFriendly;
+    Boolean isOutdoor;
+    Double ticketCost;
+
 
 
     public String getName() {
@@ -95,6 +103,20 @@ public class EventSummary {
     public String getYear() { return this.year; }
 
     public void setYear(String year) { this.year = year; }
+
+    public Boolean getisFamFriendly() { return this.isFamFriendly; }
+
+    public void setisFamFriendly(Boolean bool) { this.isFamFriendly = bool; }
+
+    public Boolean getIsPetFriendly() { return this.isPetFriendly; }
+
+    public void setIsOutdoor (Boolean bool) { this.isOutdoor = bool; }
+
+    public Double getTicketCost() { return this.ticketCost; }
+
+    public Double setTickerCost() { return this.ticketCost; }
+
+
 
     // name
     // id

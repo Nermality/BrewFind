@@ -10,5 +10,6 @@
     <color name="beerButton">#755330</color>
     <color name="beerInfo">#B0703C</color>
     <color name="buttonBrew">#C25B1F</color>
+    <color name="white">#FFFFFF</color>
 
 </resources>
