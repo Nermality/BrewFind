@@ -1,21 +1,19 @@
 package coldcoffee.brewfind.Services;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Calendar;
 
 import coldcoffee.brewfind.Objects.Brewery;
 import coldcoffee.brewfind.Objects.EventSummary;
 import com.google.api.client.util.DateTime;
-import com.google.api.services.calendar.model.CalendarList;
-import com.google.api.services.calendar.model.CalendarListEntry;
-import com.google.api.services.calendar.model.Event;
+import com.google.api.services.calendar.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.google.api.services.calendar.Calendar;
-import com.google.api.services.calendar.model.Events;
 
 
 @Service
@@ -24,7 +22,7 @@ public class EventService {
 	@Autowired
 	public BreweryService breweryService;
 	
-	private Calendar CALENDAR;
+	private com.google.api.services.calendar.Calendar CALENDAR;
 		
 	public EventService() {
 
@@ -69,7 +67,7 @@ public class EventService {
 		return toRet;
 	}
 
-	public List<EventSummary> parseGoogleEvents(List<Event> events, String brewery) {
+	private List<EventSummary> parseGoogleEvents(List<Event> events, String brewery) {
 		List<EventSummary> toRet = new ArrayList<>();
 
 		for(Event e : events) {
@@ -78,6 +76,31 @@ public class EventService {
 			String desc = e.getDescription();
 			if(desc == null) {
 				desc = "No description available";
+			}
+			toAdd.setDescription(desc);
+
+			if(e.getExtendedProperties() != null) {
+				Map<String, String> props = e.getExtendedProperties().getShared();
+				for (String s : props.keySet()) {
+					switch (s) {
+						case "isFamFriendly":
+							toAdd.setFamFriendly(Boolean.valueOf(props.get(s)));
+							break;
+						case "isPetFriendly":
+							toAdd.setPetFriendly(Boolean.valueOf(props.get(s)));
+							break;
+						case "ticketCost":
+							toAdd.setTicketCost(Double.valueOf(props.get(s)));
+							break;
+						case "isOutdoor":
+							toAdd.setOutdoor(Boolean.valueOf(props.get(s)));
+							break;
+						default:
+							System.out.println("Unrecognized field " + s);
+
+					}
+
+				}
 			}
 			String location = e.getLocation();
 			if(location == null) {
@@ -94,7 +117,6 @@ public class EventService {
 			toAdd.setYear(calendar.get(java.util.Calendar.YEAR));
 			toAdd.setLocation(location);
 			toAdd.setBreweryName(brewery);
-			toAdd.setDescription(desc);
 			toAdd.setHtmlLink(e.getHtmlLink());
 			toAdd.setId(e.getId());
 			toAdd.setStartDate(e.getStart().getDateTime().toString());
@@ -104,6 +126,71 @@ public class EventService {
 		}
 
 		return toRet;
+	}
+
+	public boolean addNewEvent(EventSummary toAdd) {
+
+		Event newEvent = new Event()
+				.setSummary(toAdd.getName())
+				.setLocation(toAdd.getLocation())
+				.setDescription(toAdd.getDescription());
+
+		// 03/12/2016 12:00 AM
+		SimpleDateFormat sdf = new SimpleDateFormat();
+		Date start = null;
+		Date end = null;
+		try {
+			start = sdf.parse(toAdd.getStartDate());
+			end = sdf.parse(toAdd.getEndDate());
+		} catch(ParseException e) {
+			e.printStackTrace();
+		}
+		if(start != null) {
+			DateTime ds = new DateTime(start);
+			EventDateTime eds = new EventDateTime()
+					.setDateTime(ds)
+					.setTimeZone("America/New_York");
+			newEvent.setStart(eds);
+		}
+		if(end != null) {
+			DateTime de = new DateTime(end);
+			EventDateTime ede = new EventDateTime()
+					.setDateTime(de)
+					.setTimeZone("America/New_York");
+			newEvent.setEnd(ede);
+		}
+
+		Event.ExtendedProperties ext = new Event.ExtendedProperties();
+		Map<String, String> props = new HashMap<>();
+		props.put("isFamFriendly", toAdd.getFamFriendly().toString());
+		props.put("isPetFriendly", toAdd.getPetFriendly().toString());
+		props.put("ticketCost", toAdd.getTicketCost().toString());
+		props.put("isOutdoor", toAdd.getOutdoor().toString());
+		ext.setShared(props);
+		newEvent.setExtendedProperties(ext);
+		// recurrence would be cool
+
+		String cId = "";
+		try{
+			CalendarList cList =  CALENDAR.calendarList().list().execute();
+			for(CalendarListEntry e : cList.getItems()) {
+				if(e.getSummary().equals(toAdd.getBreweryName())) {
+					cId = e.getId();
+				}
+			}
+			if(cId.equals("")) {
+				return false;
+			} else {
+				CALENDAR.events().insert(cId, newEvent).execute();
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+
+		// should it return a list of events? like, a fresh pull?
+		// should it return a boolean? idk idk idk
+		return true;
 	}
 	
 	// add event

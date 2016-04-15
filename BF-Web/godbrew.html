@@ -6,6 +6,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-3.3.0.js"></script>	
 	<script src="js/site/breweryViewModel.js"></script>
+	<script src="js/lib/bootstrap.js"></script>
 	<script src="js/lib/moment.js"></script>
 	<script src="js/lib/datetimepicker.js"></script>
 	<title>BrewFind VT Portal</title>
@@ -15,7 +16,6 @@
 	<link href="css/business-casual.css" rel="stylesheet">
 	<!-- Our CSS -->
 	<link href="css/site.css" rel="stylesheet">
-	<link href="css/tabstuff.css" rel="stylesheet">
 	<!-- Fonts -->
 	<link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
 	<link href="http://fonts.googleapis.com/css?family=Josefin+Slab:100,300,400,600,700,100italic,300italic,400italic,600italic,700italic" rel="stylesheet" type="text/css">
@@ -26,352 +26,384 @@
 	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 	<![endif]-->
 	<!-- The JS script below will process content in each tab -->
-<script>
-	var tabLinks = new Array();
-    var contentDivs = new Array();
-    	
-    	 function init() {
-			  // Grab the tab links and content divs from the page
-			  var tabListItems = document.getElementById('tabs').childNodes;
-			  for ( var i = 0; i < tabListItems.length; i++ ) {
-				if ( tabListItems[i].nodeName == "LI" ) {
-				  var tabLink = getFirstChildWithTagName( tabListItems[i], 'A' );
-				  var id = getHash( tabLink.getAttribute('href') );
-				  tabLinks[id] = tabLink;
-				  contentDivs[id] = document.getElementById( id );
-				}
-			  }
-
-			  // Assign onclick events to the tab links, and
-			  // highlight the first tab
-			  var i = 0;
-
-			  for ( var id in tabLinks ) {
-				tabLinks[id].onclick = showTab;
-				tabLinks[id].onfocus = function() { this.blur() };
-				if ( i == 0 ) tabLinks[id].className = 'selected';
-				i++;
-			  }
-
-			  // Hide all content divs except the first
-			  var i = 0;
-
-			  for ( var id in contentDivs ) {
-				if ( i != 0 ) contentDivs[id].className='tabContent hide';
-				i++;
-			  }
-    	}
-    	
-    	function showTab() {
-		  var selectedId = getHash( this.getAttribute('href') );
-
-		  // Highlight the selected tab, and dim all others.
-		  // Also show the selected content div, and hide all others.
-		  for ( var id in contentDivs ) {
-			if ( id == selectedId ) {
-			  tabLinks[id].className = 'selected';
-			  contentDivs[id].className = 'tabContent';
-			} else {
-			  tabLinks[id].className = '';
-			  contentDivs[id].className = 'tabContent hide';
-			}
-		  }
-
-		  // Stop the browser following the link
-		  return false;									
-    	}
-    	
-    	function getFirstChildWithTagName( element, tagName ) {
-      		for ( var i = 0; i < element.childNodes.length; i++ ) {
-        		if ( element.childNodes[i].nodeName == tagName ) return element.childNodes[i];
-      		}
-   		}
-   		
-   		function getHash( url ) {
-      	var hashPos = url.lastIndexOf ( '#' );
-      	return url.substring( hashPos + 1 );
-    	}
-</script>
 </head>
-<body onload="init()">
+<body>
 	<div class="brand">Brewfind Admin Portal</div>
 	<br>
 <div class="container">
 	<div class="box">
-		<ul id="tabs">
-		  <li><a href="#breweries">Breweries</a></li>
-		  <li><a href="#users">Users</a></li>
-		  <li><a href="#event">Events</a></li>
+		<ul class="nav nav-tabs" id="gbTabs" role="tablist">
+		  <li class="dropdown">
+		  	<a class="dropdown-toggle" data-toggle="dropdown" href="#"> Breweries<span class="caret"></span></a>
+		  	<ul class="dropdown-menu">
+		  		<li>
+		  			<a data-toggle="tab" href="#editBreweries">Edit a brewery</a>
+		  		</li>
+		  		<li>
+		  			<a data-toggle="tab" href="#createBrewery">Create a brewery</a>
+		  		</li>
+		  	</ul>
+		  </li>
+		  <li>
+		  	<a data-toggle="tab" href="#users">Users</a>
+		  </li>
+		  <li>
+		  	<a data-toggle="tab" href="#event">Events</a>
+		  </li>
 		</ul>
-		<div class="tabContent" id="breweries">		
-					<div class="col-md-2">
-				<p style="font-size:25px">Breweries</p>
+
+		<div class="tab-content">
+			<!-- breweries tab content -->
+			<div class="tab-pane fade in active" id="editBreweries">
+				<div class="col-md-4">
+					<p style="font-size:25px">Breweries</p>
 					<div class="breweryList">
-					
 						<table>
 							<tbody data-bind="foreach: breweries">
 								<tr class="brewListItem" data-bind="click: $parent.populateGodbrewForm, text: b_name"/>
 							</tbody>
 						</table>
 					</div>
-					</div>
-				<div class="col-md-5"> 
+				</div>
+				<div class="col-md-8"> 
 					<div class="row">
 				<!-- Below is the form for updating an existing brewery in the DB -->
 						<!-- <div class="col-md-4"> -->
-						<h5 class="formTitle">Update an existing brewery!</h5>
-						<form id="updateForm" data-bind="submit: updateBrewery"> 
-							Name*:&nbsp<input type="text" name="name" id="in_name" required>
-							<br><br>
-							Address Line 1*:&nbsp<input type="text" name="addr1" id="in_addr1" required>
-							<br><br>
-							Address Line 2:&nbsp<input type="text" name="addr2" id="in_addr2">
-							<br><br>
-							City*:&nbsp<input type="text" name="city" id="in_city" required>
-							<br><br>
-							State*:&nbsp<input type="text" name="state" id="in_state" required>
-							<br><br>
-							Zip Code*:&nbsp<input type="text" name="zip" id="in_zip" required>
-							<br><br>
-							Phone Number:&nbsp<input type="text" name="phone" id="in_phone">
-							<br><br>
-							Email Address:&nbsp<input type="text" name="email" id="in_email">
-							<br><br>
-							Web Address:&nbsp<input type="text" name="url" id="in_url">
-							<br><br>
-							<!-- Description:&nbsp<input type="text" name="desc" id="in_description"> -->
-							Description:&nbsp <TEXTAREA name="desc" ROWS=2 COLS=0 id="in_description"></TEXTAREA>
-							<br><br>
-							Has Tours?: Yes<input type="radio" value="true" name="tours" id="in_tours_yes">
-										No<input type="radio" value="false" name="tours" id="in_tours_no">
-							<br><br>
-							Has food?: Yes<input type="radio" value="true" name="food" id="in_food_yes">
-										No<input type="radio" value="false" name="food" id="in_food_no">
-							<br><br>
-							Has tap room (or equivalent)?: Yes<input type="radio" value="true" name="tap" id="in_tap_yes">
-										No<input type="radio" value="false" name="tap" id="in_tap_no">
-							<br><br>
-							Has growlers?: Yes<input type="radio" value="true" name="growler" id="in_growler_yes">
-										No<input type="radio" value="false" name="growler" id="in_growler_no">
-							<br><br>
-							Rating: 	1<input type="radio" value="1" name="rating" id="in_rate_1">
-										2<input type="radio" value="2" name="rating" id="in_rate_2">
-										3<input type="radio" value="3" name="rating" id="in_rate_3">
-										4<input type="radio" value="4" name="rating" id="in_rate_4">
-										5<input type="radio" value="5" name="rating" id="in_rate_5">
-							<br><br>
+						<h4 class="formTitle">Update an existing brewery!</h4>
+						<form id="updateForm" data-bind="submit: updateBrewery">
+							<div class="form-group">
+								<label for="in_name">Name*</label>
+								<input type="text" class="form-control" name="name" id="in_name" placeholder="My Sweet Brewery Inc." required>
+							</div>
+							<div class="form-group">
+								<label for="in_addr1">Street address*</label>
+								<input type="text" class="form-control" name="addr1" id="in_addr1" placeholder="1 Example Lane" required>
+							</div>
+							<div class="form-group">
+								<label for="in_addr2">Address line 2</label>
+								<input type="text" class="form-control" name="addr2" id="in_addr2" required>
+							</div>
+							<div class="form-group">
+								<label for="in_city">City*</label>
+								<input type="text" class="form-control" name="city" id="in_city" required>
+							</div>
+							<div class="form-group">
+								<label for="in_state">State*</label>
+								<input type="text" class="form-control" name="state" id="in_state" value="VT" required>
+							</div>
+							<div class="form-group">
+								<label for="in_zip">Zip Code*</label>
+								<input type="text" class="form-control" name="zip" id="in_zip" required>
+							</div>
+							<div class="form-group">
+								<label for="in_phone">Phone Number</label>
+								<input type="number" class="form-control" name="phone" id="in_phone" placeholder="8005551212">
+							</div>
+							<div class="form-group">
+								<label for="in_email">Email</label>
+								<input type="text" class="form-control" name="email" id="in_email" placeholder="brewery@example.com" required>
+							</div>
+							<div class="form-group">
+								<label for="in_url">Website</label>
+								<input type="url" class="form-control" name="url" id="in_url">
+							</div>
+							<div class="form-group">
+								<label for="in_description">Brewery Description*</label>
+								<textarea rows="3" class="form-control" name="desc" id="in_description" placeholder="What kind of things do you stand for? What are your values?" required></textarea>
+							</div>
+							<div class="col-md-6">
+								<p>Are tours offered?:</p>
+				                <div class="radio-inline">
+								  <label>
+								    <input type="radio" name="tours" id="in_tours_yes" value="true" checked>
+								    Yes
+								  </label>
+								</div>
+								<div class="radio-inline">
+								  <label>
+								    <input type="radio" name="tours" id="in_tours_no" value="false">
+								    No
+								  </label>
+								</div>
+								<br/><br/>
+
+								<p>Is food available?:</p>
+				                <div class="radio-inline">
+								  <label>
+								    <input type="radio" name="food" id="in_food_yes" value="true" checked>
+								    Yes
+								  </label>
+								</div>
+								<div class="radio-inline">
+								  <label>
+								    <input type="radio" name="food" id="in_food_no" value="false">
+								    No
+								  </label>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<p>Is there a tap room (or equivalent)?:</p>
+				                <div class="radio-inline">
+								  <label>
+								    <input type="radio" name="tap" id="in_tap_yes" value="true" checked>
+								    Yes
+								  </label>
+								</div>
+								<div class="radio-inline">
+								  <label>
+								    <input type="radio" name="tap" id="in_tap_no" value="false">
+								    No
+								  </label>
+								</div>
+								<br/><br/>
+							
+								<p>Are there growler services?:</p>
+				                <div class="radio-inline">
+								  <label>
+								    <input type="radio" name="growler" id="in_growler_yes" value="true" checked>
+								    Yes
+								  </label>
+								</div>
+								<div class="radio-inline">
+								  <label>
+								    <input type="radio" name="growler" id="in_growler_no" value="false">
+								    No
+								  </label>
+								</div>
+							</div>
+
 							<input type="number" id="in_brewNum" name="brewNum" hidden>
-							<input type="submit" value="Submit">
-							<input type="reset"  value="Clear">
-							<h6 class="formTitle">* Indicates Required Field</h6>
+
+							<div class="col-md-4 col-md-offset-3 text-center">
+								<input class="btn btn-default" type="submit" value="Submit">
+								<input class="btn btn-default" type="reset"  value="Clear"><br/>
+								<h6>* Indicates Required Field</h6>
+							</div>
+							
 						</form>
 						<!-- </div> -->
 					</div>
 				</div> 
+			</div>
 
-					<div class="col-md-5">
-						<!-- Below is the form for creating a new brewery in the DB -->
-						<h5 class="formTitle">Create A New Brewery!</h5>
-						
-							<form id="newBreweryForm" data-bind="submit: createNewBrewery"> 
-								Name*:&nbsp<input type="text" name="name" id="new_name" required>
-								<br><br>
-								Address Line 1*:&nbsp<input type="text" name="addr1" id="new_addr1" required>
-								<br><br>
-								Address Line 2:&nbsp<input type="text" name="addr2" id="new_addr2">
-								<br><br>
-								City*:&nbsp<input type="text" name="city" id="new_city" required>
-								<br><br>
-								State*:&nbsp<input type="text" name="state" id="new_state" required>
-								<br><br>
-								Zip Code*:&nbsp<input type="text" name="zip" id="new_zip" required>
-								<br><br>
-								Phone Number:&nbsp<input type="text" name="phone" id="new_phone">
-								<br><br>
-								Email Address:&nbsp<input type="text" name="email" id="new_email">
-								<br><br>
-								Web Address:&nbsp<input type="text" name="url" id="new_url">
-								<br><br>
-								<!-- Description:&nbsp<input type="text" name="desc" id="new_description"> -->
-								Description:&nbsp <TEXTAREA name="desc" ROWS=2 COLS=20 id="new_description"></TEXTAREA>
-								<br><br>
-								Has Tours?: Yes<input type="radio" value="yes" name="tours" id="new_tours_yes">
-											No<input type="radio" value="no" name="tours" id="new_tours_no">
-								<br><br>
-								Has food?: Yes<input type="radio" value="yes" name="food" id="new_food_yes">
-											No<input type="radio" value="no" name="food" id="new_food_no">
-								<br><br>
-								Has tap room (or equivalent)?: 	Yes<input type="radio" value="true" name="tap" id="new_tap_yes">
-																No<input type="radio" value="false" name="tap" id="new_tap_no">
-								<br><br>
-								Has growlers?: 	Yes<input type="radio" value="true" name="growler" id="new_growler_yes">
-												No<input type="radio" value="false" name="growler" id="new_growler_no">
-								<br><br>
-								Rating: 	1<input type="radio" value="1" name="rating" id="new_rate_1">
-											2<input type="radio" value="2" name="rating" id="new_rate_2">
-											3<input type="radio" value="3" name="rating" id="new_rate_3">
-											4<input type="radio" value="4" name="rating" id="new_rate_4">
-											5<input type="radio" value="5" name="rating" id="new_rate_5">
-								<br><br>
-								<input type="submit" value="Submit">			
-								<input type="reset"  value="Clear">
-								<h6 class="formTitle">* Indicates Required Field</h6>
-							</form>
-					</div> 
-		</div>
-					<div class="col-md-5">
-						<!-- Below is the form for adding a new user to the DB -->
-						<div class="tabContent" id="users">
-							<h5 class="formTitle">Add A User!</h5>
-								<form id="newUserForm"> 
-									User Name*:&nbsp<input type="text" name="uname" id="in_uname" required>
-									<br><br>
-									Password*:&nbsp<input type="text" name="desc" id="in_pass" required>
-									<br><br>
-									First Name*:&nbsp<input type="text" name="fname" id="in_fname" required>
-									<br><br>
-									Last Name*:&nbsp<input type="text" name="f=lname" id="in_lname" required>
-								
-									<br><br>
-									Access Level: User<input type="radio" value="true" name="access" id="u_acccess_user">
-												  Brewery<input type="radio" value="true" name="access" id="u_acccess_brewery">
-												  Admin<input type="radio" value="true" name="access" id="u_acccess_admin">
-									<br><br>
-									<input type="submit" value="Submit">			
-									<input type="reset"  value="Clear">
-								</form>
-						</div>
-					</div>
+			<div class="tab-pane fade" id="createBrewery">
+				<div class="col-md-8 col-md-offset-2">
+					<!-- Below is the form for creating a new brewery in the DB -->
+					<h5 class="formTitle">Create A New Brewery!</h5>
+					<form id="newBreweryForm" data-bind="submit: createNewBrewery"> 
+						Name*:&nbsp<input type="text" name="name" id="new_name" required>
+						<br><br>
+						Address Line 1*:&nbsp<input type="text" name="addr1" id="new_addr1" required>
+						<br><br>
+						Address Line 2:&nbsp<input type="text" name="addr2" id="new_addr2">
+						<br><br>
+						City*:&nbsp<input type="text" name="city" id="new_city" required>
+						<br><br>
+						State*:&nbsp<input type="text" name="state" id="new_state" required>
+						<br><br>
+						Zip Code*:&nbsp<input type="text" name="zip" id="new_zip" required>
+						<br><br>
+						Phone Number:&nbsp<input type="text" name="phone" id="new_phone">
+						<br><br>
+						Email Address:&nbsp<input type="text" name="email" id="new_email">
+						<br><br>
+						Web Address:&nbsp<input type="text" name="url" id="new_url">
+						<br><br>
+						<!-- Description:&nbsp<input type="text" name="desc" id="new_description"> -->
+						Description:&nbsp <TEXTAREA name="desc" ROWS=2 COLS=20 id="new_description"></TEXTAREA>
+						<br><br>
+						Has Tours?: Yes<input type="radio" value="yes" name="tours" id="new_tours_yes">
+									No<input type="radio" value="no" name="tours" id="new_tours_no">
+						<br><br>
+						Has food?: Yes<input type="radio" value="yes" name="food" id="new_food_yes">
+									No<input type="radio" value="no" name="food" id="new_food_no">
+						<br><br>
+						Has tap room (or equivalent)?: 	Yes<input type="radio" value="true" name="tap" id="new_tap_yes">
+														No<input type="radio" value="false" name="tap" id="new_tap_no">
+						<br><br>
+						Has growlers?: 	Yes<input type="radio" value="true" name="growler" id="new_growler_yes">
+										No<input type="radio" value="false" name="growler" id="new_growler_no">
+						<br><br>
+						Rating: 	1<input type="radio" value="1" name="rating" id="new_rate_1">
+									2<input type="radio" value="2" name="rating" id="new_rate_2">
+									3<input type="radio" value="3" name="rating" id="new_rate_3">
+									4<input type="radio" value="4" name="rating" id="new_rate_4">
+									5<input type="radio" value="5" name="rating" id="new_rate_5">
+						<br><br>
+						<input type="submit" value="Submit">			
+						<input type="reset"  value="Clear">
+						<h6 class="formTitle">* Indicates Required Field</h6>
+					</form>
+				</div> 
+			</div>
 
-					<div class="col-md-8 col-md-offset-2">
-						<!-- Below is the form for adding a new event to the DB -->
-							<div class="tabContent" id="event">
-								<h3 class="formTitle">Add An Event!</h5>
-									<form id="newEventForm" data-bind="submit: addNewEvent"> 
-										<div class="form-group">
-											<label for="in_ename">Event Name*</label>
-											<input type="text" class="form-control" name="e_name" id="in_ename" placeholder="Your Event Name" required>
-										</div>
-										<div class="form-group">
-											<label for="in_edesc">Event Description*</label>
-											<textarea rows="3" class="form-control" name="e_desc" id="in_edesc" placeholder="Activities, vendors, etc..." required></textarea>
-										</div>
-										<div class="form-group">
-											<label for="in_ehost">Host*</label>
-											<input type="text" class="form-control" name="e_host" id="in_ehost" placeholder="A brewery, a company..." required>
-										</div>
-										<div class="form-group">
-											<label for="in_eurl">Event Name*</label>
-											<input type="url" class="form-control" name="e_url" id="in_eurl" placeholder="anevent@example.com/thisevent" required>
-										</div>
-										<div class="form-group">
-											<label for="in_location">Location</label>
-											<div class="row">
-												<div class="radio-inline">
-												  <label>
-												    <input type="radio" name="locEvent" id="in_loc_atBrewery" value="atBrewery" checked>
-												    At brewery location
-												  </label>
-												</div>
-												<div class="radio-inline">
-												  <label>
-												    <input type="radio" name="locEvent" id="in_loc_customLoc" value="customLoc" checked>
-												    Search:
-												    <input id="autocomplete" class="form-control" placeholder="Street addr, City, State Zip"
-             											onFocus="geolocate()" type="text"></input>
-												  </label>
-												</div>
-											</div>
-										</div>
-						                <div class="form-group">
-						                	<label for="startDatePicker">Start Date*</label>
-							                <div class='input-group date' name="e_startDate" id='startDatePicker'>
-							                    <input type='text' class="form-control" required>
-							                    <span class="input-group-addon">
-							                        <span class="glyphicon glyphicon-calendar"></span>
-							                    </span>
-							                </div>
-							            </div>
-							            <div class="form-group">
-						                	<label for="endDatePicker">End Date</label>
-							                <div class='input-group date' name="e_endDate" id='endDatePicker'>
-							                    <input type='text' class="form-control" required>
-							                    <span class="input-group-addon">
-							                        <span class="glyphicon glyphicon-calendar"></span>
-							                    </span>
-							                </div>
-							            </div>
-							            <script type="text/javascript">
-								            $(function () {
-								                $('#startDatePicker').datetimepicker();
-								                $('#endDatePicker').datetimepicker();
-								            });
-								        </script>
-
-										<div class="row">
-											<div class="col-md-4">
-								                <p class="text-center">Family Friendly:</p>
-								                <div class="radio-inline col-md-offset-3">
-												  <label>
-												    <input type="radio" name="family" id="e_family_t" value="true" checked>
-												    Yes
-												  </label>
-												</div>
-												<div class="radio-inline">
-												  <label>
-												    <input type="radio" name="family" id="e_family_f" value="true">
-												    No
-												  </label>
-												</div>
-											</div>
-											<div class="col-md-4">
-												<p class="text-center">Pet Friendly:</p>
-								                <div class="radio-inline col-md-offset-3">
-												  <label>
-												    <input type="radio" name="pet" id="e_pet_t" value="true" checked>
-												    Yes
-												  </label>
-												</div>
-												<div class="radio-inline">
-												  <label>
-												    <input type="radio" name="pet" id="e_pet_f" value="true">
-												    No
-												  </label>
-												</div>
-											</div>
-											<div class="col-md-4">
-												<p class="text-center">Indoors/Outdoors:</p>
-								                <div class="radio-inline col-md-offset-1">
-												  <label>
-												    <input type="radio" name="inout" id="e_inout_in" value="true" checked>
-												    Indoors
-												  </label>
-												</div>
-												<div class="radio-inline">
-												  <label>
-												    <input type="radio" name="inout" id="e_inout_out" value="true">
-												    Outdoors
-												  </label>
-												</div>
-											</div>	
-										</div>
-										<br/><br/>
-										<div class="col-md-offset-4">
-											<input type="submit" value="Submit" class="btn btn-default">			
-											<input type="reset"  value="Clear" class="btn btn-default">
-										</div>
-									</form>
-								</div>
-							</div>
-						
-					</div>
+			<!-- users tab content -->
+			<div class="tab-pane fade" id="users">
+				<div class="col-md-5">
+				<!-- Below is the form for adding a new user to the DB -->
+					<h5 class="formTitle">Add A User!</h5>
+					<form id="newUserForm"> 
+						User Name*:&nbsp<input type="text" name="uname" id="in_uname" required>
+						<br><br>
+						Password*:&nbsp<input type="text" name="desc" id="in_pass" required>
+						<br><br>
+						First Name*:&nbsp<input type="text" name="fname" id="in_fname" required>
+						<br><br>
+						Last Name*:&nbsp<input type="text" name="f=lname" id="in_lname" required>
+					
+						<br><br>
+						Access Level: User<input type="radio" value="true" name="access" id="u_acccess_user">
+									  Brewery<input type="radio" value="true" name="access" id="u_acccess_brewery">
+									  Admin<input type="radio" value="true" name="access" id="u_acccess_admin">
+						<br><br>
+						<input type="submit" value="Submit">			
+						<input type="reset"  value="Clear">
+					</form>
 				</div>
 			</div>
+
+			<!-- event tab content -->
+			<div class="tab-pane fade" id="event">
+				<div class="col-md-8 col-md-offset-2">
+				<!-- Below is the form for adding a new event to the DB -->
+							
+					<h3 class="formTitle">Add An Event!</h3>
+					<form id="newEventForm" data-bind="submit: addNewEvent"> 
+						<div class="form-group">
+							<label for="in_ename">Event Name*</label>
+							<input type="text" class="form-control" name="e_name" id="in_ename" placeholder="Your Event Name" required>
+						</div>
+						<div class="form-group">
+							<label for="in_edesc">Event Description*</label>
+							<textarea rows="3" class="form-control" name="e_desc" id="in_edesc" placeholder="Activities, vendors, etc..." required></textarea>
+						</div>
+						<div class="form-group">
+							<label for="in_ehost">Host*</label>
+							<select class="form-control" id="in_ehost" name="e_host" data-bind="foreach: breweries">
+							<option data-bind="text: b_name"></option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="in_eurl">Event Url</label>
+							<input type="url" class="form-control" name="e_url" id="in_eurl" placeholder="anevent@example.com/thisevent">
+						</div>
+						<div class="form-group">
+							<label for="in_location">Location</label>
+							<div class="row">
+								<div class="radio-inline">
+								  <label>
+								    <input type="radio" name="locEvent" id="in_loc_atBrewery" value="atBrewery" checked>
+								    At brewery location
+								  </label>
+								</div>
+								<div class="radio-inline">
+								  <label>
+								    <input type="radio" name="locEvent" id="in_loc_customLoc" value="customLoc" checked>
+								    Search:
+								    <input id="autocomplete" name="customLocation" class="form-control" placeholder="Street addr, City, State Zip"
+											onFocus="geolocate()" type="text"></input>
+								  </label>
+								</div>
+							</div>
+						</div>
+		                <div class="form-group">
+		                	<label for="startDatePicker">Start Date*</label>
+			                <div class='input-group date' id='startDatePicker'>
+			                    <input type='text' name="e_startDate" class="form-control" required>
+			                    <span class="input-group-addon">
+			                        <span class="glyphicon glyphicon-calendar"></span>
+			                    </span>
+			                </div>
+			            </div>
+			            <div class="form-group">
+		                	<label for="endDatePicker">End Date</label>
+			                <div class='input-group date' id='endDatePicker'>
+			                    <input type='text' name="e_endDate" class="form-control" required>
+			                    <span class="input-group-addon">
+			                        <span class="glyphicon glyphicon-calendar"></span>
+			                    </span>
+			                </div>
+			            </div>
+			            <div class="form-group">
+						    <label for="e_ticketCost">Amount (in dollars)</label>
+						    <div class="input-group">
+						      <div class="input-group-addon">$</div>
+						      <input type="number" name="e_ticketCost" class="form-control" id="e_ticketCost" placeholder="Amount">
+						      <div class="input-group-addon">.00</div>
+						    </div>
+						  </div>
+			            <script type="text/javascript">
+				            $(function () {
+				                $('#startDatePicker').datetimepicker();
+				                $('#endDatePicker').datetimepicker();
+				            });
+				        </script>
+
+						<div class="row">
+							<div class="col-md-4">
+				                <p class="text-center">Family Friendly:</p>
+				                <div class="radio-inline col-md-offset-3">
+								  <label>
+								    <input type="radio" name="family" id="e_family_t" value="true" checked>
+								    Yes
+								  </label>
+								</div>
+								<div class="radio-inline">
+								  <label>
+								    <input type="radio" name="family" id="e_family_f" value="false">
+								    No
+								  </label>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<p class="text-center">Pet Friendly:</p>
+				                <div class="radio-inline col-md-offset-3">
+								  <label>
+								    <input type="radio" name="pet" id="e_pet_t" value="true" checked>
+								    Yes
+								  </label>
+								</div>
+								<div class="radio-inline">
+								  <label>
+								    <input type="radio" name="pet" id="e_pet_f" value="false">
+								    No
+								  </label>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<p class="text-center">Indoors/Outdoors:</p>
+				                <div class="radio-inline col-md-offset-1">
+								  <label>
+								    <input type="radio" name="inout" id="e_inout_in" value="true" checked>
+								    Indoors
+								  </label>
+								</div>
+								<div class="radio-inline">
+								  <label>
+								    <input type="radio" name="inout" id="e_inout_out" value="false">
+								    Outdoors
+								  </label>
+								</div>
+							</div>	
+						</div>
+						<br/><br/>
+						<div class="col-md-offset-4">
+							<input type="submit" value="Submit" class="btn btn-default">			
+							<input type="reset"  value="Clear" class="btn btn-default">
+						</div>
+					</form>
+				</div>
+			</div>	
 		</div>
 	</div>
 <script>
 	var bvm = new BreweryViewModel();
 	ko.applyBindings(bvm);
+
+	$('#gbTabs a').click(function (e) {
+	  e.preventDefault()
+	  $(this).tab('show')
+	});
 
 	var autocomplete;
 	function initAutocomplete() {

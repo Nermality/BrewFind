@@ -11,6 +11,8 @@ public class EventSummary {
 	String id;
 	String description;
 	String htmlLink;
+
+	boolean atBreweryLocation;
 	String location;
 	String breweryName;
 	String startDate;
@@ -19,7 +21,10 @@ public class EventSummary {
 	int month;
 	int year;
 
-
+	Boolean isFamFriendly;
+	Boolean isPetFriendly;
+	Boolean isOutdoor;
+	Double ticketCost;
 
 	public EventSummary(String name) {
 		this.name = name;
@@ -101,7 +106,39 @@ public class EventSummary {
 
 	public void setYear(int year) { this.year = year; }
 
-// name
+	public Boolean getFamFriendly() {
+		return isFamFriendly;
+	}
+
+	public void setFamFriendly(Boolean famFriendly) {
+		isFamFriendly = famFriendly;
+	}
+
+	public Boolean getPetFriendly() {
+		return isPetFriendly;
+	}
+
+	public void setPetFriendly(Boolean petFriendly) {
+		isPetFriendly = petFriendly;
+	}
+
+	public Double getTicketCost() {
+		return ticketCost;
+	}
+
+	public void setTicketCost(Double ticketCost) {
+		this.ticketCost = ticketCost;
+	}
+
+	public Boolean getOutdoor() {
+		return isOutdoor;
+	}
+
+	public void setOutdoor(Boolean outdoor) {
+		isOutdoor = outdoor;
+	}
+
+	// name
 	// id
 	// summmary
 	// html link

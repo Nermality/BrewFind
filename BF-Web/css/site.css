@@ -3,7 +3,7 @@
 	height:150px;
 }
 
-.breweryList {
+.breweryList > table{
 	height:450px;
 	width:300px;
 	border:1px solid #ccc;
@@ -22,6 +22,9 @@
 	font-weight:bold;
 }
 
-#updateForm, #newBreweryForm {
-	text-align: right;
+.nav-tabs > li > a
+{
+    /* adjust padding for height*/
+    padding-top: 10px; 
+    padding-bottom: 10px;
 }

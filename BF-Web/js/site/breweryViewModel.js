@@ -349,7 +349,7 @@ function BreweryViewModel() {
 	    }
 
 	    xhr.onerror = function() {
-	    	console.log('XHR failure');
+	    	console.log('XHR failure - adding brewery');
 	    }
 
 	    var string = JSON.stringify(newQuery);
@@ -358,8 +358,82 @@ function BreweryViewModel() {
 
 	}
 
-	self.addNewEvent = function(eventForm) {
+	self.addNewEvent = function(form) {
+		var eventQuery = self.createEventQuery(form);
+		if(eventQuery === null) {
+			console.log("Something went wrong creating an event query...");
+			return;
+		}
 
+		console.log(eventQuery);
+
+		var xhr = self.createCORSRequest("POST", self.eventEnd);
+
+		xhr.onload = function(){
+			console.log("Got response!");
+			var response = xhr.responseText;
+			var newEvent = JSON.parse(response);
+
+			if(newEvent.status != 0) {
+				console.log("Something went wrong...");
+				console.log(newEvent.description);
+			} else {
+				eve = newEvent.rObj;
+				eve.foreach(function(entry) {
+					console.log(entry);
+				});
+			}
+		};
+
+		xhr.onerror = function(){
+			console.log("XHR failure - adding event");
+		};
+
+		var string = JSON.stringify(eventQuery);
+		console.log(string);
+		xhr.send(string);
+	}
+
+	self.createEventQuery = function(eventForm) {
+		var newQuery = {};
+		var newEvent = {};
+		newEvent["id"] = null;
+		newEvent["htmlLink"] = null;
+		newEvent["day"] = null;
+		newEvent["month"] = null;
+		newEvent["year"] = null;
+
+		newEvent["name"] = eventForm.e_name.value;
+		newEvent["description"] = eventForm.e_desc.value;
+		newEvent["breweryName"] = eventForm.e_host.value;
+		
+		if(document.getElementById("in_loc_atBrewery").checked) {
+			newEvent["atBreweryLocation"] = true;
+			var brew;
+			self.breweries.foreach(function(b) {
+				if(b.b_name === eventForm.e_host.value) {
+					brew = b;
+				}
+			})
+			var locString = brew.b_addr1 + ', ' + brew.b_city + ', VT ' + brew.b_zip;
+			newEvent["location"] = locString;
+
+		} else {
+			newEvent["atBreweryLocation"] = false;
+			newEvent["location"] = eventForm.customLocation.value;
+		}
+		
+		newEvent["startDate"] = eventForm.e_startDate.value;
+		newEvent["endDate"] = eventForm.e_endDate.value;
+		newEvent["isFamFriendly"] = Boolean(eventForm.family.value);
+		newEvent["isPetFriendly"] = Boolean(eventForm.pet.value);
+		newEvent["isOutdoor"] = Boolean(eventForm.inout.value);
+		newEvent["ticketCost"] = parseInt(eventForm.e_ticketCost.value);
+
+		newQuery["token"] = self.testToken;
+		newQuery["event"] = newEvent;
+
+		return newQuery;
 	};
 
 	self.populateGodbrewForm = function(brewery) {
