@@ -142,10 +142,7 @@ public class MainActivity extends AppCompatActivity
                     .replace(R.id.fragment_container, _brewActivityFragment).addToBackStack(null).commit();
 
         } else if (id == R.id.nav_Events) {
-            ((EventActivityFragment)_eventActivityFragment).setNewBrewNum(-1);
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, _eventActivityFragment).addToBackStack(null).commit();
-
+            makeEventsFromNav();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -163,6 +160,16 @@ public class MainActivity extends AppCompatActivity
                 .replace(R.id.fragment_container, _brewFragment)
                 .addToBackStack(null)
                 .commit();
+    }
+
+    public void makeEventsFromNav(){
+        if(getSupportFragmentManager().getFragments().contains(_eventActivityFragment)) {
+            getSupportFragmentManager().beginTransaction()
+                    .remove(_eventActivityFragment)
+                    .commit();
+        }
+
+        makeEventsForBrewery(-1);
     }
 
     public void makeEventsForBrewery(int brewNum) {

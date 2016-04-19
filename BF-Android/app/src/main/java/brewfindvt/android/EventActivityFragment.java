@@ -66,6 +66,9 @@ public class EventActivityFragment extends Fragment {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        eventMap = _cacheManager.getEventMap();
         sortByList = (Spinner) getActivity().findViewById(R.id.sortByList);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.eventSortBy, android.R.layout.simple_spinner_item);
@@ -89,12 +92,9 @@ public class EventActivityFragment extends Fragment {
         else {
             populatePage();
         }
-
-        super.onActivityCreated(savedInstanceState);
     }
 
     public void populatePage(){
-        eventMap = _cacheManager.getEventMap();
         allEvents = _cacheManager.getAllEvents();
         EventListViewAdapter adapter = new EventListViewAdapter(getActivity(),
                     R.layout.event_view, allEvents);
@@ -103,7 +103,6 @@ public class EventActivityFragment extends Fragment {
     }
 
     public void populateBrewPage(Integer b_num){
-        eventMap = _cacheManager.getEventMap();
         allEvents = eventMap.get(b_num);
         EventListViewAdapter adapter = new EventListViewAdapter(getActivity(),
                 R.layout.event_view, allEvents);
@@ -116,7 +115,14 @@ public class EventActivityFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        System.out.println("Let's try this");
         return inflater.inflate(R.layout.event_activity_fragment, container, false);
+    }
+
+    @Override
+    public void onResume() {
+        System.out.println("How about this");
+        super.onResume();
     }
 
 }
