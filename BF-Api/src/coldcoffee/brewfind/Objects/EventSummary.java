@@ -4,6 +4,7 @@ package coldcoffee.brewfind.Objects;
 import com.google.api.client.util.DateTime;
 
 import java.util.Date;
+import java.util.Map;
 
 public class EventSummary {
 
@@ -20,6 +21,7 @@ public class EventSummary {
 	int day;
 	int month;
 	int year;
+
 
 	Boolean isFamFriendly;
 	Boolean isPetFriendly;
@@ -137,6 +139,10 @@ public class EventSummary {
 	public void setOutdoor(Boolean outdoor) {
 		isOutdoor = outdoor;
 	}
+
+
+
+
 
 	// name
 	// id
