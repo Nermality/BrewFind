@@ -62,9 +62,9 @@ public class EventListViewAdapter extends ArrayAdapter<EventSummary> {
         holder.title.setText(eventItem.getName());
         holder.brewery.setText(eventItem.getBreweryName());
         holder.town.setText(eventItem.getLocation());
-        holder.month.setText(eventItem.getMonth());
-        holder.day.setText(eventItem.getDay());
-        holder.year.setText(eventItem.getYear());
+        holder.month.setText(String.valueOf(eventItem.getMonth()));
+        holder.day.setText(String.valueOf(eventItem.getDay()));
+        holder.year.setText(String.valueOf(eventItem.getYear()));
 
         return convertView;
     }

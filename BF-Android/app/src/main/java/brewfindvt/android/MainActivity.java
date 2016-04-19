@@ -240,6 +240,9 @@ public class MainActivity extends AppCompatActivity
                         String cal = itr.next();
                         Integer key = Integer.parseInt(cal);
                         List<EventSummary> events = mapper.readValue(eventMap.getJSONArray(cal).toString(), new TypeReference<List<EventSummary>>() {});
+                        if(events.isEmpty()) {
+                            continue;
+                        }
                         toIns.put(key, events);
                     }
                     _cacheManager.updateEvents(toIns);

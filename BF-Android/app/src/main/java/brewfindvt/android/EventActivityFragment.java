@@ -90,7 +90,6 @@ public class EventActivityFragment extends Fragment {
             populatePage();
         }
 
-        populatePage();
         super.onActivityCreated(savedInstanceState);
     }
 

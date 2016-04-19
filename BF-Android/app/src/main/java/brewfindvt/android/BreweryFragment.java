@@ -371,6 +371,16 @@ public class BreweryFragment extends android.support.v4.app.Fragment implements 
         dialog.show();
         dialog.setMessage("Loading brewery info...");
 
+        if(cacheManager.getEventMap().get(brew.b_breweryNum) == null) {
+            _eventButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getActivity().getApplicationContext(), "No events are listed for this brewery.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            _eventButton.setOnClickListener(this);
+        }
 
         if(dialog.isShowing()) {
             _drinkList.removeAllViews();
