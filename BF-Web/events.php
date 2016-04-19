@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
     <title>BrewFind - Calendar</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-3.3.0.js"></script> 
+    <script src="js/lib/bootstrap.js"></script>
+    <script src="js/site/eventsViewModel.js"></script>
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
@@ -18,63 +21,44 @@
     <![endif]-->
 </head>
 <body>
-    <?php include 'header.html' ?>
-<div class="container">
-<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-  <div class="panel panel-default">
-    <div class="panel-heading" role="tab" id="headingOne">
-      <h4 class="panel-title">
-        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-           Event #1 <br>
-		 <small> -subtitle- </small><br>
-		  April 8th, 2016 <br>
-		  VTC Williston
-        </a>
-      </h4>
-    </div>
-    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-      <div class="panel-body">
-		Description of the event will go here.
-      </div>
-    </div>
-  </div>
-  <div class="panel panel-default">
-    <div class="panel-heading" role="tab" id="headingTwo">
-      <h4 class="panel-title">
-        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-          Event #2 <br>
-		  <small> -subtitle- </small><br>
-		  April 8th, 2016 <br>
-		  VTC Williston
-        </a>
-      </h4>
-    </div>
-    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-      <div class="panel-body">
-		
-      </div>
-    </div>
-  </div>
-  <div class="panel panel-default">
-    <div class="panel-heading" role="tab" id="headingThree">
-      <h4 class="panel-title">
-        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-           Event #3 <br>
-		<small> -subtitle- </small><br>
-		  April 8th, 2016 <br>
-		  VTC Williston
-        </a>
-      </h4>
-    </div>
-    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-      <div class="panel-body">
-		
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-   <?php include 'footer.html' ?>
+  <?php include 'header.html' ?>
 
+  <div class="container">
+    
+    <div class="panel-group" id="eventAccordion" role="tablist" aria-multiselectable="true" data-bind="foreach: eventList">
+      <div class="panel panel-default">
+        <div class="panel-heading" role="tab" data-bind="attr: { 'id': 'head' + tag }">
+          <div class="media">
+            <div class="media-left">
+              <img data-bind="attr: { 'src': $root.imgUrl + '/img/breweries/' + breweryNum + '/brewery_profile_pic.jpg'}" alt="" style="height: 100px">
+            </div>
+            <div class="media-body">
+              <h3 class="media-heading">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#eventAccordion" aria-expanded="false" data-bind="attr: { 'href': '#coll' + tag, 'aria-controls': 'coll' + tag}, text: name"></a>
+              </h3>
+              <h4 data-bind="text: breweryName"></h4>
+              <h4 data-bind="text: location"></h4>
+            </div>
+          </div>
+        </div>
+        <div class="panel-collapse collapse" role="tabpanel" data-bind="attr: { 'id': 'coll' + tag, 'aria-labelledby':'head' + tag}">
+          <div class="panel-body">
+            <div class="row">
+              <p data-bind="text: description"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    <!-- <img data-bind="attr: { 'src': $root.imgUrl + '/img/breweries/' + b_breweryNum + '/brewery_profile_pic.jpg'}" alt="" style="height: 150px"> -->
+
+  </div>
+
+  <?php include 'footer.html' ?>
+
+  <script>
+    ko.applyBindings(new EventsViewModel());
+  </script>
 </body>
 </html>

@@ -20,6 +20,8 @@
     <!-- Our own CSS -->
     <link href="css/site.css" rel="stylesheet">
 
+    <script src="js/site/login.js"></script>
+
     <!-- Fonts -->
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Josefin+Slab:100,300,400,600,700,100italic,300italic,400italic,600italic,700italic" rel="stylesheet" type="text/css">
@@ -36,19 +38,6 @@
 <body>
 
 	<?php include 'header.html' ?>
-    <!-- <div class="container">
-        <div class="row">
-            <div class="box">
-                <div class="col-lg-12">
-                    <hr>
-                    <h2 class="intro-text text-center">
-                        <strong>Lorem Ipsum</strong>
-                    </h2>
-                    <hr>
-				</div>
-            </div>
-		</div>
-	</div> -->
 	<div class="container">
         <div class="row">
             <div class="box">
@@ -81,14 +70,12 @@ Ted proposed the idea as a senior project and we were all on board immediately. 
 	<div class="container">
         <div class="row">
             <div class="box">
-				 <div class="col-lg-12 text-center">
-				<hr>
-				<h2>The Team</h2>
-				<hr>
-				<br>
+				<div class="col-lg-12 text-center">
+					<hr>
+					<h2>The Team</h2>
+					<hr><br>
 				</div>
-				<div class="col-lg-3">
-				</div>
+				<div class="col-lg-3"></div>
 		        <div class="col-lg-8 text-center">
 					<table><tr>
 					<td><img src="img/mark.jpg" alt="Mark" class="aboutPic"></td>
@@ -124,11 +111,43 @@ Ted proposed the idea as a senior project and we were all on board immediately. 
 			</div>
 		</div>
 	</div>
-                </div>
-			</div>
-		</div>
     <!-- /.container -->
 
+    <div class="container">
+    	<div class="box">
+    		<div class="panel-group" id="gb-login" role="tablist">
+    			<div class="panel panel-default">
+    				<div class="panel-heading" role="tab" id="gbl-head">
+    					<h3 class="panel-title">
+    						<a role="button" data-toggle="collapse" data-parent="gb-login" href="#gbl-tab" aria-expanded="false" class="text-centered"> Admin Login </a>
+    					</h3>
+    				</div>
+    				<div id="gbl-tab" class="panel-collapse collapse" role="tabpanel" aria-labelledby="gbl-head">
+    					<div class="panel-body">			
+							<form class="form-horizontal" name="gbLoginForm" id="gbLogin">
+								<div class="form-group">
+									<label class="col-sm-2 control-label" for="gbl_uname">Username:</label>
+									<div class="col-sm-4">
+										<input type="text" class="form-control" name="uname" id="gbl_uname" placeholder="Username" required>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label" for="gbl_pass">Password:</label>
+									<div class="col-sm-4">
+										<input type="password" class="form-control" name="pass" id="gbl_pass" placeholder="Password" required>
+									</div>
+								</div>
+								<div class="col-sm-offset-2 col-sm-10">
+									<button type="submit" onClick="gbLogin()" class="btn btn-default">Log in to admin portal</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+					
     <?php include 'footer.html' ?>
 
     <!-- jQuery -->

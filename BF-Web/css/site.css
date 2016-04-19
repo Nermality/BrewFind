@@ -3,7 +3,7 @@
 	height:150px;
 }
 
-.breweryList > table{
+.breweryList {
 	height:450px;
 	width:300px;
 	border:1px solid #ccc;
@@ -27,4 +27,8 @@
     /* adjust padding for height*/
     padding-top: 10px; 
     padding-bottom: 10px;
+}
+
+#footer {
+	height:100px;
 }

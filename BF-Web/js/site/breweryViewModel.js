@@ -153,10 +153,10 @@ function BreweryViewModel() {
 		var xhr = self.createCORSRequest('POST', self.breweryEnd);
 
 		xhr.onload = function() {
-		console.log("Got response!");
-		var response = xhr.responseText;
-		var newBrewery = JSON.parse(response);
-		console.log(newBrewery);
+			console.log("Got response!");
+			var response = xhr.responseText;
+			var newBrewery = JSON.parse(response);
+			console.log(newBrewery);
 
 			if(newBrewery.status != 0) {
 				console.log("Something went wrong...");

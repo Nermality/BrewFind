@@ -45,7 +45,7 @@ public class UserController {
 	 */
 	@Path("/auth")
 	@Produces("application/json")
-	@GET
+	@POST
 	public BrewFindResponse auth(
 			@NotNull @HeaderParam("uname") 	String uname,
 			@NotNull @HeaderParam("pass")	String pass) {
