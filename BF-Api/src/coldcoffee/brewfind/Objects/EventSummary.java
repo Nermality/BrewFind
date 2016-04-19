@@ -13,7 +13,7 @@ public class EventSummary {
 	String description;
 	String htmlLink;
 
-	boolean atBreweryLocation;
+	Boolean atBreweryLocation;
 	String location;
 	String breweryName;
 	String startDate;
@@ -140,11 +140,15 @@ public class EventSummary {
 		isOutdoor = outdoor;
 	}
 
+	public Boolean isAtBreweryLocation() {
+		return atBreweryLocation;
+	}
 
+	public void setAtBreweryLocation(Boolean atBreweryLocation) {
+		this.atBreweryLocation = atBreweryLocation;
+	}
 
-
-
-	// name
+// name
 	// id
 	// summmary
 	// html link

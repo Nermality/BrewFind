@@ -21,8 +21,12 @@ public class EventService {
 
 	@Autowired
 	public BreweryService breweryService;
-	
+
+	private final int minuteRefreshTimer = 5;
+
 	private com.google.api.services.calendar.Calendar CALENDAR;
+	private CalendarList eventList;
+	private Date lastEventPull;
 		
 	public EventService() {
 
@@ -33,14 +37,25 @@ public class EventService {
 			e.printStackTrace();
 		}
 
+		lastEventPull = new Date(System.currentTimeMillis());
 	}
-	
+
+	private boolean needsRefresh(){
+		long diff = ((new Date().getTime()/60000) - (lastEventPull.getTime()/60000));
+
+		return (diff > minuteRefreshTimer);
+	}
+
 	public Map<Integer, List<EventSummary>> getEvents() throws IOException {
 		Map<Integer, List<EventSummary>> toRet = new HashMap<>();
 		DateTime now = new DateTime(System.currentTimeMillis());
+
 		try {
-			CalendarList cList =  CALENDAR.calendarList().list().execute();
-			for(CalendarListEntry entry : cList.getItems()) {
+			if(eventList == null || needsRefresh()) {
+				eventList =  CALENDAR.calendarList().list().execute();
+			}
+
+			for(CalendarListEntry entry : eventList.getItems()) {
 
 				String name = entry.getSummary();
 				if((name.equals("Birthdays")) || name.equals("Holidays in United States") || name.contains("..")) {
@@ -95,6 +110,8 @@ public class EventService {
 						case "isOutdoor":
 							toAdd.setOutdoor(Boolean.valueOf(props.get(s)));
 							break;
+						case "atBreweryLocation":
+							toAdd.setAtBreweryLocation(Boolean.valueOf(props.get(s)));
 						default:
 							System.out.println("Unrecognized field " + s);
 
@@ -166,14 +183,17 @@ public class EventService {
 		props.put("isPetFriendly", toAdd.getPetFriendly().toString());
 		props.put("ticketCost", toAdd.getTicketCost().toString());
 		props.put("isOutdoor", toAdd.getOutdoor().toString());
+		props.put("atBreweryLocation", toAdd.isAtBreweryLocation().toString());
 		ext.setShared(props);
 		newEvent.setExtendedProperties(ext);
 		// recurrence would be cool
 
 		String cId = "";
 		try{
-			CalendarList cList =  CALENDAR.calendarList().list().execute();
-			for(CalendarListEntry e : cList.getItems()) {
+			if(eventList == null || needsRefresh()) {
+				eventList =  CALENDAR.calendarList().list().execute();
+			}
+			for(CalendarListEntry e : eventList.getItems()) {
 				if(e.getSummary().equals(toAdd.getBreweryName())) {
 					cId = e.getId();
 				}
