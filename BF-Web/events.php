@@ -5,6 +5,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-3.3.0.js"></script> 
     <script src="js/lib/bootstrap.js"></script>
+    <script src="js/site/resources.js"></script>
+    <script src="js/site/cacheManager.js"></script>
     <script src="js/site/eventsViewModel.js"></script>
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -37,19 +39,56 @@
                 <a class="collapsed" role="button" data-toggle="collapse" data-parent="#eventAccordion" aria-expanded="false" data-bind="attr: { 'href': '#coll' + tag, 'aria-controls': 'coll' + tag}, text: name"></a>
               </h3>
               <h4 data-bind="text: breweryName"></h4>
-              <h4 data-bind="text: location"></h4>
+              <h4 data-bind="text: startString"></h4>
             </div>
           </div>
         </div>
         <div class="panel-collapse collapse" role="tabpanel" data-bind="attr: { 'id': 'coll' + tag, 'aria-labelledby':'head' + tag}">
           <div class="panel-body">
-            <div class="row">
+            <div class="container-fluid">
+              <strong>Description:</strong>
               <p data-bind="text: description"></p>
+
+              <strong>Location:</strong>
+              <p data-bind="text: location"></p>
+              
+              <div class="row">
+                <div class="col-md-3">
+                  <div data-bind="attr: {'style': 'border: 2px solid ' + famColor}" class="thumbnail">
+                    <img id="famPic" src="img/people.png">
+                    <hr>
+                    <h4 class="text-center" data-bind="text: famString"></h4>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div data-bind="attr: {'style': 'border: 2px solid ' + petColor}" class="thumbnail">
+                    <img id="petPic" src="img/animal.png">
+                    <hr>
+                    <h4 class="text-center" data-bind="text: petString"></h4>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div data-bind="attr: {'style': 'border: 2px solid ' + outdoorColor}" class="thumbnail">
+                    <img id="outdoorPic" src="img/table.png">
+                    <hr>
+                    <h4 class="text-center" data-bind="text: outdoorString"></h4>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div style="border: 2px solid black" class="thumbnail">
+                    <img id="pricePic" src="img/money.png">
+                    <hr>
+                    <h4 class="text-center" data-bind="text: priceString"></h4>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+
+    
   </div>
     <!-- <img data-bind="attr: { 'src': $root.imgUrl + '/img/breweries/' + b_breweryNum + '/brewery_profile_pic.jpg'}" alt="" style="height: 150px"> -->
 
@@ -58,7 +97,9 @@
   <?php include 'footer.html' ?>
 
   <script>
-    ko.applyBindings(new EventsViewModel());
+    var evm = new EventsViewModel();
+    fetchEvents(evm.eventList);
+    ko.applyBindings(evm);
   </script>
 </body>
 </html>

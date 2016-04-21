@@ -18,6 +18,14 @@
 		<!-- Fonts -->
 		<link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
 		<link href="http://fonts.googleapis.com/css?family=Josefin+Slab:100,300,400,600,700,100italic,300italic,400italic,600italic,700italic" rel="stylesheet" type="text/css">
+
+		<!-- jQuery -->
+		<script src="js/lib/jquery.js"></script>
+		<!-- Bootstrap Core JavaScript -->
+		<script src="js/lib/bootstrap.min.js"></script>
+		<script src="js/site/resources.js"></script>
+		<script src="js/site/cacheManager.js"></script>
+		<script src="js/site/breweryViewModel.js"></script>
 		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 		<!--[if lt IE 9]>
@@ -85,7 +93,7 @@
 				<p id="bDesc"></p>
 				<hr><br/>
 				<h1 class="text-center">Drink List</h1>
-				<div class="panel-group" id="drinkAccordion" role="tablist" aria-multiselectable="true" data-bind="foreach: drinkList">
+				<div class="panel-group" id="drinkAccordion" role="tablist" aria-multiselectable="true" data-bind="foreach: currentDrinks">
   					<div class="panel panel-default">
   						<div class="panel-heading" role="tab" data-bind="attr: { 'id': 'head' + tag }">
   							<h4 class="panel-title">
@@ -133,13 +141,11 @@
 	</div>
 	<?php include 'footer.html' ?>
 	<!-- /.container -->
-	<!-- jQuery -->
-	<script src="js/lib/jquery.js"></script>
-	<!-- Bootstrap Core JavaScript -->
-	<script src="js/lib/bootstrap.min.js"></script>
-	<script src="js/site/breweryViewModel.js"></script>
+	
 	<script>
-		ko.applyBindings(new BreweryViewModel());
+		var bvm = new BreweryViewModel();
+		fetchBreweries(bvm.breweries, bvm.breweryGroups);
+		ko.applyBindings(bvm);
 	</script>
 </body>
 

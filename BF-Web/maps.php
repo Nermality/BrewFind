@@ -4,6 +4,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-3.3.0.js"></script>
 <script src="http://maps.googleapis.com/maps/api/js?AIzaSyCsIrpOH1R74PPfmCCeIbHZmfSIOzXbTgk"></script>
+<script src="js/site/resources.js"></script>
+<script src="js/site/cacheManager.js"></script>
 <script src="js/site/breweryViewModel.js"></script>
 
 <script>
@@ -63,13 +65,6 @@
 </head>
 
 <body>
-<script>
-function myFunction()
-{
-alert("Hello! I am an alert box!");
-}
-</script>
- 
 <!-- <input type="button" onclick="myFunction()" value="Show alert box" /> -->
 
 	<?php include 'header.html' ?>
@@ -99,7 +94,7 @@ alert("Hello! I am an alert box!");
 			</div>
 			<div class="col-md-8">
 				<p style="font-size:25px" id="brewTitle"></p>
-				<div class="col-md-6" id="googleMap" style="width:700px;height:500px;"></div>
+				<div id="googleMap" style="width:600px;height:500px;"></div>
 			</div>	
 		</div>
 	</div>	
@@ -107,7 +102,9 @@ alert("Hello! I am an alert box!");
 
     <?php include 'footer.html' ?>
     <script>
-    	ko.applyBindings(new BreweryViewModel());
+    	var bvm = new BreweryViewModel();
+		fetchBreweries(bvm.breweries, bvm.breweryGroups);
+		ko.applyBindings(bvm);
     </script>
     <!-- jQuery -->
     <script src="js/lib/jquery.js"></script>
