@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>BrewFind - Calendar</title>
+    <title>BrewFind - Events</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-3.3.0.js"></script> 
     <script src="js/lib/bootstrap.js"></script>
@@ -26,14 +26,6 @@
   <?php include 'header.html' ?>
 
   <div class="container">
-
-    <div class="box">
-        <div class="col-lg-12 text-center">
-          <hr>
-            <h2>Brewery Events</h2>
-          <hr>
-        </div>
-    </div>
     
     <div class="panel-group" id="eventAccordion" role="tablist" aria-multiselectable="true" data-bind="foreach: eventList">
       <div class="panel panel-default">

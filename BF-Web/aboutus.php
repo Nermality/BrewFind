@@ -96,7 +96,7 @@ Ted proposed the idea as a senior project and we were all on board immediately. 
 					<li><p>Business Relations, System Admin, Web Developer</p></li></ul><td>
 					</tr>
 					<tr>
-					<td><img src="img/ken.jpg" alt="ken" class="aboutPic"></td>
+					<td><img src="img/ken.jpg" alt="Ken" class="aboutPic"></td>
 					<td><ul style= "list-style-type:none"><li><p>Ken</p></li>
 					<li><p>Bachelor’s - Information Technology</p></li>
 					<li><p>System Admin, Database Admin</p></li></ul><td>
