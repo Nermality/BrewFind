@@ -62,7 +62,47 @@ public class EventListViewAdapter extends ArrayAdapter<EventSummary> {
         holder.title.setText(eventItem.getName());
         holder.brewery.setText(eventItem.getBreweryName());
         holder.town.setText(eventItem.getLocation());
-        holder.month.setText(String.valueOf(eventItem.getMonth()));
+        String monthText = "";
+        switch(eventItem.getMonth()) {
+            case 1:
+                monthText = "JAN";
+                break;
+            case 2:
+                monthText = "FEB";
+                break;
+            case 3:
+                monthText = "MAR";
+                break;
+            case 4:
+                monthText = "APR";
+                break;
+            case 5:
+                monthText = "MAY";
+                break;
+            case 6:
+                monthText = "JUN";
+                break;
+            case 7:
+                monthText = "JUL";
+                break;
+            case 8:
+                monthText = "AUG";
+                break;
+            case 9:
+                monthText = "SEP";
+                break;
+            case 10:
+                monthText = "OCT";
+                break;
+            case 11:
+                monthText = "NOV";
+                break;
+            case 12:
+                monthText = "DEC";
+                break;
+        }
+
+        holder.month.setText(monthText);
         holder.day.setText(String.valueOf(eventItem.getDay()));
         holder.year.setText(String.valueOf(eventItem.getYear()));
 

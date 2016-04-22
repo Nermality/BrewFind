@@ -115,14 +115,8 @@ public class EventActivityFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        System.out.println("Let's try this");
         return inflater.inflate(R.layout.event_activity_fragment, container, false);
     }
 
-    @Override
-    public void onResume() {
-        System.out.println("How about this");
-        super.onResume();
-    }
 
 }

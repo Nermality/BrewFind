@@ -12,29 +12,30 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Large Text"
             android:id="@+id/eventName"
             android:layout_weight=".45"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:textColor="#CC0033"
+            android:textStyle="bold"
+            android:textSize="18sp" />
 
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="0dp"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
             android:id="@+id/eventBrewery"
             android:layout_weight=".32"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:textColor="#301f0d"
+            android:textSize="14sp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
             android:id="@+id/eventTown"
             android:layout_weight=".32"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:textColor="#301f0d"
+            android:textSize="14sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -46,25 +47,24 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
             android:id="@+id/eventMonth"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:textSize="14sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Large Text"
             android:id="@+id/eventDay"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:textStyle="bold"
+            android:textSize="18sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
             android:id="@+id/eventYear"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:textSize="14sp" />
     </LinearLayout>
 </LinearLayout>

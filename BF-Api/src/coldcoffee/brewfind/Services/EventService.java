@@ -2,6 +2,7 @@ package coldcoffee.brewfind.Services;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.security.GeneralSecurityException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,6 +36,8 @@ public class EventService {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (GeneralSecurityException g) {
+			g.printStackTrace();
 		}
 
 		lastEventPull = new Date(System.currentTimeMillis());
@@ -54,6 +57,9 @@ public class EventService {
 			if(eventList == null || needsRefresh()) {
 				eventList =  CALENDAR.calendarList().list().execute();
 			}
+
+			com.google.api.services.calendar.Calendar.Settings s = CALENDAR.settings();
+			String sad = CALENDAR.getBaseUrl();
 
 			for(CalendarListEntry entry : eventList.getItems()) {
 
