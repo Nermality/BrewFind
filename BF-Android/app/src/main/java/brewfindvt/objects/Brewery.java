@@ -41,6 +41,8 @@ public class Brewery extends BrewFindObject {
     public Double b_long;
 
 
+    Map<Integer, String> openDates;
+    Map<Integer, String> closeDates;
 
     //public Set<Drink> b_drinkList;
 
@@ -207,5 +209,19 @@ public class Brewery extends BrewFindObject {
 
     public void setB_utId(int b_utId) { this.b_utId = b_utId; }
 
+    public Map<Integer, String> getOpenDates() {
+        return openDates;
+    }
 
+    public void setOpenDates(Map<Integer, String> openDates) {
+        this.openDates = openDates;
+    }
+
+    public Map<Integer, String> getCloseDates() {
+        return closeDates;
+    }
+
+    public void setCloseDates(Map<Integer, String> closeDates) {
+        this.closeDates = closeDates;
+    }
 }
