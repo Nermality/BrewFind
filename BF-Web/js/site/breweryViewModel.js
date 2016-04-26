@@ -76,7 +76,8 @@ function BreweryViewModel() {
 	      '<p>'+brewery.b_phone+'</p>'+
 		  '<p>'+brewery.b_email+'</p>'+
 		  '<p>'+brewery.b_addr1+'</p>'+
-		  '<p>'+brewery.b_url+'</p>'+
+		  '<p><a href= "http://'+brewery.b_url+'" >'+brewery.b_url+'</a></p>'+
+		  '<a id="googleMapLink" href=googleUrl>"Google Map link"</a>'+
 	      '</div>'+
 	      '</div>';
 
