@@ -1,5 +1,6 @@
 function GodbrewViewModel() {
 	var self = this;
+	self.breweries = ko.observableArray();
 
 	self.updateBrewery = function(breweryForm) {
 		var brewNum = form.brewNum.value;

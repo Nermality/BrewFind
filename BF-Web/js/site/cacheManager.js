@@ -22,25 +22,28 @@ function fetchBreweries(brewList, brewGroups) {
 					return (nameA < nameB) ? -1 : (nameA > nameB) ? 1 : 0;
 				});
 
-				var current = [];
-				var count = 0;
-				brewList().forEach(function(brewery) {
+				if(brewGroups != null) {
+					var current = [];
+					var count = 0;
+					brewList().forEach(function(brewery) {
 					
-					if(((count % 6) == 0) && (count != 0))  {
-						brewGroups.push(current);
-						current = [];
-					}
+						if(((count % 6) == 0) && (count != 0))  {
+							brewGroups.push(current);
+							current = [];
+						}
 
-					current.push(brewery);
+						current.push(brewery);
 
-					if(count === (brewList().length - 1)) {
-						brewGroups.push(current);
-					}
+						if(count === (brewList().length - 1)) {
+							brewGroups.push(current);
+						}
 
-					count++;
-				})
+						count++;
+					})
 
-				console.log(brewGroups());
+					console.log(brewGroups());
+				}
+				
 
 			} else {
 				console.log("Something went wrong...");
