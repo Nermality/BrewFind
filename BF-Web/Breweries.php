@@ -37,7 +37,7 @@
     <?php include 'header.html' ?>
 	<div class="container">
 		<div class="row">
-			<div class="box">
+			<div class="box" style = "height: 75%;">
 				<div class="col-lg-12 text-center">
 				<hr>
 					<h2>Select a Brewery for more info!</h2>
