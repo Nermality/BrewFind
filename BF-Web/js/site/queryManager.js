@@ -153,7 +153,7 @@ function makeEventQuery(eventForm, breweries) {
 	if(document.getElementById("in_loc_atBrewery").checked) {
 		newEvent["atBreweryLocation"] = true;
 		var brew;
-		breweries.foreach(function(b) {
+		breweries.forEach(function(b) {
 			if(b.b_name === eventForm.e_host.value) {
 				brew = b;
 			}
