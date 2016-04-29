@@ -78,7 +78,7 @@ function GodbrewViewModel() {
 	}
 
 	self.addNewEvent = function(form) {
-		var eventQuery = makeEventQuery(form);
+		var eventQuery = makeEventQuery(form, self.breweries);
 		if(eventQuery === null) {
 			console.log("Something went wrong creating an event query...");
 			return;

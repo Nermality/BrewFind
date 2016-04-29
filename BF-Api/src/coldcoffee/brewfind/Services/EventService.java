@@ -23,7 +23,7 @@ public class EventService {
 	@Autowired
 	public BreweryService breweryService;
 
-	private final int minuteRefreshTimer = 5;
+	private final int minuteRefreshTimer = 1;
 
 	private com.google.api.services.calendar.Calendar CALENDAR;
 	private CalendarList eventList;

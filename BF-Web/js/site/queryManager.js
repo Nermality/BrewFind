@@ -137,7 +137,7 @@ function makeUserQuery(form) {
 	return newQuery;
 }
 
-function makeEventQuery(eventForm) {
+function makeEventQuery(eventForm, breweries) {
 	var newQuery = {};
 	var newEvent = {};
 	newEvent["id"] = null;
@@ -153,7 +153,7 @@ function makeEventQuery(eventForm) {
 	if(document.getElementById("in_loc_atBrewery").checked) {
 		newEvent["atBreweryLocation"] = true;
 		var brew;
-		self.breweries.foreach(function(b) {
+		breweries.foreach(function(b) {
 			if(b.b_name === eventForm.e_host.value) {
 				brew = b;
 			}
