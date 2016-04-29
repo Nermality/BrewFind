@@ -76,7 +76,7 @@ function BreweryViewModel() {
 	      '<p>'+brewery.b_phone+'</p>'+
 		  '<p>'+brewery.b_email+'</p>'+
 		  '<p>'+brewery.b_addr1+'</p>'+
-		  '<a href= "http://www.'+brewery.b_url+'" >'+brewery.b_url+'</a>'+
+		  '<p>'+brewery.b_url+'</p>'+
 	      '</div>'+
 	      '</div>';
 

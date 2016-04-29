@@ -31,7 +31,7 @@
 	<?php include 'header.html' ?>
 	<div class="container">
 		<div class="row">
-			<div class="box">
+			<div class="box clearfix">
 				<div class="col-lg-5 text-center">
 					<div id="carousel-example-generic" class="carousel slide">
 						<!-- Indicators -->

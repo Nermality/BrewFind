@@ -37,14 +37,12 @@
     <?php include 'header.html' ?>
 	<div class="container">
 		<div class="row">
-			<div class="box" style = "height: 75%;">
+			<div class="box">
 				<div class="col-lg-12 text-center">
-				<hr>
-					<h2>Select a Brewery for more info!</h2>
-				<hr>
+					<hr>
+						<h2>Select a Brewery for more info!</h2>
+					<hr>
 				</div>
-
-				
 			</div>
 			<div id="breweries-carousel" class="carousel slide" data-ride="carousel">
 				  
@@ -84,7 +82,7 @@
 	</div>
 	<!-- Page Content -->
 	<div class="container" id="breweryBox" style="display: none">
-		<div class="box">	
+		<div class="box clearfix">	
 			<div class="jumbotron text-center">
 				<h1 id="brewTitle"></h1>
 				<hr>
