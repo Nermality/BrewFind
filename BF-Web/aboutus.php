@@ -79,32 +79,28 @@ Ted proposed the idea as a senior project and we were all on board immediately. 
 		        <div class="col-lg-8 text-center">
 					<table><tr>
 					<td><img src="img/mark.jpg" alt="Mark" class="aboutPic"></td>
-					<td><ul style= "list-style-type:none"><li><p>Mark</p></li>
-					<li><p>Bachelor’s - Software Engineering</p></li>
+					<td><ul style= "list-style-type:none"><li><p>Mark Harwood</p></li>
 					<li><p>Team Lead, Application Development</p></li></ul><td>
 					</tr>
 					<tr>
 					<td><img src="img/Ted.jpg" alt="ted" class="aboutPic"></td>
-					<td><ul style= "list-style-type:none"><li><p>Ted</p></li>
+					<td><ul style= "list-style-type:none"><li><p>Ted Moore</p></li>
 					<li><p>Bachelor’s - Software Engineering</p></li>
 					<li><p>Application Development</p></li></ul><td>
 					</tr>
 					<tr>
 					<td><img src="img/Spencer.jpg" alt="spencer" class="aboutPic"></td>
-					<td><ul style= "list-style-type:none"><li><p>Spencer</p></li>
-					<li><p>Bachelor’s - Information Technology</p></li>
+					<td><ul style= "list-style-type:none"><li><p>Spencer Rugg</p></li>
 					<li><p>Business Relations, System Admin, Web Developer</p></li></ul><td>
 					</tr>
 					<tr>
 					<td><img src="img/ken.jpg" alt="Ken" class="aboutPic"></td>
-					<td><ul style= "list-style-type:none"><li><p>Ken</p></li>
-					<li><p>Bachelor’s - Information Technology</p></li>
+					<td><ul style= "list-style-type:none"><li><p>Ken Bernard</p></li>
 					<li><p>System Admin, Database Admin</p></li></ul><td>
 					</tr>
 					<tr>
 					<td><img src="img/tom.jpg" alt="tom" class="aboutPic"></td>
-					<td><ul style= "list-style-type:none"><li><p>Tom</p></li>
-					<li><p>Bachelor’s - Information Technology</p></li>
+					<td><ul style= "list-style-type:none"><li><p>Tom Pelchat</p></li>
 					<li><p>Web Developer</p></li></ul><td>
 					</tr></table>
 				</div>
