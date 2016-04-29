@@ -28,19 +28,7 @@
     <title>BrewFind - Home</title>
 </head>
 	<body>
-		<?php include 'header.html' ?>
-	<div class="container">
-		<div class="row">
-			<div class="box">
-				<div class="col-lg-12 text-center">
-				<hr>
-					<h2>Welcome to</h2>
-					<h1 class="brand-name">BrewFind</h1>
-				<hr>
-				</div>
-			</div>
-		</div>
-	</div>
+	<?php include 'header.html' ?>
 	<div class="container">
 		<div class="row">
 			<div class="box">

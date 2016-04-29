@@ -13,7 +13,7 @@ function GodbrewViewModel() {
 		}
 		console.log(newQuery);
 
-		var xhr = createCORSRequest('POST', self.breweryEnd);
+		var xhr = createCORSRequest('POST', resources.breweryEnd);
 
 		xhr.onload = function() {
 			console.log("Got response!");
@@ -48,7 +48,7 @@ function GodbrewViewModel() {
 		var newQuery = makeBreweryQuery(breweryForm);
 	    console.log(newQuery);
 
-	    var xhr = createCORSRequest('PUT', self.breweryEnd);
+	    var xhr = createCORSRequest('PUT', resources.breweryEnd);
 
 	    xhr.onload = function() {
 			console.log("Got response!");
@@ -78,14 +78,14 @@ function GodbrewViewModel() {
 	}
 
 	self.addNewEvent = function(form) {
-		var eventQuery = createEventQuery(form);
+		var eventQuery = makeEventQuery(form);
 		if(eventQuery === null) {
 			console.log("Something went wrong creating an event query...");
 			return;
 		}
 
 		console.log(eventQuery);
-		var xhr = createCORSRequest("POST", self.eventEnd);
+		var xhr = createCORSRequest("POST", resources.eventEnd);
 
 		xhr.onload = function(){
 			console.log("Got response!");
@@ -95,11 +95,9 @@ function GodbrewViewModel() {
 			if(newEvent.status != 0) {
 				console.log("Something went wrong...");
 				console.log(newEvent.description);
+				// MAKE AN ALERT
 			} else {
-				eve = newEvent.rObj;
-				eve.foreach(function(entry) {
-					console.log(entry);
-				});
+				// MAKE AN ALERT
 			}
 		};
 
