@@ -4,8 +4,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-3.3.0.js"></script>
 <script src="http://maps.googleapis.com/maps/api/js?AIzaSyCsIrpOH1R74PPfmCCeIbHZmfSIOzXbTgk"></script>
-<script src="js/site/resources.js"></script>
-<script src="js/site/cacheManager.js"></script>
 <script src="js/site/breweryViewModel.js"></script>
 
 <script>
@@ -65,12 +63,16 @@
 </head>
 
 <body>
-<!-- <input type="button" onclick="myFunction()" value="Show alert box" /> -->
 
 	<?php include 'header.html' ?>
 	<div class="container">
 		<div class="row">
 			<div class="box">
+			
+			<div id="error">
+			
+			</div>
+			
 				<div class="col-lg-12 text-center">
 				<hr>
 					<h2>Click a Brewery to get started!</h2>
@@ -94,7 +96,7 @@
 			</div>
 			<div class="col-md-8">
 				<p style="font-size:25px" id="brewTitle"></p>
-				<div id="googleMap" style="width:600px;height:500px;"></div>
+				<div class="col-md-6" id="googleMap" style="width:700px;height:500px;"></div>
 			</div>	
 		</div>
 	</div>	
@@ -102,9 +104,7 @@
 
     <?php include 'footer.html' ?>
     <script>
-    	var bvm = new BreweryViewModel();
-		fetchBreweries(bvm.breweries, bvm.breweryGroups);
-		ko.applyBindings(bvm);
+    	ko.applyBindings(new BreweryViewModel());
     </script>
     <!-- jQuery -->
     <script src="js/lib/jquery.js"></script>
