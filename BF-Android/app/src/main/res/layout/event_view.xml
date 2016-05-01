@@ -48,6 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/eventMonth"
+            android:textColor="#301f0d"
             android:layout_gravity="center_horizontal"
             android:textSize="14sp" />
 
@@ -55,6 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/eventDay"
+            android:textColor="#301f0d"
             android:layout_gravity="center_horizontal"
             android:textStyle="bold"
             android:textSize="18sp" />
@@ -64,6 +66,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:id="@+id/eventYear"
+            android:textColor="#301f0d"
             android:layout_gravity="center_horizontal"
             android:textSize="14sp" />
     </LinearLayout>

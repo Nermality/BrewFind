@@ -2,6 +2,9 @@ package brewfindvt.android;
 
 import android.app.usage.UsageEvents;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,8 +13,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
@@ -34,8 +41,17 @@ public class EventFragment extends Fragment implements View.OnClickListener {
     TextView _locationText;
     TextView _description;
 
+    private ImageView _isPet;
+    private ImageView _isFamily;
+    private ImageView _hasFee;
+    private ImageView _isOutside;
+
     Button _dateButton;
     Button _locationButton;
+
+    private Button _descriptionInfoButton;
+    private ExpandableRelativeLayout _descriptionLayout;
+    private LinearLayout _descriptionInfoBox;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,22 +67,35 @@ public class EventFragment extends Fragment implements View.OnClickListener {
         _startDate = (TextView) getActivity().findViewById(R.id.startDate);
         _endDate = (TextView) getActivity().findViewById(R.id.endDate);
         _locationText = (TextView) getActivity().findViewById(R.id.locationText);
-        _description = (TextView) getActivity().findViewById(R.id.descriptionText);
+
+        _descriptionInfoButton = (Button) getActivity().findViewById(R.id.descriptionInfoButton);
+        _descriptionLayout = (ExpandableRelativeLayout) getActivity().findViewById(R.id.descriptionInfoView);
+        _descriptionInfoBox = (LinearLayout) getActivity().findViewById(R.id.descriptionInfoBox);
 
         _dateButton = (Button) getActivity().findViewById(R.id.calendarButton);
         _locationButton = (Button) getActivity().findViewById(R.id.mapButton);
 
+        _isFamily = (ImageView) getActivity().findViewById(R.id.isFamily);
+        _isPet = (ImageView) getActivity().findViewById(R.id.isPet);
+        _isOutside = (ImageView) getActivity().findViewById(R.id.isOutside);
+        _hasFee = (ImageView) getActivity().findViewById(R.id.hasFee);
+
+        _descriptionInfoButton.setOnClickListener(this);
         _dateButton.setOnClickListener(this);
         _locationButton.setOnClickListener(this);
 
         if(newEvent != null) {
             populateEvent();
         }
+        populateContactInfo();
     }
 
     @Override
     public void onClick(View v) {
         switch(v.getId()) {
+            case R.id.descriptionInfoButton:
+                _descriptionLayout.toggle();
+                break;
             case R.id.calendarButton:
                 goToCalendar();
             case R.id.mapButton:
@@ -103,12 +132,17 @@ public class EventFragment extends Fragment implements View.OnClickListener {
         } else {
             _dateButton.setEnabled(true);
         }
-        _description.setText(newEvent.getDescription());
         setDate();
+
+        setLegendColor(_isFamily, newEvent.getFamFriendly());
+        setLegendColor(_isPet, newEvent.getPetFriendly());
+        setLegendColor(_isOutside, newEvent.getOutdoor());
+        //Add ticket calc
     }
 
     public void setDate() {
         SimpleDateFormat sdfParser = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SS");
+        SimpleDateFormat timeOfDay = new SimpleDateFormat("h:mm a");
         Calendar cal = Calendar.getInstance();
         Date date;
 
@@ -119,7 +153,7 @@ public class EventFragment extends Fragment implements View.OnClickListener {
 
             try {
                 date = sdfParser.parse(newEvent.getStartDate());
-              //  tempStart = sdfParser.parse(newEvent.getStartDate());
+                //  tempStart = sdfParser.parse(newEvent.getStartDate());
                 cal.setTime(date);
             } catch (Exception e) {
                 tempStart = null;
@@ -130,11 +164,11 @@ public class EventFragment extends Fragment implements View.OnClickListener {
             if(cal == null) {
                 _startDate.setText("Starting: TBD");
             } else {
-
+                String time= timeOfDay.format(cal.getTime());
                 _startDate.setText(cal.get(Calendar.MONTH)+"/"+cal.get(Calendar.DAY_OF_MONTH)+"/"+cal.get(Calendar.YEAR)+"\n"+
-                                    cal.get(Calendar.HOUR_OF_DAY)+":"+cal.get(Calendar.MINUTE));
+                        time);
             }
-         //   sdfParser.format(tempStart)
+            //   sdfParser.format(tempStart)
         }
         if(newEvent.getEndDate() == null) {
             _endDate.setText("Ending: None specified");
@@ -152,9 +186,47 @@ public class EventFragment extends Fragment implements View.OnClickListener {
             if(cal == null) {
                 _endDate.setText("Ending: None specified");
             } else {
+                String time= timeOfDay.format(cal.getTime());
                 _endDate.setText(cal.get(Calendar.MONTH)+"/"+cal.get(Calendar.DAY_OF_MONTH)+"/"+cal.get(Calendar.YEAR)+"\n"+
-                        cal.get(Calendar.HOUR_OF_DAY)+":"+cal.get(Calendar.MINUTE));
+                        time);
             }
         }
+    }
+
+    public void populateContactInfo() {
+        _descriptionInfoBox.removeAllViews();
+
+        if(newEvent.getDescription() != null) {
+            TextView description = new TextView(getActivity().getApplicationContext());
+            description.setText(newEvent.getDescription());
+            description.setTextSize(18f);
+            description.setTextColor(Color.WHITE);
+            _descriptionInfoBox.addView(description);
+        }
+
+    }
+        public void setLegendColor(ImageView i, Boolean b) {
+        if(b == null) {
+            i.getDrawable().setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+        } else if (b) {
+            i.getDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
+        } else {
+            i.getDrawable().setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
+        }
+    }
+
+
+    public void setCostLegend(ImageView i, double c) {
+        if (c == 0) {
+            i.getDrawable().setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+        } else if(c < 5.01) {
+            i.setImageResource(R.mipmap.li_money1);
+        } else if(c < 15.01) {
+            i.setImageResource(R.mipmap.li_money2);
+        } else {
+            i.setImageResource(R.mipmap.li_money3);
+
+        }
+
     }
 }

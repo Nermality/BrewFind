@@ -69,12 +69,6 @@ public class EventActivityFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         eventMap = _cacheManager.getEventMap();
-        sortByList = (Spinner) getActivity().findViewById(R.id.sortByList);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
-                R.array.eventSortBy, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sortByList.setAdapter(adapter);
-
         eventList = (ListView) getActivity().findViewById(R.id.eventList);
         eventList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 

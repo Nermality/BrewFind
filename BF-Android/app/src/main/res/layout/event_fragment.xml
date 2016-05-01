@@ -1,100 +1,221 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="100dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="fart man"
-            android:id="@+id/eventName"
-            android:maxLines="2"
-            android:textSize="34dp"
-            android:textStyle="bold"
-            android:layout_gravity="center" />
-    </FrameLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
-        android:id="@+id/eventHost"
-        android:layout_gravity="center" />
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="100dp">
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight=".5">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Medium Text"
-                android:id="@+id/startDate"
-                android:layout_weight=".5" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Medium Text"
-                android:id="@+id/endDate"
-                android:layout_weight=".5" />
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
-            android:id="@+id/locationText"
-            android:layout_weight=".5" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="60dp">
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:text="View in Calendar"
-            android:id="@+id/calendarButton"
-            android:layout_weight=".5" />
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:text="View location in Maps"
-            android:id="@+id/mapButton"
-            android:layout_weight=".5" />
-    </LinearLayout>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
-            android:id="@+id/descriptionText" />
-    </FrameLayout>
+            android:id="@+id/bigBox">
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Name"
+                    android:textColor="#CC0033"
+                    android:id="@+id/eventName"
+                    android:maxLines="2"
+                    android:textSize="34dp"
+                    android:textStyle="bold"
+                    android:layout_gravity="center" />
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:textColor="#301f0d"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Hosted by"
+                android:id="@+id/eventHost"
+                android:layout_gravity="center"
+                android:singleLine="false" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="100dp">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".5">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:textColor="#FFFFFF"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Start Date"
+                        android:id="@+id/startDate"
+                        android:paddingTop="10dp"
+                        android:paddingLeft="10dp"
+                        android:background="@drawable/event_info"
+                        android:layout_weight=".5"
+                        android:singleLine="true" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:textColor="#FFFFFF"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="End Date"
+                        android:id="@+id/endDate"
+                        android:paddingTop="10dp"
+                        android:paddingLeft="10dp"
+                        android:background="@drawable/event_info"
+                        android:layout_weight=".5"
+                        android:singleLine="true"
+                        android:layout_marginTop="5dp"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="140dp">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight=".5"
+                    android:paddingRight="20dp">
+
+
+
+                    <Button
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dp"
+                        android:text="View location in Maps"
+                        android:id="@+id/mapButton"
+                        android:textColor="@color/white"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight=".33"
+                        android:background="@drawable/button_border"/>
+
+                    <Button
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dp"
+                        android:text="View in Calendar"
+                        android:id="@+id/calendarButton"
+                        android:textColor="@color/white"
+                        android:layout_weight=".33"
+                        android:background="@drawable/button_border"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Location"
+                    android:textColor="#FFFFFF"
+                    android:id="@+id/locationText"
+                    android:paddingTop="10dp"
+                    android:paddingLeft="10dp"
+                    android:background="@drawable/event_info"
+                    android:layout_weight=".5"
+                    android:layout_marginTop="5dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="90dp"
+                android:id="@+id/legendIcons"
+                android:layout_weight="0.37"
+                android:minHeight="128dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/isFamily"
+                    android:layout_weight=".25"
+                    android:src="@mipmap/li_people"
+                    android:clickable="true" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/isPet"
+                    android:layout_weight=".25"
+                    android:src="@mipmap/li_pet"
+                    android:clickable="true" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/isOutside"
+                    android:layout_weight=".25"
+                    android:src="@mipmap/li_table"
+                    android:clickable="true" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/hasFee"
+                    android:layout_weight=".25"
+                    android:src="@mipmap/li_money1"
+                    android:clickable="true"
+                    android:focusableInTouchMode="false" />
+
+            </LinearLayout>
+
+            <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+                android:id="@+id/descriptionInfoView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/descriptionInfoButton"
+                android:background="@color/contactBar"
+                android:padding="10dp"
+                app:ael_duration="400"
+                app:ael_expanded="false"
+                app:ael_interpolator="bounce"
+                app:ael_orientation="vertical">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/descriptionInfoBox">
+                </LinearLayout>
+
+            </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+
+            <Button
+                android:id="@+id/descriptionInfoButton"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/contact_border"
+                android:drawableRight="@android:drawable/arrow_down_float"
+                android:paddingRight="10dp"
+                android:text="Description Info"
+                android:textColor="#fff" />
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
 
 </LinearLayout>
