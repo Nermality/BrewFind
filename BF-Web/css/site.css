@@ -32,3 +32,9 @@
 #footer {
 	height:100px;
 }
+
+.eventLoadingText > h2 {
+	display: inline-block;
+  	vertical-align: middle;
+  	line-height: normal; 
+}

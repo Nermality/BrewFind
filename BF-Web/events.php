@@ -8,6 +8,8 @@
     <script src="js/site/resources.js"></script>
     <script src="js/site/cacheManager.js"></script>
     <script src="js/site/eventsViewModel.js"></script>
+    
+    <link href="css/site.css" rel="stylesheet">
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
@@ -27,11 +29,10 @@
 
   <div class="container">
 
-  <div class="box">
-    <div class="col-lg-12 text-center">
-        <hr>
-          <h2>Brewery Events</h2>
-        <hr>
+  <div class="box" id="titleBox">
+    <div id="eventLoadingBar">       
+      <h2 class="text-center">Loading Brewery Events...</h2><br/>
+      <img src="img/loading.gif" style="height:150px; display: block; margin-left: auto; margin-right: auto">
     </div>
   </div>
     

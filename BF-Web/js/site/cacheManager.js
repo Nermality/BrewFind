@@ -119,7 +119,7 @@ function fetchEvents(eventList) {
 							if(event.ticketCost === 0) {
 								event.priceString = "Free";
 							} else {
-								event.priceString = event.ticketCost;
+								event.priceString = event.ticketCost + "DOLLARS" ;
 							}
 						}
 
@@ -132,6 +132,9 @@ function fetchEvents(eventList) {
 					var dateB = Date.parse(b.startDate);
 					return (dateA < dateB) ? -1 : (dateA > dateB) ? 1 : 0;
 				});
+
+				document.getElementById("eventLoadingBar").remove();
+				document.getElementById("titleBox").insertAdjacentHTML('beforeend', '<div class="col-md-12 text-center"><hr><h2>Brewery Events</h2><hr></div>');
 
 				console.log(eventList());
 
