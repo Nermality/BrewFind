@@ -3,13 +3,16 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="background">#f9f1dc</color>
-    <color name="infoBar">#f4c630</color>
-    <color name="actionBar">#cd950c</color>
-    <color name="contactBar">#C40505</color>
-    <color name="beerButton">#755330</color>
+    <color name="background">#DCCEB1</color>
+    <color name="infoBar">#A2B870</color>
+    <color name="actionBar">#868C5C</color>
+    <color name="GenButton">#B8404C</color>
+    <color name="beerInfoButton">#262626</color>
     <color name="beerInfo">#B0703C</color>
     <color name="buttonBrew">#C25B1F</color>
     <color name="white">#FFFFFF</color>
+    <color name="sideBarNav">#8CA356</color>
+    <color name="LegIconGreen">#868C5C</color>
+    <color name="LegIconRed">#B8404C</color>
 
 </resources>

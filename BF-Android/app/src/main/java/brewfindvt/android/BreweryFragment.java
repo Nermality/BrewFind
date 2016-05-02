@@ -164,7 +164,7 @@ public class BreweryFragment extends android.support.v4.app.Fragment implements 
 
     public void goToMap() {
         String newName = newBrew.b_name.replace(" ", "+");
-        String url = "http://www.google.com/maps/place/" + newName;
+        String url = "http://maps.google.com/?q=" + newName+"+vt";
 
         try {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
@@ -392,6 +392,7 @@ public class BreweryFragment extends android.support.v4.app.Fragment implements 
         populateContactInfo();
 
         _logo.setImageBitmap(cacheManager.getLogo(brew.getB_breweryNum()));
+        _logo.setScaleType(ImageView.ScaleType.FIT_XY);
 
         setLegendColor(_hasFood, brew.getB_hasFood());
         setLegendColor(_hasTour, brew.getB_hasTour());
@@ -484,9 +485,9 @@ public class BreweryFragment extends android.support.v4.app.Fragment implements 
         if(b == null) {
             i.getDrawable().setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
         } else if (b) {
-            i.getDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
+            i.getDrawable().setColorFilter(getActivity().getResources().getColor(R.color.LegIconGreen), PorterDuff.Mode.MULTIPLY);
         } else {
-           i.getDrawable().setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
+           i.getDrawable().setColorFilter(getActivity().getResources().getColor(R.color.LegIconRed), PorterDuff.Mode.MULTIPLY);
         }
     }
 

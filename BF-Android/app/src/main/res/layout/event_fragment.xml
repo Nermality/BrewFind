@@ -19,19 +19,20 @@
             android:id="@+id/bigBox">
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp">
+                android:layout_height="59dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="Name"
-                    android:textColor="#CC0033"
+                    android:textColor="@color/GenButton"
                     android:id="@+id/eventName"
                     android:maxLines="2"
-                    android:textSize="34dp"
+                    android:textSize="30dp"
                     android:textStyle="bold"
-                    android:layout_gravity="center" />
+                    android:layout_gravity="center"
+                    android:singleLine="true" />
             </FrameLayout>
 
             <TextView
@@ -41,8 +42,27 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Hosted by"
                 android:id="@+id/eventHost"
-                android:layout_gravity="center"
                 android:singleLine="false" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Start Date"
+                android:id="@+id/startDate"
+                android:layout_weight=".5"
+                android:singleLine="false" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="End Date"
+                android:paddingTop="5dp"
+                android:id="@+id/endDate"
+                android:layout_weight=".5"
+                android:singleLine="false"
+                android:layout_marginTop="5dp"/>
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -57,30 +77,12 @@
 
                     <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:textColor="#FFFFFF"
+                        android:layout_height="77dp"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Start Date"
-                        android:id="@+id/startDate"
+                        android:text="Location"
+                        android:id="@+id/locationText"
                         android:paddingTop="10dp"
-                        android:paddingLeft="10dp"
-                        android:background="@drawable/event_info"
-                        android:layout_weight=".5"
-                        android:singleLine="true" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:textColor="#FFFFFF"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="End Date"
-                        android:id="@+id/endDate"
-                        android:paddingTop="10dp"
-                        android:paddingLeft="10dp"
-                        android:background="@drawable/event_info"
-                        android:layout_weight=".5"
-                        android:singleLine="true"
-                        android:layout_marginTop="5dp"/>
+                        android:layout_marginTop="5dp" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -88,51 +90,34 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
-                android:layout_height="140dp">
+                android:layout_height="61dp">
+
+                <Button
+                    android:layout_width="125dp"
+                    android:layout_height="wrap_content"
+                    android:text="View in Calendar"
+                    android:id="@+id/calendarButton"
+                    android:textColor="@color/white"
+                    android:background="@drawable/button_border"
+                    android:layout_weight="0.04" />
 
                 <LinearLayout
                     android:orientation="vertical"
-                    android:layout_width="0dp"
+                    android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:layout_weight=".5"
                     android:paddingRight="20dp">
 
 
-
                     <Button
-                        android:layout_width="fill_parent"
-                        android:layout_height="0dp"
+                        android:layout_width="125dp"
+                        android:layout_height="wrap_content"
                         android:text="View location in Maps"
                         android:id="@+id/mapButton"
+                        android:layout_marginLeft="50dp"
                         android:textColor="@color/white"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
-                        android:layout_weight=".33"
                         android:background="@drawable/button_border"/>
-
-                    <Button
-                        android:layout_width="fill_parent"
-                        android:layout_height="0dp"
-                        android:text="View in Calendar"
-                        android:id="@+id/calendarButton"
-                        android:textColor="@color/white"
-                        android:layout_weight=".33"
-                        android:background="@drawable/button_border"/>
-
                 </LinearLayout>
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Location"
-                    android:textColor="#FFFFFF"
-                    android:id="@+id/locationText"
-                    android:paddingTop="10dp"
-                    android:paddingLeft="10dp"
-                    android:background="@drawable/event_info"
-                    android:layout_weight=".5"
-                    android:layout_marginTop="5dp"/>
 
             </LinearLayout>
 
@@ -186,7 +171,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/descriptionInfoButton"
-                android:background="@color/contactBar"
+                android:background="@color/GenButton"
                 android:padding="10dp"
                 app:ael_duration="400"
                 app:ael_expanded="false"

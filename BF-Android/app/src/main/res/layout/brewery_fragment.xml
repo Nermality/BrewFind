@@ -32,6 +32,17 @@
                     android:textSize="28sp"
                     android:singleLine="false"
                     android:maxLines="2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@android:style/TextAppearance.Medium"
+                    android:id="@+id/rating"
+                    android:layout_gravity="bottom"
+
+                    android:paddingTop="30dp"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="5dp"/>
             </FrameLayout>
 
             <LinearLayout
@@ -46,37 +57,30 @@
                     android:layout_weight=".5"
                     android:paddingRight="20dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="@android:style/TextAppearance.Medium"
-                        android:id="@+id/rating"
-                        android:layout_gravity="center"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp" />
-
                     <Button
                         android:layout_width="fill_parent"
-                        android:layout_height="0dp"
+                        android:layout_height="50dp"
                         android:text="View in Maps"
                         android:id="@+id/mapButton"
-                        android:layout_marginBottom="5dp"
-                        android:layout_weight=".33"
+                        android:textColor="@color/white"
+                        android:layout_marginBottom="15dp"
                         android:background="@drawable/button_border"/>
 
                     <Button
                         android:layout_width="fill_parent"
-                        android:layout_height="0dp"
+                        android:layout_height="50dp"
                         android:text="View Events"
+                        android:textColor="@color/white"
+
                         android:id="@+id/eventButton"
-                        android:layout_weight=".33"
-                        android:background="@drawable/button_border"/>
+                        android:background="@drawable/button_border"
+                        android:layout_gravity="bottom" />
 
                 </LinearLayout>
 
                 <ImageView
                     android:layout_width="0dp"
-                    android:layout_height="fill_parent"
+                    android:layout_height="115dp"
                     android:id="@+id/logoImageView"
                     android:layout_weight=".4"
                     android:paddingLeft="20dp" />
@@ -143,7 +147,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/contactInfoButton"
-                android:background="@color/contactBar"
+                android:background="@color/GenButton"
                 android:padding="10dp"
                 app:ael_duration="400"
                 app:ael_expanded="false"
