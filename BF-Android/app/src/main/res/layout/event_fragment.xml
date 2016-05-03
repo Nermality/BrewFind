@@ -99,7 +99,8 @@
                     android:id="@+id/calendarButton"
                     android:textColor="@color/white"
                     android:background="@drawable/button_border"
-                    android:layout_weight="0.04" />
+                    android:layout_weight="0.04"
+                    android:layout_marginLeft="20dp"/>
 
                 <LinearLayout
                     android:orientation="vertical"
@@ -112,11 +113,13 @@
                     <Button
                         android:layout_width="125dp"
                         android:layout_height="wrap_content"
-                        android:text="View location in Maps"
+                        android:text="Location in Maps"
                         android:id="@+id/mapButton"
-                        android:layout_marginLeft="50dp"
+                        android:layout_marginLeft="25dp"
                         android:textColor="@color/white"
-                        android:background="@drawable/button_border"/>
+                        android:background="@drawable/button_border"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"/>
                 </LinearLayout>
 
             </LinearLayout>

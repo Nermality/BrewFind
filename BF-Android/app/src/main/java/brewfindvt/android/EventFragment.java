@@ -76,9 +76,13 @@ public class EventFragment extends Fragment implements View.OnClickListener {
         _locationButton = (Button) getActivity().findViewById(R.id.mapButton);
 
         _isFamily = (ImageView) getActivity().findViewById(R.id.isFamily);
+        _isFamily.setOnClickListener(this);
         _isPet = (ImageView) getActivity().findViewById(R.id.isPet);
+        _isPet.setOnClickListener(this);
         _isOutside = (ImageView) getActivity().findViewById(R.id.isOutside);
+        _isOutside.setOnClickListener(this);
         _hasFee = (ImageView) getActivity().findViewById(R.id.hasFee);
+        _hasFee.setOnClickListener(this);
 
         _descriptionInfoButton.setOnClickListener(this);
         _dateButton.setOnClickListener(this);
@@ -100,6 +104,18 @@ public class EventFragment extends Fragment implements View.OnClickListener {
                 goToCalendar();
             case R.id.mapButton:
                 goToMap();
+            case R.id.isFamily:
+                makeLegendToast(newEvent.getFamFriendly(), "family friendly.");
+                break;
+            case R.id.isPet:
+                makeLegendToast(newEvent.getPetFriendly(), "pet friendly.");
+                break;
+            case R.id.isOutside:
+                makeLegendToast(newEvent.getOutdoor(), "is outside.");
+                break;
+            case R.id.hasFee:
+                makeLegendToastFee(newEvent.getTicketCost());
+                break;
         }
     }
 
@@ -137,7 +153,28 @@ public class EventFragment extends Fragment implements View.OnClickListener {
         setLegendColor(_isFamily, newEvent.getFamFriendly());
         setLegendColor(_isPet, newEvent.getPetFriendly());
         setLegendColor(_isOutside, newEvent.getOutdoor());
+        setCostLegend (_hasFee,newEvent.getTicketCost());
         //Add ticket calc
+    }
+
+    public void makeLegendToast(Boolean b, String s) {
+        String toast;
+        if(b == null || !b) {
+            toast = "This event does not have " + s;
+        } else {
+            toast = "This event is " + s;
+        }
+        Toast.makeText(getActivity().getApplicationContext(), toast, Toast.LENGTH_SHORT).show();
+    }
+
+    public void makeLegendToastFee(double c) {
+        String toast;
+        if(c == 0) {
+            toast = "This event does not have a fee";
+        } else {
+            toast = "Entry cost is $" + c;
+        }
+        Toast.makeText(getActivity().getApplicationContext(), toast, Toast.LENGTH_SHORT).show();
     }
 
     public void setDate() {
@@ -187,7 +224,7 @@ public class EventFragment extends Fragment implements View.OnClickListener {
                 _endDate.setText("Ending: None specified");
             } else {
                 String time= timeOfDay.format(cal.getTime());
-                _endDate.setText("End:\n"+cal.get(Calendar.MONTH)+"/"+cal.get(Calendar.DAY_OF_MONTH)+"/"+cal.get(Calendar.YEAR)+"\n"+
+                _endDate.setText("End:\n"+cal.get(Calendar.MONTH)+"/"+cal.get(Calendar.DAY_OF_MONTH)+"/"+cal.get(Calendar.YEAR)+
                         "    "+time);
             }
         }
@@ -209,9 +246,9 @@ public class EventFragment extends Fragment implements View.OnClickListener {
         if(b == null) {
             i.getDrawable().setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
         } else if (b) {
-            i.getDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
+            i.getDrawable().setColorFilter(getActivity().getResources().getColor(R.color.LegIconGreen), PorterDuff.Mode.MULTIPLY);
         } else {
-            i.getDrawable().setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
+            i.getDrawable().setColorFilter(getActivity().getResources().getColor(R.color.LegIconRed), PorterDuff.Mode.MULTIPLY);
         }
     }
 
@@ -221,11 +258,13 @@ public class EventFragment extends Fragment implements View.OnClickListener {
             i.getDrawable().setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
         } else if(c < 5.01) {
             i.setImageResource(R.mipmap.li_money1);
+            i.getDrawable().setColorFilter(getActivity().getResources().getColor(R.color.LegIconGreen), PorterDuff.Mode.MULTIPLY);
         } else if(c < 15.01) {
             i.setImageResource(R.mipmap.li_money2);
+            i.getDrawable().setColorFilter(getActivity().getResources().getColor(R.color.LegIconGreen), PorterDuff.Mode.MULTIPLY);
         } else {
             i.setImageResource(R.mipmap.li_money3);
-
+            i.getDrawable().setColorFilter(getActivity().getResources().getColor(R.color.LegIconGreen), PorterDuff.Mode.MULTIPLY);
         }
 
     }
