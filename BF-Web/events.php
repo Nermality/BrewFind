@@ -97,13 +97,11 @@
       </div>
     </div>
 
-    
+    <?php include 'footer.html' ?>
   </div>
     <!-- <img data-bind="attr: { 'src': $root.imgUrl + '/img/breweries/' + b_breweryNum + '/brewery_profile_pic.jpg'}" alt="" style="height: 150px"> -->
 
-  </div>
-
-  <?php include 'footer.html' ?>
+  
 
   <script>
     var evm = new EventsViewModel();

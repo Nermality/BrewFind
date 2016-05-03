@@ -51,8 +51,6 @@ Ted proposed the idea as a senior project and we were all on board immediately. 
 				</div>
 			</div>
 		</div>
-	</div>
-	<div class="container">
         <div class="row">
             <div class="box clearfix">
                 <div class="col-lg-12 text-center">
@@ -66,8 +64,6 @@ Ted proposed the idea as a senior project and we were all on board immediately. 
 				</div>
 			</div>
 		</div>
-	</div>
-	<div class="container">
         <div class="row">
             <div class="box clearfix">
 				<div class="col-lg-12 text-center">
@@ -106,10 +102,6 @@ Ted proposed the idea as a senior project and we were all on board immediately. 
 				</div>
 			</div>
 		</div>
-	</div>
-    <!-- /.container -->
-
-    <div class="container">
     	<div class="box clearfix">
     		<div class="panel-group" id="gb-login" role="tablist">
     			<div class="panel panel-default">
@@ -142,9 +134,10 @@ Ted proposed the idea as a senior project and we were all on board immediately. 
 				</div>
 			</div>
 		</div>
+		<?php include 'footer.html' ?>
 	</div>
 					
-    <?php include 'footer.html' ?>
+    
 
     <!-- jQuery -->
     <script src="js/lib/jquery.js"></script>

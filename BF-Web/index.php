@@ -87,9 +87,10 @@
 				</div>
 			</div>
 		</div>
+		<?php include 'footer.html' ?>
 	</div
 	
-	<?php include 'footer.html' ?>
+	
 	<!-- /.container -->
 	
 	<!-- Script to Activate the Carousel -->

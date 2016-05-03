@@ -20,6 +20,7 @@
 		{
 			center:new google.maps.LatLng(43.900234, -72.745325),
 			zoom:7,
+			scrollwheel: false, 
 			mapTypeId:google.maps.MapTypeId.ROADMAP
 		};
 
@@ -98,9 +99,10 @@
 			</div>	
 		</div>
 	</div>	
+	<?php include 'footer.html' ?>
 </div>	
 
-    <?php include 'footer.html' ?>
+    
     <script>
     	var bvm = new BreweryViewModel();
 		fetchBreweries(bvm.breweries, bvm.breweryGroups);
