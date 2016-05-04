@@ -18,7 +18,14 @@ function fetchBreweries(brewList, brewGroups) {
 
 				brewList.sort(function(a, b) {
 					var nameA = a.b_name.toUpperCase();
+					if(nameA.startsWith("THE ")) {
+						nameA = nameA.substring(4, nameA.length);
+					}
+
 					var nameB = b.b_name.toUpperCase();
+					if(nameB.startsWith("THE ")) {
+						nameB = nameB.substring(4, nameB.length);
+					}
 					return (nameA < nameB) ? -1 : (nameA > nameB) ? 1 : 0;
 				});
 
@@ -119,7 +126,7 @@ function fetchEvents(eventList) {
 							if(event.ticketCost === 0) {
 								event.priceString = "Free";
 							} else {
-								event.priceString = event.ticketCost + "DOLLARS" ;
+								event.priceString = event.ticketCost + " DOLLARS" ;
 							}
 						}
 

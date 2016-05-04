@@ -17,7 +17,7 @@ function BreweryViewModel() {
 		var logo = document.getElementById("brewLogo");
 		logo.src = resources.imgUrl + "/img/breweries/" + brewery.b_breweryNum + "/brewery_profile_pic.jpg";
 		logo.onerror = function() {
-			logo.src = resources.imgUrl + "img/breweries/" + brewery.b_breweryNum + "/brewery_profile_pic.png";
+			logo.src = 'img/defaultBrewery.png';
 		}
 
 		var addrHtml = brewery.b_addr1 ? brewery.b_addr1 + "<br/>" : "";
@@ -75,10 +75,8 @@ function BreweryViewModel() {
 	      '<div id="bodyContent">'+
 	      '<p>'+brewery.b_phone+'</p>'+
 		  '<p>'+brewery.b_email+'</p>'+
-		  '<p>'+brewery.b_addr1+', </p>'+
-		  '<p>'+brewery.b_city+', '+brewery.b_state+' '+brewery.b_zip+'</p>'+
+		  '<p>'+brewery.b_addr1+'</p>'+
 		  '<p><a href= "http://'+brewery.b_url+'" target="_blank">'+brewery.b_url+'</a></p>'+
-		  '<a href="http://www.google.com/maps/place/'+brewery.b_name+'/@'+brewery.b_lat+','+brewery.b_long+',17z" target="_blank">Google Map link</a>'+
 	      '</div>'+
 	      '</div>';
 

@@ -76,7 +76,7 @@ function makeBreweryUpdateQuery(form, brewery) {
 	var list = []
 	list.push(brewery);
 	query["list"] = list;
-	query["token"] = resources.testToken;
+	query["token"] = JSON.parse(localStorage.getItem("uTok"));
 
 	return query;
 }
@@ -87,7 +87,7 @@ function makeBreweryQuery(form) {
 	var toAdd = {};
 
 	toAdd["b_name"] = form.name.value;
-
+	toAdd["b_addr1"] = form.addr1.value;
 	toAdd["b_addr2"] = form.addr2.value;
 	toAdd["b_city"] = form.city.value;
 	toAdd["b_state"] = form.state.value;
@@ -107,14 +107,10 @@ function makeBreweryQuery(form) {
 	if(form.phone.value != "") {
 		toAdd["b_phone"] = form.phone.value;
 	}
-
-	if(form.rating.value != "") {
-		toAdd["b_rating"] = form.rating.value;
-	}
 	
 	newBrews.push(toAdd);
 	newQuery["list"] = newBrews;
-	newQuery["token"]= resources.testToken;
+	newQuery["token"]= JSON.parse(localStorage.getItem("uTok"));
 
 	return newQuery;
 }
@@ -132,7 +128,7 @@ function makeUserQuery(form) {
 	
 	newUser.push(toAdd);
 	newQuery["list"] = newUser;
-	newQuery["token"]= resources.testToken;
+	newQuery["token"]= JSON.parse(localStorage.getItem("uTok"));
 
 	return newQuery;
 }
@@ -153,7 +149,7 @@ function makeEventQuery(eventForm, breweries) {
 	if(document.getElementById("in_loc_atBrewery").checked) {
 		newEvent["atBreweryLocation"] = true;
 		var brew;
-		breweries.forEach(function(b) {
+		breweries().forEach(function(b) {
 			if(b.b_name === eventForm.e_host.value) {
 				brew = b;
 			}
@@ -168,12 +164,12 @@ function makeEventQuery(eventForm, breweries) {
 	
 	newEvent["startDate"] = eventForm.e_startDate.value;
 	newEvent["endDate"] = eventForm.e_endDate.value;
-	newEvent["isFamFriendly"] = Boolean(eventForm.family.value);
-	newEvent["isPetFriendly"] = Boolean(eventForm.pet.value);
-	newEvent["isOutdoor"] = Boolean(eventForm.inout.value);
+	newEvent["isFamFriendly"] = eventForm.family.value;
+	newEvent["isPetFriendly"] = eventForm.pet.value;
+	newEvent["isOutdoor"] = eventForm.inout.value;
 	newEvent["ticketCost"] = parseInt(eventForm.e_ticketCost.value);
 
-	newQuery["token"] = resources.testToken;
+	newQuery["token"] = JSON.parse(localStorage.getItem("uTok"));
 	newQuery["event"] = newEvent;
 
 	return newQuery;

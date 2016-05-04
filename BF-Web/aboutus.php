@@ -20,6 +20,11 @@
     <!-- Our own CSS -->
     <link href="css/site.css" rel="stylesheet">
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-3.3.0.js"></script>
+
+	<script src="js/site/queryManager.js"></script>
+    <script src="js/site/resources.js"></script>
     <script src="js/site/login.js"></script>
 
     <!-- Fonts -->
@@ -36,7 +41,6 @@
 </head>
 
 <body>
-
 	<?php include 'header.html' ?>
 	<div class="container">
         <div class="row">
@@ -107,12 +111,12 @@ Ted proposed the idea as a senior project and we were all on board immediately. 
     			<div class="panel panel-default">
     				<div class="panel-heading" role="tab" id="gbl-head">
     					<h3 class="panel-title">
-    						<a role="button" data-toggle="collapse" data-parent="gb-login" href="#gbl-tab" aria-expanded="false" class="text-centered"> Admin Login </a>
+    						<a id="loginExpandButton" role="button" data-toggle="collapse" data-parent="gb-login" href="#gbl-tab" aria-expanded="false" class="text-centered"> Admin Login </a>
     					</h3>
     				</div>
     				<div id="gbl-tab" class="panel-collapse collapse" role="tabpanel" aria-labelledby="gbl-head">
     					<div class="panel-body">			
-							<form class="form-horizontal" name="gbLoginForm" id="gbLogin">
+							<form class="form-horizontal" name="gbLoginForm" id="gbLogin" data-bind="submit: login">
 								<div class="form-group">
 									<label class="col-sm-2 control-label" for="gbl_uname">Username:</label>
 									<div class="col-sm-4">
@@ -126,10 +130,11 @@ Ted proposed the idea as a senior project and we were all on board immediately. 
 									</div>
 								</div>
 								<div class="col-sm-offset-2 col-sm-10">
-									<button type="submit" onClick="gbLogin()" class="btn btn-default">Log in to admin portal</button>
+									<button type="submit" class="btn btn-default">Log in to admin portal</button>
 								</div>
 							</form>
 						</div>
+						<div id="loginAlert"></div>
 					</div>
 				</div>
 			</div>
@@ -145,6 +150,17 @@ Ted proposed the idea as a senior project and we were all on board immediately. 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/lib/bootstrap.min.js"></script>
 
+    <script>
+    	var lvm = new gbLogin();
+    	ko.applyBindings(lvm);
+
+     	if(localStorage.getItem("gbRedirect") === "true") {
+     		document.getElementById("loginAlert").innerHTML = 
+			'<div class="alert alert-info" role="alert">Please log in to continue.</div>';
+			$('.collapse').collapse('show');
+			localStorage.setItem("gbRedirect", false);
+     	}
+    </script>
 </body>
 
 </html>

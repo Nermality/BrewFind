@@ -57,7 +57,7 @@
 				        <div data-bind="foreach: $data">
 				            <div class="col-md-2">
 					            <div class="thumbnail" data-bind="click: $root.populateBrewery">
-								      <img data-bind="attr: { 'src': $root.imgUrl + '/img/breweries/' + b_breweryNum + '/brewery_profile_pic.jpg'}" alt="" style="height: 150px">
+								      <img data-bind="attr: { 'src': $root.imgUrl + '/img/breweries/' + b_breweryNum + '/brewery_profile_pic.jpg'}" onError="this.onerror=null;this.src='img/defaultBrewery.png';" style="height: 150px">
 								      <div class="caption">
 								        <h4 data-bind="text: b_name"></h4>
 								      </div>

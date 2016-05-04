@@ -1,52 +1,36 @@
 function gbLogin() {
-	var uname = document.gbLoginForm.uname.value;
-	var pass = document.gbLoginForm.pass.value;
 
-	var endpoint = "http://localhost:8080/user/auth";
+	var self = this;
 
-	var xhr = createCORSRequest('POST', endpoint);
+	self.login = function(form) {
+		var uname = form.uname.value;
+		var pass = form.pass.value;
 
-	xhr.upload.addEventListener("progress", updateProgress);
-	xhr.upload.addEventListener("load", transferComplete);
-	xhr.upload.addEventListener("error", transferFailed);
-	xhr.upload.addEventListener("abort", transferCanceled);
+		var xhr = createCORSRequest('POST', resources.userAuthEnd);
+		xhr.setRequestHeader("uname", uname);
+		xhr.setRequestHeader("pass", pass);
 
-	xhr.setRequestHeader("uname", uname);
-	xhr.setRequestHeader("pass", pass);
+		xhr.onload = function() {
+			console.log("Got response!");
+			var response = xhr.responseText;
+			var uTok = JSON.parse(response);
 
-	xhr.send();
+			if(uTok.status != 0) {
+				console.log("API Error " + uTok.status);
+				document.getElementById("loginAlert").innerHTML = 
+					'<div class="alert alert-danger text-center" role="alert">Sorry, we could not log you in.</div>';
+				return;
+			}
 
-	document.gbLoginForm.submit();
+			localStorage.setItem("uTok", JSON.stringify(uTok.rObj[0]));
+			window.location.replace("godbrew.html");
+		}
+		
+		xhr.onerror = function() {
+			console.log("Something went wrong...");
+			return;
+		}
+
+		xhr.send();
+	}	
 };
-
-function updateProgress(e) {
-	console.log(e);
-};
-
-function transferComplete(e) {
-	console.log(e);
-};
-
-function transferFailed(e) {
-	console.log(e);
-};
-
-function transferCanceled(e) {
-	console.log(e);
-};
-
-function createCORSRequest(method, url) {
-  var xhr = new XMLHttpRequest();
-  if ("withCredentials" in xhr) {
-    // XHR for Chrome/Firefox/Opera/Safari.
-    xhr.open(method, url, true);
-  } else if (typeof XDomainRequest != "undefined") {
-    // XDomainRequest for IE.
-    xhr = new XDomainRequest();
-    xhr.open(method, url);
-  } else {
-    // CORS not supported.
-    xhr = null;
-  }
-  return xhr;
-}
