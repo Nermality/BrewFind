@@ -75,8 +75,10 @@ function BreweryViewModel() {
 	      '<div id="bodyContent">'+
 	      '<p>'+brewery.b_phone+'</p>'+
 		  '<p>'+brewery.b_email+'</p>'+
-		  '<p>'+brewery.b_addr1+'</p>'+
+		  '<p>'+brewery.b_addr1+'</p>'+'<p>'+ brewery.b_city+', '+ brewery.b_state+'</p>'+
+		  '<p>'+brewery.b_zip+'</p>'+
 		  '<p><a href= "http://'+brewery.b_url+'" target="_blank">'+brewery.b_url+'</a></p>'+
+		  '<a href="http://www.google.com/maps/place/'+brewery.b_name+'/@'+brewery.b_lat+','+brewery.b_long+',17z" target="_blank">Google Map link</a>'+
 	      '</div>'+
 	      '</div>';
 
