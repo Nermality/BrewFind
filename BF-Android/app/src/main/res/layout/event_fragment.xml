@@ -44,46 +44,20 @@
                 android:id="@+id/eventHost"
                 android:singleLine="false" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Start Date"
-                android:id="@+id/startDate"
-                android:layout_weight=".5"
-                android:singleLine="false" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="End Date"
-                android:paddingTop="5dp"
-                android:id="@+id/endDate"
-                android:layout_weight=".5"
-                android:singleLine="false"
-                android:layout_marginTop="5dp"/>
-
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="100dp">
+                android:layout_height="117dp">
 
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight=".5">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="77dp"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Location"
-                        android:id="@+id/locationText"
-                        android:paddingTop="10dp"
-                        android:layout_marginTop="5dp" />
-                </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="77dp"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Description"
+                    android:textColor="#000000"
+                    android:id="@+id/DescriptionText"
+                    android:paddingTop="10dp"
+                    android:layout_marginTop="5dp" />
 
             </LinearLayout>
 
@@ -168,12 +142,22 @@
                     android:focusableInTouchMode="false" />
 
             </LinearLayout>
+            <Button
+                android:id="@+id/locationInfoButton"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/contact_border"
+                android:drawableRight="@android:drawable/arrow_down_float"
+                android:paddingRight="10dp"
+                android:text="Event Info"
+                android:textColor="#fff" />
+
 
             <com.github.aakira.expandablelayout.ExpandableRelativeLayout
-                android:id="@+id/descriptionInfoView"
+                android:id="@+id/locationInfoView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/descriptionInfoButton"
+                android:layout_below="@+id/locationInfoButton"
                 android:background="@color/GenButton"
                 android:padding="10dp"
                 app:ael_duration="400"
@@ -185,20 +169,11 @@
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/descriptionInfoBox">
+                    android:id="@+id/locationInfoBox">
                 </LinearLayout>
 
             </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
-            <Button
-                android:id="@+id/descriptionInfoButton"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/contact_border"
-                android:drawableRight="@android:drawable/arrow_down_float"
-                android:paddingRight="10dp"
-                android:text="Description Info"
-                android:textColor="#fff" />
 
 
         </LinearLayout>

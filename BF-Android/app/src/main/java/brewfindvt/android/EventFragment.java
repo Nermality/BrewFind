@@ -20,6 +20,8 @@ import android.widget.Toast;
 
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 
+import org.w3c.dom.Text;
+
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -36,8 +38,6 @@ public class EventFragment extends Fragment implements View.OnClickListener {
 
     TextView _name;
     TextView _host;
-    TextView _startDate;
-    TextView _endDate;
     TextView _locationText;
     TextView _description;
 
@@ -49,9 +49,9 @@ public class EventFragment extends Fragment implements View.OnClickListener {
     Button _dateButton;
     Button _locationButton;
 
-    private Button _descriptionInfoButton;
-    private ExpandableRelativeLayout _descriptionLayout;
-    private LinearLayout _descriptionInfoBox;
+    private Button _locationInfoButton;
+    private ExpandableRelativeLayout _locationLayout;
+    private LinearLayout _locationInfoBox;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -64,13 +64,11 @@ public class EventFragment extends Fragment implements View.OnClickListener {
 
         _name = (TextView) getActivity().findViewById(R.id.eventName);
         _host = (TextView) getActivity().findViewById(R.id.eventHost);
-        _startDate = (TextView) getActivity().findViewById(R.id.startDate);
-        _endDate = (TextView) getActivity().findViewById(R.id.endDate);
-        _locationText = (TextView) getActivity().findViewById(R.id.locationText);
+        _description = (TextView) getActivity().findViewById(R.id.DescriptionText);
 
-        _descriptionInfoButton = (Button) getActivity().findViewById(R.id.descriptionInfoButton);
-        _descriptionLayout = (ExpandableRelativeLayout) getActivity().findViewById(R.id.descriptionInfoView);
-        _descriptionInfoBox = (LinearLayout) getActivity().findViewById(R.id.descriptionInfoBox);
+        _locationInfoButton = (Button) getActivity().findViewById(R.id.locationInfoButton);
+        _locationLayout = (ExpandableRelativeLayout) getActivity().findViewById(R.id.locationInfoView);
+        _locationInfoBox = (LinearLayout) getActivity().findViewById(R.id.locationInfoBox);
 
         _dateButton = (Button) getActivity().findViewById(R.id.calendarButton);
         _locationButton = (Button) getActivity().findViewById(R.id.mapButton);
@@ -84,21 +82,21 @@ public class EventFragment extends Fragment implements View.OnClickListener {
         _hasFee = (ImageView) getActivity().findViewById(R.id.hasFee);
         _hasFee.setOnClickListener(this);
 
-        _descriptionInfoButton.setOnClickListener(this);
+        _locationInfoButton.setOnClickListener(this);
         _dateButton.setOnClickListener(this);
         _locationButton.setOnClickListener(this);
 
         if(newEvent != null) {
             populateEvent();
         }
-        populateContactInfo();
+        populateLocationInfo();
     }
 
     @Override
     public void onClick(View v) {
         switch(v.getId()) {
-            case R.id.descriptionInfoButton:
-                _descriptionLayout.toggle();
+            case R.id.locationInfoButton:
+                _locationLayout.toggle();
                 break;
             case R.id.calendarButton:
                 goToCalendar();
@@ -125,7 +123,7 @@ public class EventFragment extends Fragment implements View.OnClickListener {
     }
 
     public void goToMap() {
-        String url = "http://reddit.com";
+        String url = "www.google.com";
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         startActivity(intent);
     }
@@ -137,12 +135,14 @@ public class EventFragment extends Fragment implements View.OnClickListener {
     public void populateEvent() {
         _name.setText(newEvent.getName());
         _host.setText("Hosted by: " + newEvent.getBreweryName());
-        _locationText.setText(newEvent.getLocation());
-        if(_locationText.getText().equals("TBD")) {
+        _description.setText(newEvent.getDescription());
+
+        if(newEvent.getLocation().equals("TBD")) {
             _locationButton.setEnabled(false);
         } else {
             _locationButton.setEnabled(true);
         }
+
         if(newEvent.getHtmlLink() == null || newEvent.getHtmlLink() == "") {
             _dateButton.setEnabled(false);
         } else {
@@ -183,8 +183,16 @@ public class EventFragment extends Fragment implements View.OnClickListener {
         Calendar cal = Calendar.getInstance();
         Date date;
 
+        TextView startDate = new TextView(getActivity().getApplicationContext());
+        TextView endDate = new TextView(getActivity().getApplicationContext());
+
+        startDate.setTextSize(18f);
+        startDate.setTextColor(Color.WHITE);
+        endDate.setTextSize(18f);
+        endDate.setTextColor(Color.WHITE);
+
         if(newEvent.getStartDate() == null) {
-            _startDate.setText("Starting: TBD");
+            startDate.setText("Starting: TBD");
         } else {
             Date tempStart;
 
@@ -199,16 +207,16 @@ public class EventFragment extends Fragment implements View.OnClickListener {
             }
 
             if(cal == null) {
-                _startDate.setText("Starting: TBD");
+                startDate.setText("Starting: TBD");
             } else {
                 String time= timeOfDay.format(cal.getTime());
-                _startDate.setText("Begin:\n"+ cal.get(Calendar.MONTH)+"/"+cal.get(Calendar.DAY_OF_MONTH)+"/"+cal.get(Calendar.YEAR)+
+                startDate.setText("Begin:\n"+ cal.get(Calendar.MONTH)+"/"+cal.get(Calendar.DAY_OF_MONTH)+"/"+cal.get(Calendar.YEAR)+
                         "   "+time);
             }
             //   sdfParser.format(tempStart)
         }
         if(newEvent.getEndDate() == null) {
-            _endDate.setText("Ending: None specified");
+            endDate.setText("Ending: None specified");
         } else {
             Date tempEnd;
             try {
@@ -221,25 +229,28 @@ public class EventFragment extends Fragment implements View.OnClickListener {
             }
 
             if(cal == null) {
-                _endDate.setText("Ending: None specified");
+                endDate.setText("Ending: None specified");
             } else {
                 String time= timeOfDay.format(cal.getTime());
-                _endDate.setText("End:\n"+cal.get(Calendar.MONTH)+"/"+cal.get(Calendar.DAY_OF_MONTH)+"/"+cal.get(Calendar.YEAR)+
-                        "    "+time);
+                endDate.setText("End:\n"+cal.get(Calendar.MONTH)+"/"+cal.get(Calendar.DAY_OF_MONTH)+"/"+cal.get(Calendar.YEAR)+
+                        "    "+time+"\n");
             }
         }
+        _locationInfoBox.addView(startDate);
+        _locationInfoBox.addView(endDate);
     }
 
-    public void populateContactInfo() {
-        _descriptionInfoBox.removeAllViews();
+    public void populateLocationInfo() {
+        _locationInfoBox.removeAllViews();
 
-        if(newEvent.getDescription() != null) {
-            TextView description = new TextView(getActivity().getApplicationContext());
-            description.setText(newEvent.getDescription());
-            description.setTextSize(18f);
-            description.setTextColor(Color.WHITE);
-            _descriptionInfoBox.addView(description);
+        if(newEvent.getLocation() != null) {
+            TextView location = new TextView(getActivity().getApplicationContext());
+            location.setText(newEvent.getLocation());
+            location.setTextSize(18f);
+            location.setTextColor(Color.WHITE);
+            _locationInfoBox.addView(location);
         }
+        setDate();
 
     }
         public void setLegendColor(ImageView i, Boolean b) {
