@@ -8,13 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		0AE73BEA1CE156C200ECFECD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE73BE91CE156C200ECFECD /* AppDelegate.swift */; };
-		0AE73BEC1CE156C200ECFECD /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE73BEB1CE156C200ECFECD /* FirstViewController.swift */; };
-		0AE73BEE1CE156C200ECFECD /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE73BED1CE156C200ECFECD /* SecondViewController.swift */; };
+		0AE73BEC1CE156C200ECFECD /* BreweryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE73BEB1CE156C200ECFECD /* BreweryViewController.swift */; };
+		0AE73BEE1CE156C200ECFECD /* EventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE73BED1CE156C200ECFECD /* EventViewController.swift */; };
 		0AE73BF11CE156C200ECFECD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AE73BEF1CE156C200ECFECD /* Main.storyboard */; };
 		0AE73BF31CE156C200ECFECD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AE73BF21CE156C200ECFECD /* Assets.xcassets */; };
 		0AE73BF61CE156C200ECFECD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AE73BF41CE156C200ECFECD /* LaunchScreen.storyboard */; };
 		0AE73C011CE156C300ECFECD /* BF_iOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE73C001CE156C300ECFECD /* BF_iOSTests.swift */; };
 		0AE73C0C1CE156C300ECFECD /* BF_iOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE73C0B1CE156C300ECFECD /* BF_iOSUITests.swift */; };
+		0AE73C1A1CE15CD900ECFECD /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE73C191CE15CD900ECFECD /* MapViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,8 +38,8 @@
 /* Begin PBXFileReference section */
 		0AE73BE61CE156C200ECFECD /* BF-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BF-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AE73BE91CE156C200ECFECD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		0AE73BEB1CE156C200ECFECD /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
-		0AE73BED1CE156C200ECFECD /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
+		0AE73BEB1CE156C200ECFECD /* BreweryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreweryViewController.swift; sourceTree = "<group>"; };
+		0AE73BED1CE156C200ECFECD /* EventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewController.swift; sourceTree = "<group>"; };
 		0AE73BF01CE156C200ECFECD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0AE73BF21CE156C200ECFECD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0AE73BF51CE156C200ECFECD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -49,6 +50,7 @@
 		0AE73C071CE156C300ECFECD /* BF-iOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "BF-iOSUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AE73C0B1CE156C300ECFECD /* BF_iOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BF_iOSUITests.swift; sourceTree = "<group>"; };
 		0AE73C0D1CE156C300ECFECD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0AE73C191CE15CD900ECFECD /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,12 +102,13 @@
 			isa = PBXGroup;
 			children = (
 				0AE73BE91CE156C200ECFECD /* AppDelegate.swift */,
-				0AE73BEB1CE156C200ECFECD /* FirstViewController.swift */,
-				0AE73BED1CE156C200ECFECD /* SecondViewController.swift */,
+				0AE73BEB1CE156C200ECFECD /* BreweryViewController.swift */,
+				0AE73BED1CE156C200ECFECD /* EventViewController.swift */,
 				0AE73BEF1CE156C200ECFECD /* Main.storyboard */,
 				0AE73BF21CE156C200ECFECD /* Assets.xcassets */,
 				0AE73BF41CE156C200ECFECD /* LaunchScreen.storyboard */,
 				0AE73BF71CE156C200ECFECD /* Info.plist */,
+				0AE73C191CE15CD900ECFECD /* MapViewController.swift */,
 			);
 			path = "BF-iOS";
 			sourceTree = "<group>";
@@ -262,9 +265,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0AE73BEE1CE156C200ECFECD /* SecondViewController.swift in Sources */,
+				0AE73BEE1CE156C200ECFECD /* EventViewController.swift in Sources */,
 				0AE73BEA1CE156C200ECFECD /* AppDelegate.swift in Sources */,
-				0AE73BEC1CE156C200ECFECD /* FirstViewController.swift in Sources */,
+				0AE73BEC1CE156C200ECFECD /* BreweryViewController.swift in Sources */,
+				0AE73C1A1CE15CD900ECFECD /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

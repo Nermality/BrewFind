@@ -1,5 +1,5 @@
 //
-//  SecondViewController.swift
+//  FirstViewController.swift
 //  BF-iOS
 //
 //  Created by Mark Harwood on 5/9/16.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SecondViewController: UIViewController {
+class BreweryViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
